@@ -1,0 +1,9 @@
+﻿<Application x:Class="Gestion_Tiendas.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Gestion_Tiendas"
+             StartupUri="Formularios\Listado_Locales.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

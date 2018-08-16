@@ -1,0 +1,181 @@
+﻿<Window x:Class="Gestion_Tiendas.Formularios.Listado_Locales"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gestion_Tiendas"
+        mc:Ignorable="d"
+        Title="Gestion Locales" Height="800" Width="1300" Loaded="Window_Loaded">
+    <Grid>
+
+        <Label x:Name="Label01" Content="Código :" HorizontalAlignment="Left" Margin="20,50,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_codigo" HorizontalAlignment="Left" Height="27" Margin="79,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" KeyDown="txt_codigo_KeyDown"/>
+        <Label x:Name="Label02" Content="Nombre :" HorizontalAlignment="Left" Margin="240,50,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_nombre" HorizontalAlignment="Left" Height="27" Margin="305,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_nombre_KeyDown"/>
+        <Label x:Name="Label03" Content="Tipo :" HorizontalAlignment="Left" Margin="607,50,0,0" VerticalAlignment="Top" Height="27"/>
+        <ComboBox x:Name="cbx_tipo" HorizontalAlignment="Left" Margin="651,50,0,0" VerticalAlignment="Top" Width="150" Height="27">
+            <ComboBoxItem Content="ALM" Uid="ALM"/>
+            <ComboBoxItem Content="TDA" Uid="TDA"/>
+        </ComboBox>
+        <Label x:Name="Label04" Content="Estado :" HorizontalAlignment="Left" Margin="872,50,0,0" VerticalAlignment="Top" Height="27"/>
+        <ComboBox x:Name="cbx_estado" HorizontalAlignment="Left" Margin="952,50,0,0" VerticalAlignment="Top" Width="150" Height="27"/>
+        <Label x:Name="Label05" Content="Distrito :" HorizontalAlignment="Left" Margin="20,91,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_distrit" HorizontalAlignment="Left" Height="27" Margin="80,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_distrit_KeyDown"/>
+        <!--Label x:Name="Label06" Content="Supervisor :" HorizontalAlignment="Left" Margin="369,91,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_super" HorizontalAlignment="Left" Height="27" Margin="446,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200"/-->
+        <Label x:Name="Label07" Content="Arrendatario :" HorizontalAlignment="Left" Margin="607,91,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_arrend" HorizontalAlignment="Left" Height="27" Margin="694,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" KeyDown="txt_arrend_KeyDown"/>
+
+        <DataGrid x:Name="dtg_locales" HorizontalAlignment="Left" Height="610" Margin="10,149,0,0" VerticalAlignment="Top" Width="1272"  IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="Codigo" Width="50"/>
+                <DataGridTextColumn Binding="{Binding des}" ClipboardContentBinding="{x:Null}" Header="Nombre" Width="140"/>
+                <DataGridTextColumn Binding="{Binding tipo}" ClipboardContentBinding="{x:Null}" Header="Tipo" Width="40"/>
+                <!--DataGridTextColumn Binding="{Binding super}" ClipboardContentBinding="{x:Null}" Header="Supervisor" Width="150"/-->
+                <DataGridTextColumn Binding="{Binding arren}" ClipboardContentBinding="{x:Null}" Header="Arrendatario" Width="230"/>
+                <DataGridTextColumn Binding="{Binding ubic}" ClipboardContentBinding="{x:Null}" Header="Distrito" Width="200"/>
+                <DataGridTextColumn Binding="{Binding direc}" ClipboardContentBinding="{x:Null}" Header="Direccion" Width="250"/>
+                <DataGridTextColumn Binding="{Binding estado}" ClipboardContentBinding="{x:Null}" Header="Estado" Width="90"/>
+
+                <!--DataGridTemplateColumn Header="Planos">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_planos" Cursor="Hand" Click="btn_planos_Click" >
+                                    <Image Source="..\Imagenes\planos.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Ver Planos</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </-->
+
+                <DataGridTemplateColumn Header="Detalle Docs">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_detale" Cursor="Hand" Click="btn_detale_Click" >
+                                    <Image Source="..\Imagenes\papiro.png" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Ver Detalle de documentos</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Editar / Ver">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_editar" Cursor="Hand" Click="btn_editar_Click" >
+                                    <Image Source="..\Imagenes\editar.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Editar Local</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="N. Contr">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_nue_cont" Cursor="Hand" Click="btn_nue_cont_Click" >
+                                    <Image Source="..\Imagenes\editar.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Editar Local</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="N. Adenda">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_nue_adenda" Cursor="Hand" Click="btn_nue_adenda_Click" >
+                                    <Image Source="..\Imagenes\editar.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Editar Local</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--Button x:Name="btn_nuevo" Margin="0,91,10,651" Cursor="Hand" Width="120" HorizontalAlignment="Right" Click="btn_nuevo_Click">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Agregar Entidad"/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="54*" />
+                    <ColumnDefinition Width="80*" />
+                </Grid.ColumnDefinitions>
+                <Image Margin="5,0,0,0" Source="..\Imagenes\agregar.jpg" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                <TextBlock Text="Agregar" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
+            </Grid>
+        </Button-->
+
+        <Button x:Name="btn_buscar"  Margin="0,50,10,692" Cursor="Hand" HorizontalAlignment="Right" Click="btn_buscar_Click" Width="120">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Buscar Entidad"/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="140">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="54*" />
+                    <ColumnDefinition Width="80*" />
+                </Grid.ColumnDefinitions>
+                <Image Margin="5,0,0,0" Source="..\Imagenes\lupa.jpg" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                <TextBlock Text="Buscar" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
+            </Grid>
+        </Button>
+
+    </Grid>
+</Window>
