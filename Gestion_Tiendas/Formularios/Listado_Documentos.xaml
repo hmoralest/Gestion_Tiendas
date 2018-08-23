@@ -61,7 +61,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Button Name="btn_editar" Cursor="Hand" Click="btn_editar_Click_1" >
+                                <Button Name="btn_editar" Cursor="Hand" Click="btn_editar_Click" >
                                     <Image Source="..\Imagenes\editar.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
                                     </Image>
                                     <Button.ToolTip>

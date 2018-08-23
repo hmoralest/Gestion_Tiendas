@@ -5,19 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Programación Rentas Mensuales" Height="350" Width="400">
+        Title="Programación Rentas Mensuales" Height="350" Width="500" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Grid Margin="0,0,0,0">
 
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="210" Width="372">
+        <DataGrid x:Name="dg_datos" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="243" Width="472" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Nro_cuota}" ClipboardContentBinding="{x:Null}" Header="Nro Cuota"/>
-                <DataGridTextColumn Binding="{Binding Monto}" ClipboardContentBinding="{x:Null}" Header="Monto a Pagar"/>
-                <DataGridTextColumn Binding="{Binding Fecha}" ClipboardContentBinding="{x:Null}" Header="Fecha Vencimiento"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Nro}" ClipboardContentBinding="{x:Null}" Header="Nro Cuota"/>
+                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Fijo}" ClipboardContentBinding="{x:Null}" Header="Monto a Pagar"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Variable}" ClipboardContentBinding="{x:Null}" Header="% Variable"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Fecha}" ClipboardContentBinding="{x:Null}" Header="Fecha Vencimiento" Visibility="Hidden"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Fec_Ini}" ClipboardContentBinding="{x:Null}" Header="Fecha Inicio"/>
+                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Fec_Fin}" ClipboardContentBinding="{x:Null}" Header="Fecha Fin"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label x:Name="label_Copy" Content="TOTAL :" HorizontalAlignment="Left" Margin="222,225,0,0" VerticalAlignment="Top" Width="67"/>
-        <Label x:Name="label" Content="monto_tot" HorizontalAlignment="Left" Margin="294,225,0,0" VerticalAlignment="Top" Width="88"/>
-        <Button x:Name="btn_limpiar"  Margin="50,271,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_limpiar_Click">
+        <!--Label x:Name="label_01" Content="TOTAL :" HorizontalAlignment="Left" Margin="322,225,0,0" VerticalAlignment="Top" Width="67"/>
+        <Label x:Name="label_total" Content="monto_tot" HorizontalAlignment="Left" Margin="394,225,0,0" VerticalAlignment="Top" Width="88"/-->
+        <Button x:Name="btn_limpiar"  Margin="90,271,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_limpiar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -35,7 +38,7 @@
                 <TextBlock Text="Reestablecer" VerticalAlignment="Center" Margin="35,8,31,8" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
         </Button>
-        <Button x:Name="btn_grabar"  Margin="0,271,50,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
+        <Button x:Name="btn_grabar"  Margin="0,271,80,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>

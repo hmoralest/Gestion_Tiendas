@@ -31,7 +31,9 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Inserta_Contrato](
 	@der_ingr		Decimal(18,2),
 	@rev_proy		Decimal(18,2),
 	@promocio		Decimal(18,2),
+	@promoc_v		Decimal(18,2),
 	@gast_com		Decimal(18,2),
+	@gs_com_p		bit,
 	@gs_com_v		Decimal(18,2),
 
 	@dbJulio		Bit,
@@ -43,7 +45,8 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Inserta_Contrato](
 	@IPC_promo		Bit,
 	@IPC_comun		Bit,
 	@IPC_frecu		SmallInt,
-	@fecha_IPC		SmallDatetime,
+	@fecha_IPCa		Varchar(10),
+	--@fecha_IPC		SmallDatetime,
 
 	@pag_terce		Bit,
 	@obl_segur		Bit,
@@ -60,6 +63,14 @@ BEGIN
 
 	Set @codigo_cont = Right(Concat('0000000000',Cast(isnull((Select Cast(MAX(Cont_Id) As int)+1 From GTDA_Contratos),1) As Varchar)),10)
 	
+	--// Valida Fecha en vacío
+	Declare @fecha_IPC Datetime
+
+	If(@fecha_IPCa= '1/01/0001')
+		Select @fecha_IPC = null
+	Else 
+		Select @fecha_IPC = CONVERT(SmallDateTime, @fecha_IPCa)
+
 	--// Si es conrtato nuevo
 	IF @tipo_doc='C'
 	BEGIN
@@ -89,7 +100,9 @@ BEGIN
 			Cont_Ingreso		Decimal(18, 2),
 			Cont_RevProy		Decimal(18, 2),
 			Cont_FondProm		Decimal(18, 2),
+			Cont_FondPromVar	Decimal(18, 2),
 			Cont_GComunFijo		Decimal(18, 2),
+			Cont_GComunFijo_P	Bit,
 			Cont_GComunVar		Decimal(18, 2),
 			Cont_DbJul			Bit,
 			Cont_DbDic			Bit,
@@ -134,7 +147,11 @@ BEGIN
 			Set @rev_proy = null;
 		if(@promocio = (Select Cont_FondProm From #Contratos))
 			Set @promocio = null;
-		if(@gast_com = (Select Cont_GComunFijo From #Contratos))
+		if(@promoc_v = (Select Cont_FondPromVar From #Contratos))
+			Set @promoc_v = null;
+		if(@gs_com_p = (Select Cont_GComunFijo From #Contratos))
+			Set @gs_com_p = null;
+		if(@gast_com = (Select Cont_GComunFijo_P From #Contratos))
 			Set @gast_com = null;
 		if(@gs_com_v = (Select Cont_GComunVar From #Contratos))
 			Set @gs_com_v = null;
@@ -154,9 +171,9 @@ BEGIN
 			Set @IPC_promo = null;
 		if(@IPC_comun = (Select Cont_IPC_GComun From #Contratos))
 			Set @IPC_comun = null;
-		if(@IPC_frecu = (Select Cont_IPC_Frecue From #Contratos))
+		if(@IPC_frecu = (Select Cont_IPC_Frecue From #Contratos) Or (@IPC_renta = 0 And @IPC_promo = 0 And @IPC_comun = 0))
 			Set @IPC_frecu = null;
-		if(@fecha_IPC = (Select Cont_IPC_Fec From #Contratos))
+		if(@fecha_IPC = (Select Cont_IPC_Fec From #Contratos) Or (@IPC_renta = 0 And @IPC_promo = 0 And @IPC_comun = 0))
 			Set @fecha_IPC = null;
 
 		if(@pag_terce = (Select Cont_PagoTercer From #Contratos))
@@ -178,18 +195,21 @@ BEGIN
 			Insert into GTDA_Contratos
 			values (@codigo_cont, @tipo_doc, @cont_pad, @codigo, @tipo, @area, @fechaini, @fechafin, @moneda,	--// Valores grales de contrato
 					@arrendador, @administra,		--// relacion
-					@rent_fij, @rent_var, @adelanto, @garantia, @der_ingr, @rev_proy, @promocio,  @gast_com, @gs_com_v,	--// Valores monetarios y porcentajes
+					@rent_fij, @rent_var, @adelanto, @garantia, @der_ingr, @rev_proy, @promocio, @promoc_v,  @gast_com, @gs_com_p, @gs_com_v,	--// Valores monetarios y porcentajes
 					@dbJulio, @dbDiciembre, @serv_public, @arbitrios,	--// Flags de comportamiento
 					@IPC_renta, @IPC_promo,  @IPC_comun, @IPC_frecu, @fecha_IPC,	--// Comportamiento IPC
 					@pag_terce, @obl_segur, @obl_carta,		--// Flags de Documentos Adicionales
 					@ruta_plano,  @ruta_contr)			--// Rutas de documentos
 
+			Select @codigo_cont As codigo
 		COMMIT TRAN Grabar_Contratos
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRAN Grabar_Contratos
 
-		DECLARE @ErrorMessage NVARCHAR(4000);
+		Select '' As codigo
+
+		/*DECLARE @ErrorMessage NVARCHAR(4000);
 		DECLARE @ErrorSeverity INT;
 		DECLARE @ErrorState INT; 		
 				
@@ -199,6 +219,6 @@ BEGIN
 
 		RAISERROR (@ErrorMessage,	-- Message text.
            @ErrorSeverity,			-- Severity.
-           @ErrorState);			-- State.
+           @ErrorState);			-- State.*/
 	END CATCH
 END

@@ -104,11 +104,17 @@
     <Compile Include="Formularios\Listado_Documentos.xaml.cs">
       <DependentUpon>Listado_Documentos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Modif_Ver_Doc.xaml.cs">
+      <DependentUpon>Modif_Ver_Doc.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Nuevo_Doc.xaml.cs">
       <DependentUpon>Nuevo_Doc.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Datos_Arrendador.xaml.cs">
       <DependentUpon>Datos_Arrendador.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Pago_Tercero.xaml.cs">
+      <DependentUpon>Pago_Tercero.xaml</DependentUpon>
     </Compile>
     <Compile Include="Funciones\Conexion.cs" />
     <Compile Include="Funciones\Contratos.cs" />
@@ -161,11 +167,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Modif_Ver_Doc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Formularios\Nuevo_Doc.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Formularios\Modif_Ver_Local.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Pago_Tercero.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

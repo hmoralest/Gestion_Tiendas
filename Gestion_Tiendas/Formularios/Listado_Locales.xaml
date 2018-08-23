@@ -96,7 +96,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="N. Contr">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -116,7 +116,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="N. Adenda">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -158,7 +158,7 @@
             </Grid>
         </Button-->
 
-        <Button x:Name="btn_buscar"  Margin="0,50,10,692" Cursor="Hand" HorizontalAlignment="Right" Click="btn_buscar_Click" Width="120">
+        <Button x:Name="btn_buscar"  Margin="0,50,10,679" Cursor="Hand" HorizontalAlignment="Right" Click="btn_buscar_Click" Width="120">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -172,8 +172,8 @@
                     <ColumnDefinition Width="54*" />
                     <ColumnDefinition Width="80*" />
                 </Grid.ColumnDefinitions>
-                <Image Margin="5,0,0,0" Source="..\Imagenes\lupa.jpg" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
-                <TextBlock Text="Buscar" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
+                <Image Margin="5,0,0,0" Source="..\Imagenes\lupa.jpg" Width="41" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                <TextBlock Text="Buscar" VerticalAlignment="Center" Margin="44,10,48,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" Height="26" Width="41"/>
             </Grid>
         </Button>
 

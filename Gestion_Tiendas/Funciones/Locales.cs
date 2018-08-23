@@ -94,6 +94,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.CommandText = "USP_GTDA_Lista_Locales";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = con;
+                    cmd.CommandTimeout = 60;
 
                     cmd.Parameters.Add("@id", SqlDbType.VarChar).Value = "";
                     cmd.Parameters.Add("@des", SqlDbType.VarChar).Value = "";
@@ -136,6 +137,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.CommandText = "USP_GTDA_Lista_Locales";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = con;
+                    cmd.CommandTimeout = 60;
 
                     cmd.Parameters.Add("@id", SqlDbType.VarChar).Value = id;
                     cmd.Parameters.Add("@des", SqlDbType.VarChar).Value = des;
@@ -174,6 +176,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.CommandText = "USP_GTDA_Obten_Datos_Locales";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = con;
+                    cmd.CommandTimeout = 60;
 
                     cmd.Parameters.Add("@cod_ent", SqlDbType.VarChar).Value = id_local;
                     cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = tipo;
@@ -205,6 +208,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.CommandText = "USP_GTDA_Obten_Relacion_Locales";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = con;
+                    cmd.CommandTimeout = 60;
 
                     cmd.Parameters.Add("@cod_ent", SqlDbType.VarChar).Value = id_local;
                     cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = tipo;

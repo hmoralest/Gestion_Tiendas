@@ -17,7 +17,7 @@ namespace Gestion_Tiendas.Funciones
         }
         public static SqlConnection getConexionSQL()
         {
-            SqlConnection sql = new SqlConnection("Data Source=10.10.10.208;Initial Catalog=BdFinanzas;Integrated Security=False;User ID=cquinto;Password=cquinto123;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            SqlConnection sql = new SqlConnection("Data Source=10.10.10.208;Initial Catalog=BdFinanzas;Integrated Security=False;User ID=cquinto;Password=cquinto123;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             return sql;
         }
     }

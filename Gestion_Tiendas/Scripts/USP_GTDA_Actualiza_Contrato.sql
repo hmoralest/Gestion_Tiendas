@@ -30,7 +30,9 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Actualiza_Contrato](
 	@der_ingr		Decimal(18,2),
 	@rev_proy		Decimal(18,2),
 	@promocio		Decimal(18,2),
+	@promoc_v		Decimal(18,2),
 	@gast_com		Decimal(18,2),
+	@gs_com_p		bit,
 	@gs_com_v		Decimal(18,2),
 
 	@dbJulio		Bit,
@@ -42,7 +44,8 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Actualiza_Contrato](
 	@IPC_promo		Bit,
 	@IPC_comun		Bit,
 	@IPC_frecu		SmallInt,
-	@fecha_IPC		SmallDatetime,
+	@fecha_IPCa		Varchar(10),
+	--@fecha_IPC		SmallDatetime,
 
 	@pag_terce		Bit,
 	@obl_segur		Bit,
@@ -54,6 +57,14 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Actualiza_Contrato](
    
 AS    
 BEGIN 
+
+	Declare @fecha_IPC Datetime
+
+	If(@fecha_IPCa= '1/01/0001' OR (@IPC_renta = 0 And @IPC_promo = 0 And @IPC_comun = 0))
+		Select @fecha_IPC = null
+	Else 
+		Select @fecha_IPC = CONVERT(SmallDateTime, @fecha_IPCa)
+
 
 	BEGIN TRY
 		BEGIN TRAN Grabar_Contratos
@@ -72,7 +83,9 @@ BEGIN
 				Cont_Ingreso	=  @der_ingr,
 				Cont_RevProy	=  @rev_proy,
 				Cont_FondProm	=  @promocio,
+				Cont_FondPromVar	=  @promoc_v,
 				Cont_GComunFijo	=  @gast_com,
+				Cont_GComunFijo_P	=  @gs_com_p,
 				Cont_GComunVar	=  @gs_com_v,
 				Cont_DbJul	=  @dbJulio,
 				Cont_DbDic	=  @dbDiciembre,

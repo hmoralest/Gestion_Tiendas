@@ -17,15 +17,17 @@ using System.Windows.Shapes;
 namespace Gestion_Tiendas.Formularios
 {
     /// <summary>
-    /// Lógica de interacción para Modif_Ver_Local.xaml
+    /// Lógica de interacción para Modif_Ver_Doc.xaml
     /// </summary>
-    public partial class Modif_Ver_Local : Window
+    public partial class Modif_Ver_Doc : Window
     {
         #region Var Locales
         public static Boolean _activo_form = false;
         public static string _cod_tda = "";
         public static string _tipo = "";
         public static string _cod_contrato = "";
+        public static string _tipo_contrato = "";
+        public static string _accion = "";  // A: Actualizar; V: Ver
 
         public static string contrato_lista = "";
         public static string ult_cont = ""; // almacena el último contrato para activar boton guardar
@@ -36,18 +38,27 @@ namespace Gestion_Tiendas.Formularios
         public static DataTable dt_arrend = new DataTable();
         public static DataTable dt_admin = new DataTable();
 
+        public static DataTable dt_programa = null;
+        public static string val_fec_ini = "";
+        public static string val_fec_fin = "";
+        public static string val_ren_fija = "";
+        public static string val_ren_var = "";
         #endregion
 
         #region Funciones de Interfaz e Iniciacion
-        public Modif_Ver_Local()
+        public Modif_Ver_Doc()
         {
             InitializeComponent();
         }
-        public Modif_Ver_Local(string codigo, string tipo)
+        public Modif_Ver_Doc(string codigo, string tipo, string codigo_loc, string tipo_loc, string accion)
         {
-            _cod_tda = codigo;
-            _tipo = tipo;
+            _cod_contrato = codigo;
+            _tipo_contrato = tipo;
+            _cod_tda = codigo_loc;
+            _tipo = tipo_loc;
+            _accion = accion;
             InitializeComponent();
+            contrato_lista = codigo;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -96,7 +107,7 @@ namespace Gestion_Tiendas.Formularios
                 /******************************************/
                 dat_gral = Locales.Consulta_Datos_Locales(_cod_tda, _tipo);
                 dat_rel = Locales.Consulta_Relacion_Locales(_cod_tda, _tipo);
-                Llena_datos_Contrato("");
+                Llena_datos_Documento();
             }
             catch (Exception ex)
             {
@@ -149,7 +160,25 @@ namespace Gestion_Tiendas.Formularios
 
         private void btn_programa_Click(object sender, RoutedEventArgs e)
         {
-
+            dt_programa = Contratos.Lista_CronogramaPagos(_cod_contrato, _tipo_contrato);
+                if (dt_programa.Rows.Count > 0)
+                {
+                    // Se debe capturar el código
+                    if (!Prog_Pagos._activo_form)
+                    {
+                        Prog_Pagos frm2 = new Prog_Pagos("V", dt_programa, Convert.ToDateTime(date_ini.Text.ToString()), Convert.ToDateTime(date_fin.Text.ToString()), txt_rent.Text.ToString(), txt_rent_v.Text.ToString());
+                        frm2.Owner = this;
+                        AplicarEfecto(this);
+                        frm2.Show();
+                        Prog_Pagos._activo_form = true;
+                        frm2.Closed += Prog_Pagos_Closed;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron registros que mostrar. ",
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
         }
 
         private void btn_pago_tercero_Click(object sender, RoutedEventArgs e)
@@ -308,9 +337,13 @@ namespace Gestion_Tiendas.Formularios
                                              _IPC_renta, _IPC_promo, _IPC_comun, _IPC_frecu, _fecha_IPC,
                                              _pag_terce, _obl_segur, _obl_carta,
                                              _ruta_plano, _ruta_contr);
+                
+                    Contratos.Elimina_CronogramaPagos(_cod_contrato, "C");
+                    foreach (DataRow cron in dt_programa.Rows)
+                    { Contratos.Graba_CronogramaPagos(_cod_contrato, "C", cron["Nro"].ToString(), Convert.ToDecimal(cron["Fijo"]), Convert.ToDecimal(cron["Variable"]), Convert.ToDateTime(cron["Fec_Ini"]), Convert.ToDateTime(cron["Fec_Fin"]), cron["Fecha"].ToString()); }
 
-                //this.DialogResult = false;
-                this.Close();
+                    //this.DialogResult = false;
+                    this.Close();
             }
             catch (Exception ex)
             {
@@ -326,9 +359,9 @@ namespace Gestion_Tiendas.Formularios
 
         private void cbx_contrato_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBoxItem escoger = (ComboBoxItem)(cbx_contrato.SelectedValue);
+            /*ComboBoxItem escoger = (ComboBoxItem)(cbx_contrato.SelectedValue);
             contrato_lista = escoger.Uid.ToString();
-            Llena_datos_Contrato(contrato_lista);
+            Llena_datos_Documento();*/
         }
         #endregion
 
@@ -408,8 +441,24 @@ namespace Gestion_Tiendas.Formularios
             dg_admins.ItemsSource = dt_admin.DefaultView;
             QuitarEfecto(this);
         }
+        
+        private void Prog_Pagos_Closed(object sender, EventArgs e)
+        {
+            Prog_Pagos ventana = sender as Prog_Pagos;
 
-        private void Llena_datos_Contrato(string _contr_lista)
+            if (ventana.datos != null && ventana.datos.Rows.Count > 0)
+            {
+                dt_programa = ventana.datos;
+                val_fec_ini = ventana.fecha_i.ToShortDateString();
+                val_fec_fin = ventana.fecha_f.ToShortDateString();
+                val_ren_fija = ventana.fija;
+                val_ren_var = ventana.var;
+            }
+            // (refrescar)
+            QuitarEfecto(this);
+        }
+
+        private void Llena_datos_Documento()
         {
             DataTable dat_cont = new DataTable();
             DataTable dt_arrend_ini = new DataTable();
@@ -425,17 +474,24 @@ namespace Gestion_Tiendas.Formularios
 
             try
             {
-                dat_cont = Contratos.Ver_Contrato_Actual(_contr_lista, _cod_tda, _tipo);
+                if(_accion == "V"){ dat_cont = Contratos.Ver_Documento_Real(_cod_contrato, _tipo_contrato, _cod_tda, _tipo); }
+                else              { dat_cont = Contratos.Ver_Documento_Actual(_cod_contrato, _tipo_contrato, _cod_tda, _tipo); }
 
                 if (dat_cont.Rows.Count > 0)
                 {
-                    _cod_contrato = dat_cont.Rows[0]["Cont_Id"].ToString().Trim();
+                    //_cod_contrato = dat_cont.Rows[0]["Cont_Id"].ToString().Trim();
                     ult_tipo_cont = dat_cont.Rows[0]["Cont_TipoCont"].ToString().Trim();
-                    txt_area.Text = dat_cont.Rows[0]["Cont_Area"].ToString().Trim();
+
+                    if (dat_cont.Rows[0]["Cont_Area"].ToString() == "") { txt_area.Text = ""; }
+                    else { txt_area.Text = dat_cont.Rows[0]["Cont_Area"].ToString().Trim(); }
+
                     //Data Genérica//
                     //------------------------------------------//
-                    date_ini.Text = dat_cont.Rows[0]["Cont_FecIni"].ToString().Trim();
-                    date_fin.Text = dat_cont.Rows[0]["Cont_FecFin"].ToString().Trim();
+                    if (dat_cont.Rows[0]["Cont_FecIni"].ToString() == "") { date_ini.Text = ""; }
+                    else { date_ini.Text = dat_cont.Rows[0]["Cont_FecIni"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_FecFin"].ToString() == "") { date_fin.Text = ""; }
+                    else { date_fin.Text = dat_cont.Rows[0]["Cont_FecFin"].ToString().Trim(); }
+                    
                     foreach (ComboBoxItem item in cbx_moneda.Items)
                     {
                         if (item.Uid.ToString() == dat_cont.Rows[0]["Cont_Moneda"].ToString().Trim())
@@ -446,64 +502,104 @@ namespace Gestion_Tiendas.Formularios
                     //ComboBoxItem escoger = (ComboBoxItem)(cbx_moneda.SelectedValue);
                     //string _moneda = escoger.Uid.ToString();
 
-                    string[] arrendas = dat_cont.Rows[0]["Cont_Arrenda"].ToString().Trim().Split('/');
-                    foreach (string dat_arrenda in arrendas)
-                    {
-                        string[] datos = dat_arrenda.Trim().Split('-');
-                        dt_arrend_ini.Rows.Add(datos[0].Trim(), datos[1].Trim());
+                    if (dat_cont.Rows[0]["Cont_Arrenda"].ToString() == "") {  }
+                    else {
+                        string[] arrendas = dat_cont.Rows[0]["Cont_Arrenda"].ToString().Trim().Split('/');
+                        foreach (string dat_arrenda in arrendas)
+                        {
+                            string[] datos = dat_arrenda.Trim().Split('-');
+                            dt_arrend_ini.Rows.Add(datos[0].Trim(), datos[1].Trim());
+                        }
+                        dt_arrend = dt_arrend_ini;
+                        dg_arrendatario.ItemsSource = dt_arrend.AsDataView();
                     }
-                    dt_arrend = dt_arrend_ini;
-                    dg_arrendatario.ItemsSource = dt_arrend.AsDataView();
 
-                    string[] adminis = dat_cont.Rows[0]["Cont_Adminis"].ToString().Trim().Split('/');
-                    foreach (string dat_adminis in adminis)
+                    if (dat_cont.Rows[0]["Cont_Adminis"].ToString() == "") { }
+                    else
                     {
-                        string[] datos = dat_adminis.Trim().Split('-');
-                        dt_admin_ini.Rows.Add(datos[0].Trim(), datos[1].Trim());
+                        string[] adminis = dat_cont.Rows[0]["Cont_Adminis"].ToString().Trim().Split('/');
+                        foreach (string dat_adminis in adminis)
+                        {
+                            string[] datos = dat_adminis.Trim().Split('-');
+                            dt_admin_ini.Rows.Add(datos[0].Trim(), datos[1].Trim());
+                        }
+                        dt_admin = dt_admin_ini;
+                        dg_admins.ItemsSource = dt_admin.AsDataView();
                     }
-                    dt_admin = dt_admin_ini;
-                    dg_admins.ItemsSource = dt_admin.AsDataView();
+                    
 
                     //Data Numérica//
                     //------------------------------------------//
-                    txt_rent.Text = dat_cont.Rows[0]["Cont_RentFija"].ToString().Trim();
-                    txt_rent_v.Text = dat_cont.Rows[0]["Cont_RentVar"].ToString().Trim();
-                    txt_adela.Text = dat_cont.Rows[0]["Cont_Adela"].ToString().Trim();
-                    txt_garan.Text = dat_cont.Rows[0]["Cont_Garantia"].ToString().Trim();
-                    txt_ingreso.Text = dat_cont.Rows[0]["Cont_Ingreso"].ToString().Trim();
-                    txt_rev_proy.Text = dat_cont.Rows[0]["Cont_RevProy"].ToString().Trim();
-                    txt_promoc.Text = dat_cont.Rows[0]["Cont_FondProm"].ToString().Trim();
-                    txt_promoc_var.Text = dat_cont.Rows[0]["Cont_FondPromVar"].ToString().Trim();
-                    txt_comun.Text = dat_cont.Rows[0]["Cont_GComunFijo"].ToString().Trim();
-                    chk_gcomun_p.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_GComunFijo_P"]);
-                    txt_comun_v.Text = dat_cont.Rows[0]["Cont_GComunVar"].ToString().Trim();
+                    if (dat_cont.Rows[0]["Cont_RentFija"].ToString() == "") { txt_rent.Text = ""; }
+                    else { txt_rent.Text = dat_cont.Rows[0]["Cont_RentFija"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_RentVar"].ToString() == "") { txt_rent_v.Text = ""; }
+                    else { txt_rent_v.Text = dat_cont.Rows[0]["Cont_RentVar"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_Adela"].ToString() == "") { txt_adela.Text = ""; }
+                    else { txt_adela.Text = dat_cont.Rows[0]["Cont_Adela"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_Garantia"].ToString() == "") { txt_garan.Text = ""; }
+                    else { txt_garan.Text = dat_cont.Rows[0]["Cont_Garantia"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_Ingreso"].ToString() == "") { txt_ingreso.Text = ""; }
+                    else { txt_ingreso.Text = dat_cont.Rows[0]["Cont_Ingreso"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_RevProy"].ToString() == "") { txt_rev_proy.Text = ""; }
+                    else { txt_rev_proy.Text = dat_cont.Rows[0]["Cont_RevProy"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_FondProm"].ToString() == "") { txt_promoc.Text = ""; }
+                    else { txt_promoc.Text = dat_cont.Rows[0]["Cont_FondProm"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_FondPromVar"].ToString() == "") { txt_promoc_var.Text = ""; }
+                    else { txt_promoc_var.Text = dat_cont.Rows[0]["Cont_FondPromVar"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_GComunFijo"].ToString() == "") { txt_comun.Text = ""; }
+                    else { txt_comun.Text = dat_cont.Rows[0]["Cont_GComunFijo"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_GComunVar"].ToString() == "") { txt_comun_v.Text = ""; }
+                    else { txt_comun_v.Text = dat_cont.Rows[0]["Cont_GComunVar"].ToString().Trim(); }
+
+                    if (dat_cont.Rows[0]["Cont_GComunFijo_P"].ToString() == "") {  }
+                    else { chk_gcomun_p.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_GComunFijo_P"]); }
+
 
                     //Data Elegir//
                     //------------------------------------------//
-                    chk_julio.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_DbJul"]);
-                    chk_diciembre.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_DbDic"]);
-                    chk_publico.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_ServPub"]);
-                    chk_arbitrio.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_ArbMunic"]);
+                    if (dat_cont.Rows[0]["Cont_DbJul"].ToString() == "") { }
+                    else { chk_julio.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_DbJul"]); }
+                    if (dat_cont.Rows[0]["Cont_DbDic"].ToString() == "") { }
+                    else { chk_diciembre.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_DbDic"]); }
+                    if (dat_cont.Rows[0]["Cont_ServPub"].ToString() == "") { }
+                    else { chk_publico.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_ServPub"]); }
+                    if (dat_cont.Rows[0]["Cont_ArbMunic"].ToString() == "") { }
+                    else { chk_arbitrio.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_ArbMunic"]); }
 
                     //Data IPC//
                     //------------------------------------------//
-                    chk_ipc_renta.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_IPC_RentFija"]);
-                    chk_ipc_promo.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_IPC_FondProm"]);
-                    chk_ipc_comun.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_IPC_GComun"]);
-                    rdb_06mes.IsChecked = (dat_cont.Rows[0]["Cont_IPC_Frecue"].ToString().Trim() == "6") ? true : false;
-                    rdb_12mes.IsChecked = (dat_cont.Rows[0]["Cont_IPC_Frecue"].ToString().Trim() == "12") ? true : false;
-                    date_ipc.Text = dat_cont.Rows[0]["Cont_IPC_Fec"].ToString().Trim();
+                    if (dat_cont.Rows[0]["Cont_IPC_RentFija"].ToString() == "") { }
+                    else { chk_ipc_renta.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_IPC_RentFija"]); }
+                    if (dat_cont.Rows[0]["Cont_IPC_FondProm"].ToString() == "") { }
+                    else { chk_ipc_promo.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_IPC_FondProm"]); }
+                    if (dat_cont.Rows[0]["Cont_IPC_GComun"].ToString() == "") { }
+                    else { chk_ipc_comun.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_IPC_GComun"]); }
+                    if (dat_cont.Rows[0]["Cont_IPC_GComun"].ToString() == "") { }
+                    else {
+                        rdb_06mes.IsChecked = (dat_cont.Rows[0]["Cont_IPC_Frecue"].ToString().Trim() == "6") ? true : false;
+                        rdb_12mes.IsChecked = (dat_cont.Rows[0]["Cont_IPC_Frecue"].ToString().Trim() == "12") ? true : false;
+                    }
+
+                    if (dat_cont.Rows[0]["Cont_IPC_Fec"].ToString() == "") { date_ipc.Text = ""; }
+                    else { date_ipc.Text = dat_cont.Rows[0]["Cont_IPC_Fec"].ToString().Trim(); }
+
 
                     //Data Adicional//
                     //------------------------------------------//
-                    chk_Pago_Tercero.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_PagoTercer"]);
-                    chk_obl_carta.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_CartFianza"]);
-                    chk_obl_seg.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_OblSegur"]);
+                    if (dat_cont.Rows[0]["Cont_PagoTercer"].ToString() == "") { }
+                    else { chk_Pago_Tercero.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_PagoTercer"]); }
+                    if (dat_cont.Rows[0]["Cont_CartFianza"].ToString() == "") { }
+                    else { chk_obl_carta.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_CartFianza"]); }
+                    if (dat_cont.Rows[0]["Cont_OblSegur"].ToString() == "") { }
+                    else { chk_obl_seg.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_OblSegur"]); }
 
                     //Data Rutas//
                     //------------------------------------------//
-                    txt_ruta_plano.Text = dat_cont.Rows[0]["Cont_RutaPlano"].ToString().Trim();
-                    txt_ruta_cont.Text = dat_cont.Rows[0]["Cont_RutaCont"].ToString().Trim();
+                    if (dat_cont.Rows[0]["Cont_RutaPlano"].ToString() == "") { txt_ruta_plano.Text = ""; }
+                    else { txt_ruta_plano.Text = dat_cont.Rows[0]["Cont_RutaPlano"].ToString().Trim(); }
+                    if (dat_cont.Rows[0]["Cont_RutaCont"].ToString() == "") { txt_ruta_cont.Text = ""; }
+                    else { txt_ruta_cont.Text = dat_cont.Rows[0]["Cont_RutaCont"].ToString().Trim(); }
+                    
                     valida_btn_guardar();
                 }
                 else
@@ -575,9 +671,16 @@ namespace Gestion_Tiendas.Formularios
 
         private void valida_btn_guardar()
         {
-            if ((contrato_lista == "" || contrato_lista == ult_cont)&& ult_tipo_cont != "A")
+            if (_accion == "A")
             {
+                if ((contrato_lista == "" || contrato_lista == ult_cont) && ult_tipo_cont != "A")
+                {
                     btn_guardar.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    btn_guardar.Visibility = Visibility.Hidden;
+                }
             }
             else
             {

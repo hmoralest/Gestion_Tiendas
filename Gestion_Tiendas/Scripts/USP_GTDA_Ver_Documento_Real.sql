@@ -1,20 +1,21 @@
-If Exists(Select * from sysobjects Where name = 'USP_GTDA_Ver_Contrato_Real' And type = 'P')
-	Drop Procedure USP_GTDA_Ver_Contrato_Real
+If Exists(Select * from sysobjects Where name = 'USP_GTDA_Ver_Documento_Real' And type = 'P')
+	Drop Procedure USP_GTDA_Ver_Documento_Real
 GO
 
 -- ====================================================================================================
 -- Modificado por	: Henry Morales
 -- Fch. Modifica	: 08/08/2018
--- Asunto			: Obtiene el Contrato Real, sin los datos actualizados por Adendas
+-- Asunto			: Obtiene el Documento Real
 -- ====================================================================================================
 /*
-	Exec USP_GTDA_Ver_Contrato_Real '','50102', 'TDA'
+	Exec USP_GTDA_Ver_Documento_Real '0000000004','ADEN','50102', 'TDA'
 */
 
-CREATE PROCEDURE [dbo].[USP_GTDA_Ver_Contrato_Real](
-	@codigo		Varchar(10),
-	@cod_tda	Varchar(5),
-	@tipo		Varchar(3)
+CREATE PROCEDURE [dbo].[USP_GTDA_Ver_Documento_Real](
+	@cod_cont		Varchar(10),
+	@tipo_cont		Varchar(1),
+	@cod_tda		Varchar(5),
+	@tipo			Varchar(3)
 )
    
 AS    
@@ -40,7 +41,9 @@ BEGIN
 			@Ingreso		Decimal(18,2),
 			@RevProy		Decimal(18,2),
 			@FondProm		Decimal(18,2),
+			@FondPromVar	Decimal(18,2),
 			@GComunFijo		Decimal(18,2),
+			@GComunFijo_P	Bit,
 			@GComunVar		Decimal(18,2),
 			@DbJul			Bit,
 			@DbDic			Bit,
@@ -58,8 +61,8 @@ BEGIN
 			@RutaCont		Varchar(max);
 
 	--// Obtenemos codigo 
-	If(ltrim(rtrim(isnull(@codigo,''))) = '')
-		Select @codigo= dbo.USP_GTDA_Obten_Contrato(@cod_tda, @tipo, GETDATE())
+	If(ltrim(rtrim(isnull(@cod_cont,''))) = '')
+		Select @cod_cont= dbo.USP_GTDA_Obten_Contrato(@cod_tda, @tipo, GETDATE())
 
 	--// Obtenemos los datos del contrato con mayor vigencia
 	Select *
@@ -67,8 +70,8 @@ BEGIN
 	From GTDA_Contratos
 	Where Cont_EntidId = @cod_tda
 	  And Cont_TipEnt = @tipo
-	  And Cont_Id = @codigo
-	  And Cont_TipoCont = 'C'
+	  And Cont_Id = @cod_cont
+	  And Cont_TipoCont = @tipo_cont
 	  
 	--// Muestra Datos
 	Select * from #temp_Contrato
@@ -77,4 +80,3 @@ BEGIN
 	Drop table #temp_Contrato
 
 END
-
