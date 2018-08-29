@@ -7,6 +7,10 @@ GO
 -- Create date		: 07/08/2018
 -- Description		: Lista Locales 
 -- =====================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 24/08/2018
+-- Asunto			: Se agregó tabla de estados
+-- =====================================================================
 /*
 	Exec USP_GTDA_Lista_Locales '','','','','','','',''
 */
@@ -23,6 +27,8 @@ CREATE Procedure USP_GTDA_Lista_Locales (
 AS 
 BEGIN
 
+	--// Modificado por	: Henry D. Morales - 24/08/2018
+	--// Asunto			: Se agregó tabla de Estados
 	Select
 		locales.id			As id,
 		locales.des			As des,
@@ -31,7 +37,7 @@ BEGIN
 		locales.prop		As arren,
 		ubigeo.descripcion	As ubic,
 		locales.direc		As direc,
-		locales.estado		As estado
+		IsNull(est.Est_Estado,'Sin Contrato')		As estado
 	From
 	(
 		--// Query para Almacenes
@@ -89,16 +95,21 @@ BEGIN
 				On u1.cod_dpto = u3.cod_dpto And u3.cod_prov = '00' And u3.cod_dist='00'
 		Where u1.cod_prov <> '00' And u1.cod_dist <> '00'									)	ubigeo
 		On locales.ubic = ubigeo.codigo
+	--// Modificado por	: Henry D. Morales - 24/08/2018
+	--// Asunto			: Se agregó tabla de Estados
+	Left Join GTDA_Estado_Locales est
+		On locales.id = est.Est_LocId And locales.tipo = est.Est_LocTipo
 	--// Se agrega Filtros
 	Where 
-			(locales.id			like '%' + @id + '%'		Or ltrim(rtrim(@id)) = '')
-	  And	(locales.des		like '%' + @des + '%'		Or ltrim(rtrim(@des)) = '')
-	  And	(locales.tipo		like '%' + @tipo + '%'		Or ltrim(rtrim(@tipo)) = '')
-	  And	(locales.super		like '%' + @super + '%'		Or ltrim(rtrim(@super)) = '')
-	  And	(locales.prop		like '%' + @arren + '%'		Or ltrim(rtrim(@arren)) = '')
-	  And	(ubigeo.descripcion	like '%' + @ubic + '%'		Or ltrim(rtrim(@ubic)) = '')
-	  And	(locales.direc		like '%' + @direc + '%'		Or ltrim(rtrim(@direc)) = '')
-	  And	(locales.estado		like '%' + @estado + '%'	Or ltrim(rtrim(@estado)) = '')
+			(locales.id								like '%' + @id + '%'		Or ltrim(rtrim(@id)) = '')
+	  And	(locales.des							like '%' + @des + '%'		Or ltrim(rtrim(@des)) = '')
+	  And	(locales.tipo							like '%' + @tipo + '%'		Or ltrim(rtrim(@tipo)) = '')
+	  And	(locales.super							like '%' + @super + '%'		Or ltrim(rtrim(@super)) = '')
+	  And	(locales.prop							like '%' + @arren + '%'		Or ltrim(rtrim(@arren)) = '')
+	  And	(ubigeo.descripcion						like '%' + @ubic + '%'		Or ltrim(rtrim(@ubic)) = '')
+	  And	(locales.direc							like '%' + @direc + '%'		Or ltrim(rtrim(@direc)) = '')
+	  And	(IsNull(est.Est_Estado,'Sin Contrato')	like '%' + @estado + '%'	Or ltrim(rtrim(@estado)) = '')
+	--  And	(locales.estado							like '%' + @estado + '%'	Or ltrim(rtrim(@estado)) = '')
 
 	Order by tipo, ubic, id DESC
 

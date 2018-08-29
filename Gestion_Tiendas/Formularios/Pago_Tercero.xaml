@@ -5,19 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas.Formularios"
         mc:Ignorable="d"
-        Title="Pago a Terceros" Height="400" Width="600" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+        Title="Pago a Terceros" Height="430" Width="630" Loaded="Window_Loaded" Unloaded="Window_Unloaded" ResizeMode="NoResize">
     <Grid>
-        <Label x:Name="label_01" Content="RUC :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_RUC" HorizontalAlignment="Left" Height="23" Margin="63,13,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label_02" Content="Razon Social :" HorizontalAlignment="Left" Margin="198,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_razsoc" HorizontalAlignment="Left" Height="23" Margin="286,13,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="171"/>
-        <Label x:Name="label_03" Content="Banco :" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbx_banco" HorizontalAlignment="Left" Margin="63,48,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="label_04" Content="Cuenta :" HorizontalAlignment="Left" Margin="198,41,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_ctabco" HorizontalAlignment="Left" Height="23" Margin="286,45,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="171"/>
-        <Label x:Name="label_05" Content="Porcentaje :" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_porc" HorizontalAlignment="Left" Height="23" Margin="86,79,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80"/>
-        <Button x:Name="btn_agregar"  Margin="482,75,0,0" Cursor="Hand" Height="26" Width="100" HorizontalAlignment="Left" Click="btn_agregar_Click" VerticalAlignment="Top">
+        <Rectangle HorizontalAlignment="Left" Height="379" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="602">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFC1CAFF"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label x:Name="label_01" Content="RUC :" HorizontalAlignment="Left" Margin="25,22,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_RUC" HorizontalAlignment="Left" Height="23" Margin="78,26,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="152"/>
+        <Label x:Name="label_02" Content="Razon Social :" HorizontalAlignment="Left" Margin="264,22,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_razsoc" HorizontalAlignment="Left" Height="23" Margin="352,26,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="245"/>
+        <Label x:Name="label_03" Content="Banco :" HorizontalAlignment="Left" Margin="25,53,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbx_banco" HorizontalAlignment="Left" Margin="78,61,0,0" VerticalAlignment="Top" Width="152"/>
+        <Label x:Name="label_04" Content="Cuenta :" HorizontalAlignment="Left" Margin="264,53,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_ctabco" HorizontalAlignment="Left" Height="23" Margin="352,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="245"/>
+        <Label x:Name="label_05" Content="Porcentaje :" HorizontalAlignment="Left" Margin="25,84,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_porc" HorizontalAlignment="Left" Height="23" Margin="101,88,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80"/>
+        <Button x:Name="btn_agregar"  Margin="497,85,0,0" Cursor="Hand" Height="26" Width="100" HorizontalAlignment="Left" Click="btn_agregar_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -36,7 +44,7 @@
             </Grid>
         </Button>
 
-        <DataGrid x:Name="dg_pagos" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" Height="209" Width="572" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserAddRows="False">
+        <DataGrid x:Name="dg_pagos" HorizontalAlignment="Left" Margin="25,121,0,0" VerticalAlignment="Top" Height="209" Width="572" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Id}" ClipboardContentBinding="{x:Null}" Header="Nro"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding RUC}" ClipboardContentBinding="{x:Null}" Header="Nro. Doc."/>
@@ -66,7 +74,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btn_guardar"  Margin="337,321,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_guardar_Click" VerticalAlignment="Top">
+        <Button x:Name="btn_guardar"  Margin="0,340,150,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" Click="btn_guardar_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -84,7 +92,7 @@
                 <TextBlock Text="Guardar" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
         </Button>
-        <Button x:Name="btn_limpiar"  Margin="116,321,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_limpiar_Click">
+        <Button x:Name="btn_limpiar"  Margin="150,340,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_limpiar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>

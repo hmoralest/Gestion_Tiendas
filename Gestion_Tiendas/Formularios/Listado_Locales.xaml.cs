@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Gestion_Tiendas.Funciones;
+using WPF.Themes;
 
 namespace Gestion_Tiendas.Formularios
 {
@@ -36,6 +37,7 @@ namespace Gestion_Tiendas.Formularios
         {
             dt_grid = Locales.Listar_Locales();
             dtg_locales.ItemsSource = dt_grid.DefaultView;
+            Application.Current.ApplyTheme("BureauBlue");
         }
 
         private void txt_nombre_KeyDown(object sender, KeyEventArgs e)
@@ -87,7 +89,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Listado_Documentos frm2 = new Listado_Documentos(codigo, tipo);
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Listado_Documentos._activo_form = true;
                 frm2.Closed += Listado_Documentos_Closed;
@@ -106,7 +109,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Modif_Ver_Local frm2 = new Modif_Ver_Local(codigo, tipo);
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Modif_Ver_Local._activo_form = true;
                 frm2.Closed += Modif_Ver_Local_Closed;
@@ -125,7 +129,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Nuevo_Doc frm2 = new Nuevo_Doc(codigo, tipo, "C");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Nuevo_Doc._activo_form = true;
                 frm2.Closed += Nuevo_Doc_Closed;
@@ -144,7 +149,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Nuevo_Doc frm2 = new Nuevo_Doc(codigo, tipo, "A");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Nuevo_Doc._activo_form = true;
                 frm2.Closed += Nuevo_Doc_Closed;
@@ -171,7 +177,8 @@ namespace Gestion_Tiendas.Formularios
             Listado_Documentos ventana = sender as Listado_Documentos;
 
             // (refrescar)
-            QuitarEfecto(this);
+            this.IsEnabled = true;
+            //QuitarEfecto(this);
         }
 
         private void Modif_Ver_Local_Closed(object sender, EventArgs e)
@@ -179,7 +186,8 @@ namespace Gestion_Tiendas.Formularios
             Modif_Ver_Local ventana = sender as Modif_Ver_Local;
 
             // (refrescar)
-            QuitarEfecto(this);
+            this.IsEnabled = true;
+            //QuitarEfecto(this);
         }
 
         private void Nuevo_Doc_Closed(object sender, EventArgs e)
@@ -187,7 +195,8 @@ namespace Gestion_Tiendas.Formularios
             Nuevo_Doc ventana = sender as Nuevo_Doc;
 
             // (refrescar)
-            QuitarEfecto(this);
+            this.IsEnabled = true;
+            //QuitarEfecto(this);
         }
 
         private void Buscar_Locales()

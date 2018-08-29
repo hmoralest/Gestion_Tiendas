@@ -22,6 +22,7 @@ namespace Gestion_Tiendas.Formularios
     public partial class Nuevo_Doc : Window
     {
         #region Var Locales
+        // Lógica de Presentación
         public static Boolean _activo_form = false;
         public static string _cod_tda = "";
         public static string _tipo = "";        // ALM o TDA
@@ -33,16 +34,22 @@ namespace Gestion_Tiendas.Formularios
 
         public static Boolean _error = false;
 
+        // Arrendador y Administrador
         public static DataTable dt_arrend = new DataTable();
         public static DataTable dt_admin = new DataTable();
 
+        // Programación de Pagos
         public static DataTable dt_programa = null;
         public static string val_fec_ini = "";
         public static string val_fec_fin = "";
         public static string val_ren_fija = "";
         public static string val_ren_var = "";
 
+        // Pagos a Terceros
         public static DataTable dt_pago_terc = null;
+
+        // Carta Fianza
+        public static DataTable dt_carta_fianza = null;
         #endregion
 
         #region Funciones de Interfaz e Iniciacion
@@ -148,17 +155,17 @@ namespace Gestion_Tiendas.Formularios
                 }
                 //Data Numérica//
                 //------------------------------------------//
-                txt_rent.Text = "";
-                txt_rent_v.Text = "";
-                txt_adela.Text = "";
-                txt_garan.Text = "";
-                txt_ingreso.Text = "";
-                txt_rev_proy.Text = "";
-                txt_promoc.Text = "";
-                txt_promoc_var.Text = "";
-                txt_comun.Text = "";
+                txt_rent.Text = "0";
+                txt_rent_v.Text = "0";
+                txt_adela.Text = "0";
+                txt_garan.Text = "0";
+                txt_ingreso.Text = "0";
+                txt_rev_proy.Text = "0";
+                txt_promoc.Text = "0";
+                txt_promoc_var.Text = "0";
+                txt_comun.Text = "0";
                 chk_gcomun_p.IsChecked = false;
-                txt_comun_v.Text = "";
+                txt_comun_v.Text = "0";
 
             }// fin contrato
                         
@@ -198,17 +205,26 @@ namespace Gestion_Tiendas.Formularios
         {
             if (txt_rent.Text.ToString() != "" && txt_rent_v.Text.ToString()!="")
             {
-                if (date_fin.Text.ToString() != "")
+                if (date_fin.Text.ToString() != "" && date_ini.Text.ToString() != "")
                 {
-                    // Se debe capturar el código
-                    if (!Prog_Pagos._activo_form)
+                    if (Convert.ToDateTime(date_ini.Text.ToString()) < Convert.ToDateTime(date_fin.Text.ToString()))
                     {
-                        Prog_Pagos frm2 = new Prog_Pagos("A", dt_programa, Convert.ToDateTime(date_ini.Text.ToString()), Convert.ToDateTime(date_fin.Text.ToString()), txt_rent.Text.ToString(), txt_rent_v.Text.ToString());
-                        frm2.Owner = this;
-                        AplicarEfecto(this);
-                        frm2.Show();
-                        Prog_Pagos._activo_form = true;
-                        frm2.Closed += Prog_Pagos_Closed;
+                        // Se debe capturar el código
+                        if (!Prog_Pagos._activo_form)
+                        {
+                            Prog_Pagos frm2 = new Prog_Pagos("A", "", "", dt_programa, Convert.ToDateTime(date_ini.Text.ToString()), Convert.ToDateTime(date_fin.Text.ToString()), txt_rent.Text.ToString(), txt_rent_v.Text.ToString());
+                            frm2.Owner = this;
+                            //AplicarEfecto(this);
+                            this.IsEnabled = false;
+                            frm2.Show();
+                            Prog_Pagos._activo_form = true;
+                            frm2.Closed += Prog_Pagos_Closed;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Las Fechas no guardan Relación, favor verificar. ",
+                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -231,8 +247,9 @@ namespace Gestion_Tiendas.Formularios
             {
                 Pago_Tercero frm2 = new Pago_Tercero(dt_pago_terc, "", "");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
                 frm2.Show();
+                this.IsEnabled = false;
                 Pago_Tercero._activo_form = true;
                 frm2.Closed += Pago_tercero_Closed;
             }
@@ -240,7 +257,33 @@ namespace Gestion_Tiendas.Formularios
 
         private void btn_carta_Click(object sender, RoutedEventArgs e)
         {
-
+            if (date_fin.Text.ToString() != "" && date_ini.Text.ToString() != "")
+            {
+                if(Convert.ToDateTime(date_ini.Text.ToString()) < Convert.ToDateTime(date_fin.Text.ToString()))
+                { 
+                    // Se debe capturar el código
+                    if (!Carta_Fianza._activo_form)
+                    {
+                        Carta_Fianza frm2 = new Carta_Fianza(dt_carta_fianza, Convert.ToDateTime(date_ini.Text.ToString()), Convert.ToDateTime(date_fin.Text.ToString()));
+                        frm2.Owner = this;
+                        //AplicarEfecto(this);
+                        this.IsEnabled = false;
+                        frm2.Show();
+                        Carta_Fianza._activo_form = true;
+                        frm2.Closed += Carta_Fianza_Closed;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Las Fechas no guardan Relación, favor verificar. ",
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Es necesario ingresar Fechas de Contrato para continuar. ",
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void btn_seguro_Click(object sender, RoutedEventArgs e)
@@ -295,7 +338,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Datos_Arrendador frm2 = new Datos_Arrendador();
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Datos_Arrendador._activo_form = true;
                 frm2.Closed += Datos_Arrendador_Closed;
@@ -309,7 +353,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Datos_Administrador frm2 = new Datos_Administrador();
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Datos_Administrador._activo_form = true;
                 frm2.Closed += Datos_Administrador_Closed;
@@ -403,7 +448,8 @@ namespace Gestion_Tiendas.Formularios
 
             // (refrescar)
             dg_arrendatario.ItemsSource = dt_arrend.DefaultView;
-            QuitarEfecto(this);
+            //QuitarEfecto(this);
+            this.IsEnabled = true;
         }
 
         private void Datos_Administrador_Closed(object sender, EventArgs e)
@@ -435,14 +481,14 @@ namespace Gestion_Tiendas.Formularios
 
             // (refrescar)
             dg_admins.ItemsSource = dt_admin.DefaultView;
-            QuitarEfecto(this);
+            //QuitarEfecto(this);
+            this.IsEnabled = true;
         }
 
         private void Prog_Pagos_Closed(object sender, EventArgs e)
         {
             Prog_Pagos ventana = sender as Prog_Pagos;
-            
-            if (ventana.datos != null && ventana.datos.Rows.Count>0)
+            if (ventana.datos != null && ventana.datos.Rows.Count> 0 && ventana._ok)
             {
                 dt_programa = ventana.datos;
                 val_fec_ini = ventana.fecha_i.ToShortDateString();
@@ -451,14 +497,17 @@ namespace Gestion_Tiendas.Formularios
                 val_ren_var = ventana.var;
             }
             // (refrescar)
-            QuitarEfecto(this);
+            //QuitarEfecto(this);
+            this.IsEnabled = true;
         }
 
         private void Pago_tercero_Closed(object sender, EventArgs e)
         {
             Pago_Tercero ventana = sender as Pago_Tercero;
+            if (ventana._ok)
+            { dt_pago_terc = ventana.datos; }
 
-            if (ventana.datos != null && ventana.datos.Rows.Count > 0)
+            if (dt_pago_terc != null && dt_pago_terc.Rows.Count > 0)
             {
                 chk_Pago_Tercero.IsChecked = true;
             }
@@ -467,8 +516,27 @@ namespace Gestion_Tiendas.Formularios
                 chk_Pago_Tercero.IsChecked = false;
             }
             // (refrescar)
-            dt_pago_terc = ventana.datos;
-            QuitarEfecto(this);
+            this.IsEnabled = true;
+            //QuitarEfecto(this);
+        }
+
+        private void Carta_Fianza_Closed(object sender, EventArgs e)
+        {
+            Carta_Fianza ventana = sender as Carta_Fianza;
+            if (ventana._ok)
+            { dt_carta_fianza = ventana.datos; }
+
+            if (dt_carta_fianza != null && dt_carta_fianza.Rows.Count > 0)
+            {
+                chk_obl_carta.IsChecked = true;
+            }
+            else
+            {
+                chk_obl_carta.IsChecked = false;
+            }
+            // (refrescar)
+            //QuitarEfecto(this);
+            this.IsEnabled = true;
         }
 
         private void Llena_datos_Contrato(string _contr_lista)
@@ -476,6 +544,9 @@ namespace Gestion_Tiendas.Formularios
             DataTable dat_cont = new DataTable();
             //-- LLena datos de Pagos a Terceros
             dt_pago_terc = Contratos.Lista_PagoTerceros("", "", _cod_tda, _tipo);
+            //-- LLena datos de Carta Fianza
+            dt_carta_fianza = Contratos.Lista_CartaFianza(_contr_lista, _tipo_doc); ;
+
             if (_tipo_doc == "C" && contrato_lista == "")
             {
                 limpiar_campos();
@@ -771,7 +842,11 @@ namespace Gestion_Tiendas.Formularios
 
                     Contratos.Elimina_PagosTerceros(cod, _tipo_doc);
                     foreach (DataRow pag in dt_pago_terc.Rows)
-                    { Contratos.Graba_PagosTerceros(cod, _tipo_doc, pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porc"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }
+                    { Contratos.Graba_PagosTerceros(cod, _tipo_doc, pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porcentaje"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }
+
+                    Contratos.Elimina_CartaFianza(cod, _tipo_doc);
+                    foreach (DataRow car in dt_carta_fianza.Rows)
+                    { Contratos.Graba_CartaFianza(cod, _tipo_doc, car["Id"].ToString(), Convert.ToDateTime(car["Fecha_Ini"].ToString()), Convert.ToDateTime(car["Fecha_Fin"].ToString()), car["Bco_Id"].ToString(), car["Bco_Des"].ToString(), car["Nro_Doc"].ToString(), car["Benef_RUC"].ToString(), car["Benef_desc"].ToString(), Convert.ToDecimal(car["Monto"].ToString())); }
 
                     //this.DialogResult = false;
                     this.Close();

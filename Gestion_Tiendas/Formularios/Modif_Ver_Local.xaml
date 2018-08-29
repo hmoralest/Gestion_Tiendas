@@ -5,10 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Agregar / Modificar Local" Height="750" Width="800" Unloaded="Window_Unloaded" Loaded="Window_Loaded" Activated="Window_Activated">
+        Title="Agregar / Modificar Local" Height="750" Width="800" Unloaded="Window_Unloaded" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid Margin="0,0,0,0">
 
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="142" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="772"/>
+        <Rectangle HorizontalAlignment="Left" Height="142" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" Stroke="#FF0051FF" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFC1CAFF"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Label x:Name="label01" Content="Código :" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <TextBox x:Name="txt_cod" HorizontalAlignment="Left" Height="20" Margin="145,20,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80"/>
         <Label x:Name="label02" Content="Nombre :" HorizontalAlignment="Left" Margin="30,45,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
@@ -52,7 +59,14 @@
         </DataGrid>
         <!--Button x:Name="btn_suma_alma" Content=" + " HorizontalAlignment="Left" Margin="705,84,0,0" VerticalAlignment="Top" Width="35" Height="30" Click="btn_suma_alma_Click" /-->
 
-        <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="552" Margin="10,157,0,0" Stroke="Black" VerticalAlignment="Top" Width="772"/>
+        <Rectangle HorizontalAlignment="Left" Height="552" Margin="10,157,0,0" VerticalAlignment="Top" Width="772" Stroke="#FF0051FF" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFC1CAFF"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Label x:Name="label08" Content="Contrato :" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <ComboBox x:Name="cbx_contrato" HorizontalAlignment="Left" Margin="145,170,0,0" VerticalAlignment="Top" Width="250" Height="27" IsReadOnly="True" SelectionChanged="cbx_contrato_SelectionChanged" Visibility="Hidden"/>
 
@@ -159,7 +173,7 @@
         <DatePicker x:Name="date_ipc" HorizontalAlignment="Left" Margin="379,619,0,0" VerticalAlignment="Top" Height="27"/>
 
         <Label x:Name="label28" Content="Pagos a Terceros :" HorizontalAlignment="Left" Margin="570,349,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_Pago_Tercero" Content="" HorizontalAlignment="Left" Margin="680,355,0,0" VerticalAlignment="Top" Height="21"/>
+        <CheckBox x:Name="chk_Pago_Tercero" Content="" HorizontalAlignment="Left" Margin="680,355,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
         <Button x:Name="btn_pago_tercero"  Margin="595,375,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_pago_tercero_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
@@ -179,7 +193,7 @@
             </Grid>
         </Button>
         <Label x:Name="label29" Content="Obl. Carta Fianza :" HorizontalAlignment="Left" Margin="570,418,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_obl_carta" Content="" HorizontalAlignment="Left" Margin="680,424,0,0" VerticalAlignment="Top" Height="21"/>
+        <CheckBox x:Name="chk_obl_carta" Content="" HorizontalAlignment="Left" Margin="680,424,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
         <Button x:Name="btn_carta"  Margin="595,444,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_carta_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>

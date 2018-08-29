@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Programación Rentas Mensuales" Height="350" Width="500" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+        Title="Programación Rentas Mensuales" Height="350" Width="500" Loaded="Window_Loaded" Unloaded="Window_Unloaded" ResizeMode="NoResize">
     <Grid Margin="0,0,0,0">
 
-        <DataGrid x:Name="dg_datos" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="243" Width="472" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserAddRows="False">
+        <Rectangle HorizontalAlignment="Left" Height="299" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="472">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFC1CAFF"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <DataGrid x:Name="dg_datos" HorizontalAlignment="Left" Margin="22,23,0,0" VerticalAlignment="Top" Height="230" Width="447" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Nro}" ClipboardContentBinding="{x:Null}" Header="Nro Cuota"/>
                 <DataGridTextColumn IsReadOnly="False" Binding="{Binding Fijo}" ClipboardContentBinding="{x:Null}" Header="Monto a Pagar"/>
@@ -20,7 +28,7 @@
         </DataGrid>
         <!--Label x:Name="label_01" Content="TOTAL :" HorizontalAlignment="Left" Margin="322,225,0,0" VerticalAlignment="Top" Width="67"/>
         <Label x:Name="label_total" Content="monto_tot" HorizontalAlignment="Left" Margin="394,225,0,0" VerticalAlignment="Top" Width="88"/-->
-        <Button x:Name="btn_limpiar"  Margin="90,271,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_limpiar_Click">
+        <Button x:Name="btn_limpiar"  Margin="90,258,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btn_limpiar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -38,7 +46,7 @@
                 <TextBlock Text="Reestablecer" VerticalAlignment="Center" Margin="35,8,31,8" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
         </Button>
-        <Button x:Name="btn_grabar"  Margin="0,271,80,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
+        <Button x:Name="btn_grabar"  Margin="0,258,90,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>

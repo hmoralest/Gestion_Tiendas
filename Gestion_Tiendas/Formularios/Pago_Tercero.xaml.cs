@@ -23,10 +23,14 @@ namespace Gestion_Tiendas.Formularios
     {
         #region Var Locales
         public static Boolean _activo_form = false;
+        public Boolean _ok = false;
+
         public static string _cod_contrato = "";
         public static string _tipo_contrato = "";
         public DataTable datos = new DataTable();
         public static DataTable datos_ini = new DataTable();
+
+        public static string _accion = "";
         #endregion
 
         #region Funciones de Interfaz e Iniciacion
@@ -38,8 +42,66 @@ namespace Gestion_Tiendas.Formularios
         {
             _cod_contrato = cod_cont;
             _tipo_contrato = tip_cont;
+            _accion = "A";
             datos_ini = datos;
             InitializeComponent();
+        }
+
+        public Pago_Tercero(string accion, DataTable datos, string cod_cont, string tip_cont)
+        {
+            _cod_contrato = cod_cont;
+            _tipo_contrato = tip_cont;
+            _accion = accion;
+            datos_ini = datos;
+            InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _ok = false;
+            /******************************************/
+            /*-------Listamos Bancos en Combo-------*/
+            /******************************************/
+            DataTable lista_banc = new DataTable();
+            //int contar = 0;
+            lista_banc = Contratos.ListaBancos();
+            foreach (DataRow row in lista_banc.Rows)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Uid = row["id"].ToString();
+                item.Content = row["razon_soc"].ToString();
+                /*contar = contar + 1;
+                if (contar == 1)
+                {
+                    item.IsSelected = true;
+                }*/
+                cbx_banco.Items.Add(item);
+            }
+
+            // Limpiando campos
+            txt_RUC.Text = "";
+            txt_razsoc.Text = "";
+            txt_ctabco.Text = "";
+            txt_porc.Text = "";
+
+            datos = new DataTable();
+            // Declara Tablas usadas en los grid
+            datos.TableName = "Pago_Terceros";
+            datos.Columns.Add("Id", typeof(string));
+            datos.Columns.Add("RUC", typeof(string));
+            datos.Columns.Add("raz_soc", typeof(string));
+            datos.Columns.Add("porcentaje", typeof(string));
+            datos.Columns.Add("banco_id", typeof(string));
+            datos.Columns.Add("banco_desc", typeof(string));
+            datos.Columns.Add("banco_cta", typeof(string));
+            
+            if (_accion == "A") { btn_guardar.Visibility = Visibility.Visible; }
+            else                { btn_guardar.Visibility = Visibility.Hidden; }
+
+            //datos = Contratos.Lista_PagoTerceros(_cod_contrato, _tipo_contrato);
+            datos = datos_ini;
+            dg_pagos.ItemsSource = datos.AsDataView();
+
         }
 
         private void btn_agregar_Click(object sender, RoutedEventArgs e)
@@ -83,7 +145,7 @@ namespace Gestion_Tiendas.Formularios
                             {
                                 string banco_desc = escoger.Content.ToString();
 
-                                datos.Rows.Add( datos.Rows.Count.ToString().PadLeft(2,'0'),
+                                datos.Rows.Add( (datos.Rows.Count+1).ToString().PadLeft(2,'0'),
                                                     txt_RUC.Text.ToString(), txt_razsoc.Text.ToString(),
                                                     txt_porc.Text.ToString(),
                                                     banco_id, banco_desc, txt_ctabco.Text.ToString());
@@ -98,8 +160,9 @@ namespace Gestion_Tiendas.Formularios
 
         private void btn_guardar_Click(object sender, RoutedEventArgs e)
         {
+            _ok = true;
             MessageBox.Show("Esta Información se grabará al guardar el Documento.",
-            "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
             this.Close();
         }
 
@@ -107,50 +170,6 @@ namespace Gestion_Tiendas.Formularios
         {
             datos = datos_ini;
             dg_pagos.ItemsSource = datos.AsDataView();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            /******************************************/
-            /*-------Listamos Bancos en Combo-------*/
-            /******************************************/
-            DataTable lista_banc = new DataTable();
-            //int contar = 0;
-            lista_banc = Contratos.ListaBancos();
-            foreach (DataRow row in lista_banc.Rows)
-            {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Uid = row["id"].ToString();
-                item.Content = row["razon_soc"].ToString();
-                /*contar = contar + 1;
-                if (contar == 1)
-                {
-                    item.IsSelected = true;
-                }*/
-                cbx_banco.Items.Add(item);
-            }
-
-            // Limpiando campos
-            txt_RUC.Text = "";
-            txt_razsoc.Text = "";
-            txt_ctabco.Text = "";
-            txt_porc.Text = "";
-
-            datos = new DataTable();
-            // Declara Tablas usadas en los grid
-            datos.TableName = "Pago_Terceros";
-            datos.Columns.Add("Id", typeof(string));
-            datos.Columns.Add("RUC", typeof(string));
-            datos.Columns.Add("raz_soc", typeof(string));
-            datos.Columns.Add("porcentaje", typeof(string));
-            datos.Columns.Add("banco_id", typeof(string));
-            datos.Columns.Add("banco_desc", typeof(string));
-            datos.Columns.Add("banco_cta", typeof(string));
-
-            //datos = Contratos.Lista_PagoTerceros(_cod_contrato, _tipo_contrato);
-            datos = datos_ini;
-            dg_pagos.ItemsSource = datos.AsDataView();
-
         }
 
         private void btn_resta_Click(object sender, RoutedEventArgs e)

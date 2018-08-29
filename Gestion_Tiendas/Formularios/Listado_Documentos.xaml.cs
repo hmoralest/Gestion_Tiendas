@@ -65,7 +65,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Nuevo_Doc frm2 = new Nuevo_Doc(codigo, tipo, "A");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Nuevo_Doc._activo_form = true;
                 frm2.Closed += Nuevo_Doc_Closed;
@@ -86,7 +87,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Nuevo_Doc frm2 = new Nuevo_Doc(codigo, tipo, "C");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Nuevo_Doc._activo_form = true;
                 frm2.Closed += Nuevo_Doc_Closed;
@@ -105,7 +107,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Modif_Ver_Doc frm2 = new Modif_Ver_Doc(codigo, tipo, _cod_ent, _tipo_ent, "V");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Modif_Ver_Doc._activo_form = true;
                 frm2.Closed += Modif_Ver_Doc_Closed;
@@ -124,7 +127,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Modif_Ver_Doc frm2 = new Modif_Ver_Doc(codigo, tipo, _cod_ent, _tipo_ent, "VA");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Modif_Ver_Doc._activo_form = true;
                 frm2.Closed += Modif_Ver_Doc_Closed;
@@ -143,7 +147,8 @@ namespace Gestion_Tiendas.Formularios
             {
                 Modif_Ver_Doc frm2 = new Modif_Ver_Doc(codigo, tipo, _cod_ent, _tipo_ent, "A");
                 frm2.Owner = this;
-                AplicarEfecto(this);
+                //AplicarEfecto(this);
+                this.IsEnabled = false;
                 frm2.Show();
                 Modif_Ver_Doc._activo_form = true;
                 frm2.Closed += Modif_Ver_Doc_Closed;
@@ -171,7 +176,8 @@ namespace Gestion_Tiendas.Formularios
             Refresh_Docs();
 
             // (refrescar)
-            QuitarEfecto(this);
+            //QuitarEfecto(this);
+            this.IsEnabled = true;
         }
 
         private void Modif_Ver_Doc_Closed(object sender, EventArgs e)
@@ -179,7 +185,8 @@ namespace Gestion_Tiendas.Formularios
             Modif_Ver_Doc ventana = sender as Modif_Ver_Doc;
             Refresh_Docs();
             // (refrescar)
-            QuitarEfecto(this);
+            //QuitarEfecto(this);
+            this.IsEnabled = true;
         }
 
         private void Refresh_Docs()

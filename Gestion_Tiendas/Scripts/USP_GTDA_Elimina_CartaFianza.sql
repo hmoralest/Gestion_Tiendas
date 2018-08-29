@@ -1,17 +1,17 @@
-If Exists(Select * from sysobjects Where name = 'USP_GTDA_Elimina_PagoTercero' And type = 'P')
-	Drop Procedure USP_GTDA_Elimina_PagoTercero
+If Exists(Select * from sysobjects Where name = 'USP_GTDA_Elimina_CartaFianza' And type = 'P')
+	Drop Procedure USP_GTDA_Elimina_CartaFianza
 GO
 
 -- ====================================================================================================
 -- Modificado por	: Henry Morales
--- Fch. Modifica	: 21/08/2018
--- Asunto			: Elimina Pagos a Terceros (Por Documento)
+-- Fch. Modifica	: 29/08/2018
+-- Asunto			: Elimina Cartas Fianzas (Por Documento)
 -- ====================================================================================================
 /*
-	Exec USP_GTDA_Elimina_PagoTercero
+	Exec USP_GTDA_Elimina_CartaFianza
 */
 
-CREATE PROCEDURE [dbo].[USP_GTDA_Elimina_PagoTercero](
+CREATE PROCEDURE [dbo].[USP_GTDA_Elimina_CartaFianza](
 	@cod_cont			Varchar(10),	-- Cod. Contrato
 	@tip_cont			Varchar(1)
 )
@@ -20,14 +20,14 @@ AS
 BEGIN 
 
 	BEGIN TRY
-		BEGIN TRAN Elimina_PagoTercero
+		BEGIN TRAN Elimina_CartaFianza
 	
-			Delete From GTDA_Pago_Terceros Where Pag_ContID = @cod_cont And Pag_ContTipo = @tip_cont
+			Delete From GTDA_Carta_Fianza Where CarF_ContId = @cod_cont And CarF_ContTipo = @tip_cont
 
-		COMMIT TRAN Elimina_PagoTercero
+		COMMIT TRAN Elimina_CartaFianza
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRAN Elimina_PagoTercero
+		ROLLBACK TRAN Elimina_CartaFianza
 
 		DECLARE @ErrorMessage NVARCHAR(4000);
 		DECLARE @ErrorSeverity INT;

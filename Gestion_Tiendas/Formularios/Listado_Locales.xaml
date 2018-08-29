@@ -5,9 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Gestion Locales" Height="800" Width="1300" Loaded="Window_Loaded">
+        Title="Gestion Locales" Height="820" Width="1320" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid>
 
+        <Rectangle HorizontalAlignment="Left" Height="769" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="1292">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFC1CAFF"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Label x:Name="Label01" Content="Código :" HorizontalAlignment="Left" Margin="20,50,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="txt_codigo" HorizontalAlignment="Left" Height="27" Margin="79,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" KeyDown="txt_codigo_KeyDown"/>
         <Label x:Name="Label02" Content="Nombre :" HorizontalAlignment="Left" Margin="240,50,0,0" VerticalAlignment="Top" Height="27"/>
@@ -18,7 +26,12 @@
             <ComboBoxItem Content="TDA" Uid="TDA"/>
         </ComboBox>
         <Label x:Name="Label04" Content="Estado :" HorizontalAlignment="Left" Margin="872,50,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox x:Name="cbx_estado" HorizontalAlignment="Left" Margin="952,50,0,0" VerticalAlignment="Top" Width="150" Height="27"/>
+        <ComboBox x:Name="cbx_estado" HorizontalAlignment="Left" Margin="952,50,0,0" VerticalAlignment="Top" Width="150" Height="27">
+            <ComboBoxItem Content="Sin Contrato" Uid="Sin Contrato"/>
+            <ComboBoxItem Content="Contrato Vigente" Uid="Contrato Vigente"/>
+            <ComboBoxItem Content="Contrato por Vencer" Uid="Contrato por Vencer"/>
+            <ComboBoxItem Content="Contrato Vencido" Uid="Contrato Vencido"/>
+        </ComboBox>
         <Label x:Name="Label05" Content="Distrito :" HorizontalAlignment="Left" Margin="20,91,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="txt_distrit" HorizontalAlignment="Left" Height="27" Margin="80,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_distrit_KeyDown"/>
         <!--Label x:Name="Label06" Content="Supervisor :" HorizontalAlignment="Left" Margin="369,91,0,0" VerticalAlignment="Top" Height="27"/>
@@ -26,7 +39,7 @@
         <Label x:Name="Label07" Content="Arrendatario :" HorizontalAlignment="Left" Margin="607,91,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="txt_arrend" HorizontalAlignment="Left" Height="27" Margin="694,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" KeyDown="txt_arrend_KeyDown"/>
 
-        <DataGrid x:Name="dtg_locales" HorizontalAlignment="Left" Height="610" Margin="10,149,0,0" VerticalAlignment="Top" Width="1272"  IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
+        <DataGrid x:Name="dtg_locales" HorizontalAlignment="Left" Height="610" Margin="20,156,0,0" VerticalAlignment="Top" Width="1272"  IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="Codigo" Width="50"/>
                 <DataGridTextColumn Binding="{Binding des}" ClipboardContentBinding="{x:Null}" Header="Nombre" Width="140"/>
@@ -77,7 +90,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Editar / Ver">
+                <!--DataGridTemplateColumn Header="Editar / Ver">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -95,7 +108,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </>
 
                 <DataGridTemplateColumn Header="N. Contr">
                     <DataGridTemplateColumn.CellTemplate>
@@ -135,7 +148,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn-->
             </DataGrid.Columns>
         </DataGrid>
 
@@ -158,7 +171,7 @@
             </Grid>
         </Button-->
 
-        <Button x:Name="btn_buscar"  Margin="0,50,10,679" Cursor="Hand" HorizontalAlignment="Right" Click="btn_buscar_Click" Width="120">
+        <Button x:Name="btn_buscar"  Margin="0,50,20,699" Cursor="Hand" HorizontalAlignment="Right" Click="btn_buscar_Click" Width="120">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>

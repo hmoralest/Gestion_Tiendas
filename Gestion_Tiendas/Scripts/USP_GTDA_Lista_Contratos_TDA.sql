@@ -28,6 +28,6 @@ BEGIN
 	Where Cont_EntidId = @cod_ent
 	  And Cont_TipEnt = @tipo_ent
 	  And Cont_TipoCont = 'C'
-	Order by Fecha_Ini DESC
+	Order by Fecha_Ini DESC, Cont_Id DESC
 
 END

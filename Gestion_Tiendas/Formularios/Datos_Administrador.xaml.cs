@@ -110,5 +110,21 @@ namespace Gestion_Tiendas.Formularios
                 txt_razsoc.Text = "";
             }
         }
+
+        private void txt_ruc_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txt_razsoc.Text = "";
+            string razon = "";
+            razon = Contratos.Valida_Proveedor(txt_ruc.Text.ToString());
+            if (razon.Length > 0)
+            {
+                txt_razsoc.Text = razon;
+            }
+            else
+            {
+                MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

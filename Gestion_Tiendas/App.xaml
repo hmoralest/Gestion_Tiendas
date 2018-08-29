@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:Gestion_Tiendas"
              StartupUri="Formularios\Listado_Locales.xaml">
     <Application.Resources>
-         
+        <!--ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ReuxablesLegacy;component/inc.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary-->
     </Application.Resources>
 </Application>

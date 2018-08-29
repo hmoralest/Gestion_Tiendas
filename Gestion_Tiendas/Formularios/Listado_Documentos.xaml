@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas.Formularios"
         mc:Ignorable="d"
-        Title="Listado_Documentos" Height="400" Width="600" Unloaded="Window_Unloaded" Loaded="Window_Loaded">
+        Title="Listado_Documentos" Height="420" Width="620" Unloaded="Window_Unloaded" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid>
 
-        <DataGrid x:Name="dg_documentos" HorizontalAlignment="Left" Height="300" Margin="10,59,0,0" VerticalAlignment="Top" Width="572"  IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
+        <Rectangle HorizontalAlignment="Left" Height="369" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="592">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFC1CAFF"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <DataGrid x:Name="dg_documentos" HorizontalAlignment="Left" Height="300" Margin="19,70,0,0" VerticalAlignment="Top" Width="572"  IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="Codigo" Visibility="Hidden"/>
                 <DataGridTextColumn Binding="{Binding tipo}" ClipboardContentBinding="{x:Null}" Header="Tipo" />
@@ -78,7 +86,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btn_contrato"  Margin="158,10,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_contrato_Click" VerticalAlignment="Top">
+        <Button x:Name="btn_contrato"  Margin="150,24,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_contrato_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -96,7 +104,7 @@
                 <TextBlock Text="N. Contrato" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
         </Button>
-        <Button x:Name="btn_adenda"  Margin="337,10,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_adenda_Click" VerticalAlignment="Top">
+        <Button x:Name="btn_adenda"  Margin="0,24,150,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" Click="btn_adenda_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
