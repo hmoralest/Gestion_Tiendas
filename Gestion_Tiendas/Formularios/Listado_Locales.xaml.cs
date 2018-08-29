@@ -38,6 +38,12 @@ namespace Gestion_Tiendas.Formularios
             dt_grid = Locales.Listar_Locales();
             dtg_locales.ItemsSource = dt_grid.DefaultView;
             Application.Current.ApplyTheme("BureauBlue");
+
+            SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 191, 229, 255));
+            SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 224, 241, 253));
+            
+            this.dtg_locales.RowBackground  = color1;
+            this.dtg_locales.AlternatingRowBackground = color2;
         }
 
         private void txt_nombre_KeyDown(object sender, KeyEventArgs e)
