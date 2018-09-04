@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 13/08/2018
 -- Asunto			: Actualiza Contrato
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 03/09/2018
+-- Asunto			: Se agergó campo Reten, para retenciones de 1ra
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Actualiza_Contrato 
 */
@@ -34,7 +38,8 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Actualiza_Contrato](
 	@gast_com		Decimal(18,2),
 	@gs_com_p		bit,
 	@gs_com_v		Decimal(18,2),
-
+	
+	@Reten			Bit,
 	@dbJulio		Bit,
 	@dbDiciembre	Bit,
 	@serv_public	Bit,
@@ -87,6 +92,7 @@ BEGIN
 				Cont_GComunFijo	=  @gast_com,
 				Cont_GComunFijo_P	=  @gs_com_p,
 				Cont_GComunVar	=  @gs_com_v,
+				Cont_Reten  =  @Reten,
 				Cont_DbJul	=  @dbJulio,
 				Cont_DbDic	=  @dbDiciembre,
 				Cont_ServPub	=  @serv_public,

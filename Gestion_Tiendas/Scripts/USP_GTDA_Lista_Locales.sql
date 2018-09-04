@@ -34,7 +34,7 @@ BEGIN
 		locales.des			As des,
 		locales.tipo		As tipo,
 		locales.super		As super,
-		locales.prop		As arren,
+		IsNull(Cont.Cont_Arrenda,'')				As arren,
 		ubigeo.descripcion	As ubic,
 		locales.direc		As direc,
 		IsNull(est.Est_Estado,'Sin Contrato')		As estado
@@ -99,13 +99,23 @@ BEGIN
 	--// Asunto			: Se agregó tabla de Estados
 	Left Join GTDA_Estado_Locales est
 		On locales.id = est.Est_LocId And locales.tipo = est.Est_LocTipo
+	Left Join 
+	(
+		Select x.Cont_EntidId, x.Cont_TipEnt, x.Cont_Arrenda, x.Cont_Adminis
+		From GTDA_Contratos x
+		Where x.Cont_Id = (	Select MAX(a.Cont_Id)
+							From GTDA_Contratos a
+							Where x.Cont_EntidId = a.Cont_EntidId
+							  And x.Cont_TipEnt = a.Cont_TipEnt )							)	Cont
+		On Cont.Cont_EntidId = locales.id And Cont.Cont_TipEnt = locales.tipo
 	--// Se agrega Filtros
 	Where 
 			(locales.id								like '%' + @id + '%'		Or ltrim(rtrim(@id)) = '')
 	  And	(locales.des							like '%' + @des + '%'		Or ltrim(rtrim(@des)) = '')
 	  And	(locales.tipo							like '%' + @tipo + '%'		Or ltrim(rtrim(@tipo)) = '')
 	  And	(locales.super							like '%' + @super + '%'		Or ltrim(rtrim(@super)) = '')
-	  And	(locales.prop							like '%' + @arren + '%'		Or ltrim(rtrim(@arren)) = '')
+	  And	(IsNull(Cont.Cont_Arrenda,'')			like '%' + @arren + '%'		Or ltrim(rtrim(@arren)) = '')
+	--  And	(locales.prop							like '%' + @arren + '%'		Or ltrim(rtrim(@arren)) = '')
 	  And	(ubigeo.descripcion						like '%' + @ubic + '%'		Or ltrim(rtrim(@ubic)) = '')
 	  And	(locales.direc							like '%' + @direc + '%'		Or ltrim(rtrim(@direc)) = '')
 	  And	(IsNull(est.Est_Estado,'Sin Contrato')	like '%' + @estado + '%'	Or ltrim(rtrim(@estado)) = '')
@@ -113,5 +123,6 @@ BEGIN
 
 	Order by tipo, ubic, id DESC
 
+	print (@arren)
 
 END

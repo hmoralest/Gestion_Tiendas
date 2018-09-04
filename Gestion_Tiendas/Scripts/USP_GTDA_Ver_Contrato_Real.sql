@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 08/08/2018
 -- Asunto			: Obtiene el Contrato Real, sin los datos actualizados por Adendas
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 03/09/2018
+-- Asunto			: Se agregó campo para Retencion de 1ra Categ
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Ver_Contrato_Real '','50102', 'TDA'
 */
@@ -42,6 +46,7 @@ BEGIN
 			@FondProm		Decimal(18,2),
 			@GComunFijo		Decimal(18,2),
 			@GComunVar		Decimal(18,2),
+			@Reten			Bit,
 			@DbJul			Bit,
 			@DbDic			Bit,
 			@ServPub		Bit,

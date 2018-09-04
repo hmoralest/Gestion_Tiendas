@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 08/08/2018
 -- Asunto			: Obtiene el Documento Actual, con los datos actualizados por Adendas
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 03/09/2018
+-- Asunto			: Se agregó campo para retención de 1ra Categ
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Ver_Documento_Actual '0000000002','ADEN','50102', 'TDA'
 */
@@ -46,6 +50,7 @@ BEGIN
 			@GComunFijo		Decimal(18,2),
 			@GComunFijo_P	Bit,
 			@GComunVar		Decimal(18,2),
+			@Reten			Bit,
 			@DbJul			Bit,
 			@DbDic			Bit,
 			@ServPub		Bit,
@@ -96,7 +101,7 @@ BEGIN
 		INTO	@Id, @TipoCont, @PadreID, @EntidId, @TipEnt, @Area, @FecIni, @FecFin, @Moneda, 
 				@Arrenda, @Adminis,
 				@RentFija, @RentVar, @Adela, @Garantia, @Ingreso, @RevProy, @FondProm, @FondPromVar, @GComunFijo, @GComunFijo_P, @GComunVar,
-				@DbJul, @DbDic, @ServPub, @ArbMunic, 
+				@Reten, @DbJul, @DbDic, @ServPub, @ArbMunic, 
 				@IPC_RentFija, @IPC_FondProm, @IPC_GComun, @IPC_Frecue, @IPC_Fec, 
 				@PagoTercer, @CartFianza, @OblSegur, 
 				@RutaPlano, @RutaCont
@@ -126,6 +131,7 @@ BEGIN
 				Cont_GComunFijo		= IsNull(@GComunFijo,	Cont_GComunFijo),
 				Cont_GComunFijo_P	= IsNull(@GComunFijo_P,	Cont_GComunFijo_P),
 				Cont_GComunVar		= IsNull(@GComunVar,	Cont_GComunVar),
+				Cont_Reten			= IsNull(@Reten,		Cont_Reten),
 				Cont_DbJul			= IsNull(@DbJul,		Cont_DbJul),
 				Cont_DbDic			= IsNull(@DbDic,		Cont_DbDic),
 				Cont_ServPub		= IsNull(@ServPub,		Cont_ServPub),
@@ -149,7 +155,7 @@ BEGIN
 			INTO	@Id, @TipoCont, @PadreID, @EntidId, @TipEnt, @Area, @FecIni, @FecFin, @Moneda, 
 					@Arrenda, @Adminis,
 					@RentFija, @RentVar, @Adela, @Garantia, @Ingreso, @RevProy, @FondProm, @FondPromVar, @GComunFijo, @GComunFijo_P, @GComunVar,
-					@DbJul, @DbDic, @ServPub, @ArbMunic, 
+					@Reten, @DbJul, @DbDic, @ServPub, @ArbMunic, 
 					@IPC_RentFija, @IPC_FondProm, @IPC_GComun, @IPC_Frecue, @IPC_Fec, 
 					@PagoTercer, @CartFianza, @OblSegur, 
 					@RutaPlano, @RutaCont

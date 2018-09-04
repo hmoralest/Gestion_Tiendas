@@ -44,11 +44,11 @@
         <Label x:Name="label_06" Content="Entidad Bancaria :" HorizontalAlignment="Left" Margin="24,145,0,0" VerticalAlignment="Top" Height="27"/>
         <ComboBox x:Name="cbx_banco" HorizontalAlignment="Left" Margin="133,145,0,0" VerticalAlignment="Top" Width="273" Height="27"/>
         <Label x:Name="label_07" Content="Número Doc. :" HorizontalAlignment="Left" Margin="24,177,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_num_doc" HorizontalAlignment="Left" Height="27" Margin="133,177,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
+        <TextBox x:Name="txt_num_doc" HorizontalAlignment="Left" Height="27" Margin="133,177,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" KeyDown="txt_num_doc_KeyDown"/>
         <Label x:Name="label_08" Content="RUC. Benef. :" HorizontalAlignment="Left" Margin="24,209,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_ruc_benef" HorizontalAlignment="Left" Height="27" Margin="133,209,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
+        <TextBox x:Name="txt_ruc_benef" HorizontalAlignment="Left" Height="27" Margin="133,209,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" LostFocus="txt_ruc_benef_LostFocus" KeyDown="txt_ruc_benef_KeyDown"/>
         <Label x:Name="label_09" Content="Beneficiario :" HorizontalAlignment="Left" Margin="24,241,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_benef" HorizontalAlignment="Left" Height="27" Margin="133,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273"/>
+        <TextBox x:Name="txt_benef" HorizontalAlignment="Left" Height="27" Margin="133,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" IsReadOnly="True"/>
         <Label x:Name="label_10" Content="Monto :" HorizontalAlignment="Left" Margin="24,273,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="txt_monto" HorizontalAlignment="Left" Height="27" Margin="133,273,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="119"/>
 

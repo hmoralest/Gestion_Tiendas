@@ -20,10 +20,10 @@
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Nro}" ClipboardContentBinding="{x:Null}" Header="Nro Cuota"/>
                 <DataGridTextColumn IsReadOnly="False" Binding="{Binding Fijo}" ClipboardContentBinding="{x:Null}" Header="Monto a Pagar"/>
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Variable}" ClipboardContentBinding="{x:Null}" Header="% Variable"/>
+                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Variable}" ClipboardContentBinding="{x:Null}" Header="% Variable"/>
                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding Fecha}" ClipboardContentBinding="{x:Null}" Header="Fecha Vencimiento" Visibility="Hidden"/>
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Fec_Ini}" ClipboardContentBinding="{x:Null}" Header="Fecha Inicio"/>
-                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Fec_Fin}" ClipboardContentBinding="{x:Null}" Header="Fecha Fin"/>
+                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Fec_Ini}" ClipboardContentBinding="{x:Null}" Header="Fecha Inicio"/>
+                <DataGridTextColumn IsReadOnly="False" Binding="{Binding Fec_Fin}" ClipboardContentBinding="{x:Null}" Header="Fecha Fin"/>
             </DataGrid.Columns>
         </DataGrid>
         <!--Label x:Name="label_01" Content="TOTAL :" HorizontalAlignment="Left" Margin="322,225,0,0" VerticalAlignment="Top" Width="67"/>

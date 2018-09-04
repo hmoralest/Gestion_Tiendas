@@ -74,6 +74,7 @@ namespace Gestion_Tiendas.Formularios
         {
             txt_ruc.Text = "";
             txt_razsoc.Text = "";
+            txt_ruc.Focus();
             //txt_porc.Text = "";
         }
 

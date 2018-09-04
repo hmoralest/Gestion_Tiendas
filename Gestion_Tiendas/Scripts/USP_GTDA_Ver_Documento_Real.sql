@@ -45,6 +45,7 @@ BEGIN
 			@GComunFijo		Decimal(18,2),
 			@GComunFijo_P	Bit,
 			@GComunVar		Decimal(18,2),
+			@Reten			Bit,
 			@DbJul			Bit,
 			@DbDic			Bit,
 			@ServPub		Bit,

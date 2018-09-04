@@ -168,7 +168,7 @@ namespace Gestion_Tiendas.Formularios
                 txt_comun_v.Text = "0";
 
             }// fin contrato
-                        
+            txt_area.Focus(); txt_area.SelectAll();
         }
 
         private void Window_Activated(object sender, EventArgs e)
@@ -404,6 +404,66 @@ namespace Gestion_Tiendas.Formularios
             contrato_lista = escoger.Uid.ToString();
             Llena_datos_Contrato(contrato_lista);
         }
+
+        private void txt_area_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { date_ini.Focus(); }
+        }
+
+        private void date_ini_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { date_fin.Focus(); }
+        }
+
+        private void date_fin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_rent.Focus(); txt_rent.SelectAll(); }
+        }
+
+        private void txt_rent_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_rent_v.Focus(); txt_rent_v.SelectAll(); }
+        }
+
+        private void txt_rent_v_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_adela.Focus(); txt_adela.SelectAll(); }
+        }
+
+        private void txt_adela_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_garan.Focus(); txt_garan.SelectAll(); }
+        }
+
+        private void txt_garan_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_ingreso.Focus(); txt_ingreso.SelectAll(); }
+        }
+
+        private void txt_ingreso_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_rev_proy.Focus(); txt_rev_proy.SelectAll(); }
+        }
+
+        private void txt_rev_proy_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_promoc.Focus(); txt_promoc.SelectAll(); }
+        }
+
+        private void txt_promoc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_promoc_var.Focus(); txt_promoc_var.SelectAll(); }
+        }
+
+        private void txt_promoc_var_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_comun.Focus(); txt_comun.SelectAll(); }
+        }
+
+        private void txt_comun_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_comun_v.Focus(); txt_comun_v.SelectAll(); }
+        }
         #endregion
 
         #region Funciones de Programa
@@ -628,6 +688,7 @@ namespace Gestion_Tiendas.Formularios
 
                         //Data Elegir//
                         //------------------------------------------//
+                        chk_reten.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_Reten"]);
                         chk_julio.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_DbJul"]);
                         chk_diciembre.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_DbDic"]);
                         chk_publico.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_ServPub"]);
@@ -728,6 +789,7 @@ namespace Gestion_Tiendas.Formularios
 
             //Data Elegir//
             //------------------------------------------//
+            chk_reten.IsChecked = false;
             chk_julio.IsChecked = false;
             chk_diciembre.IsChecked = false;
             chk_publico.IsChecked = false;
@@ -792,6 +854,7 @@ namespace Gestion_Tiendas.Formularios
             ComboBoxItem escoger = (ComboBoxItem)(cbx_moneda.SelectedValue);
             string _moneda = escoger.Uid.ToString();
 
+            int _Reten = (Convert.ToBoolean(chk_reten.IsChecked)) ? 1 : 0;
             int _dbJulio = (Convert.ToBoolean(chk_julio.IsChecked)) ? 1 : 0;
             int _dbDiciembre = (Convert.ToBoolean(chk_diciembre.IsChecked)) ? 1 : 0;
             int _serv_public = (Convert.ToBoolean(chk_publico.IsChecked)) ? 1 : 0;
@@ -825,7 +888,7 @@ namespace Gestion_Tiendas.Formularios
                 cod =   Contratos.Ingresa_Contrato(_codigo, _tipo, _tipo_doc, _cont_pad, _fechaini, _fechafin, _area, _moneda,
                                                    _arrenda, _adminis,
                                                    _rent_fij, _rent_var, _adelanto, _garantia, _der_ingr, _rev_proy, _promocio, _promoc_v, _gast_com, _gs_com_p, _gs_com_v,
-                                                   _dbJulio, _dbDiciembre, _serv_public, _arbitrios,
+                                                   _Reten, _dbJulio, _dbDiciembre, _serv_public, _arbitrios,
                                                    _IPC_renta, _IPC_promo, _IPC_comun, _IPC_frecu, _fecha_IPC,
                                                    _pag_terce, _obl_segur, _obl_carta,
                                                    _ruta_plano, _ruta_contr);

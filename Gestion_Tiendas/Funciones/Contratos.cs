@@ -204,7 +204,7 @@ namespace Gestion_Tiendas.Funciones
         public static string Ingresa_Contrato(string _codigo, string _tipo, string _tipo_doc, string _cont_pad, DateTime _fechaini, DateTime _fechafin, decimal _area, string _moneda,
                                             string _arrenda, string _adminis,
                                             decimal _rent_fij, decimal _rent_var, decimal _adelanto, decimal _garantia, decimal _der_ingr, decimal _rev_proy, decimal _promocio, decimal _promoc_v, decimal _gast_com, decimal _gs_com_p, decimal _gs_com_v,
-                                            int _dbJulio, int _dbDiciembre, int _serv_public, int _arbitrios,
+                                            int _Reten, int _dbJulio, int _dbDiciembre, int _serv_public, int _arbitrios,
                                             int _IPC_renta, int _IPC_promo, int _IPC_comun, int _IPC_frecu, DateTime _fecha_IPC,
                                             int _pag_terce, int _obl_segur, int _obl_carta,
                                             string _ruta_plano, string _ruta_contr)
@@ -245,6 +245,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.Parameters.Add("@gs_com_p", SqlDbType.VarChar).Value = _gs_com_p;
                     cmd.Parameters.Add("@gs_com_v", SqlDbType.VarChar).Value = _gs_com_p;
 
+                    cmd.Parameters.Add("@Reten", SqlDbType.VarChar).Value = _Reten;
                     cmd.Parameters.Add("@dbJulio", SqlDbType.VarChar).Value = _dbJulio;
                     cmd.Parameters.Add("@dbDiciembre", SqlDbType.VarChar).Value = _dbDiciembre;
                     cmd.Parameters.Add("@serv_public", SqlDbType.VarChar).Value = _serv_public;
@@ -281,7 +282,7 @@ namespace Gestion_Tiendas.Funciones
         public static void Actualiza_Contrato(  string _codigo, string _tipo, string cod_contrato, DateTime _fechaini, DateTime _fechafin, decimal _area, string _moneda,
                                                 string _arrenda, string _adminis,
                                                 decimal _rent_fij, decimal _rent_var, decimal _adelanto, decimal _garantia, decimal _der_ingr, decimal _rev_proy, decimal _promocio, decimal _promoc_v, decimal _gast_com, int _gs_com_p, decimal _gs_com_v,
-                                                int _dbJulio, int _dbDiciembre, int _serv_public, int _arbitrios,
+                                                int _Reten, int _dbJulio, int _dbDiciembre, int _serv_public, int _arbitrios,
                                                 int _IPC_renta, int _IPC_promo, int _IPC_comun, int _IPC_frecu, DateTime _fecha_IPC,
                                                 int _pag_terce, int _obl_segur, int _obl_carta,
                                                 string _ruta_plano, string _ruta_contr)
@@ -321,6 +322,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.Parameters.Add("@gs_com_p", SqlDbType.VarChar).Value = _gs_com_p;
                     cmd.Parameters.Add("@gs_com_v", SqlDbType.VarChar).Value = _gs_com_v;
 
+                    cmd.Parameters.Add("@Reten", SqlDbType.VarChar).Value = _Reten;
                     cmd.Parameters.Add("@dbJulio", SqlDbType.VarChar).Value = _dbJulio;
                     cmd.Parameters.Add("@dbDiciembre", SqlDbType.VarChar).Value = _dbDiciembre;
                     cmd.Parameters.Add("@serv_public", SqlDbType.VarChar).Value = _serv_public;

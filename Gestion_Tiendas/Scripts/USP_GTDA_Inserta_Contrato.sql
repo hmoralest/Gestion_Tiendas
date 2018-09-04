@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 09/08/2018
 -- Asunto			: Ingresa Contrato/Adenda Nuevo
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 03/09/2018
+-- Asunto			: Se agregó campo de Retencion de 1ra Categ
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Inserta_Contrato 
 */
@@ -36,6 +40,7 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Inserta_Contrato](
 	@gs_com_p		bit,
 	@gs_com_v		Decimal(18,2),
 
+	@Reten			Bit,
 	@dbJulio		Bit,
 	@dbDiciembre	Bit,
 	@serv_public	Bit,
@@ -104,6 +109,7 @@ BEGIN
 			Cont_GComunFijo		Decimal(18, 2),
 			Cont_GComunFijo_P	Bit,
 			Cont_GComunVar		Decimal(18, 2),
+			Cont_Reten			Bit,
 			Cont_DbJul			Bit,
 			Cont_DbDic			Bit,
 			Cont_ServPub		Bit,
@@ -155,7 +161,9 @@ BEGIN
 			Set @gast_com = null;
 		if(@gs_com_v = (Select Cont_GComunVar From #Contratos))
 			Set @gs_com_v = null;
-
+			
+		if(@Reten = (Select Cont_Reten From #Contratos))
+			Set @Reten = null;
 		if(@dbJulio = (Select Cont_DbJul From #Contratos))
 			Set @dbJulio = null;
 		if(@dbDiciembre = (Select Cont_DbDic From #Contratos))
@@ -196,7 +204,7 @@ BEGIN
 			values (@codigo_cont, @tipo_doc, @cont_pad, @codigo, @tipo, @area, @fechaini, @fechafin, @moneda,	--// Valores grales de contrato
 					@arrendador, @administra,		--// relacion
 					@rent_fij, @rent_var, @adelanto, @garantia, @der_ingr, @rev_proy, @promocio, @promoc_v,  @gast_com, @gs_com_p, @gs_com_v,	--// Valores monetarios y porcentajes
-					@dbJulio, @dbDiciembre, @serv_public, @arbitrios,	--// Flags de comportamiento
+					@Reten, @dbJulio, @dbDiciembre, @serv_public, @arbitrios,	--// Flags de comportamiento
 					@IPC_renta, @IPC_promo,  @IPC_comun, @IPC_frecu, @fecha_IPC,	--// Comportamiento IPC
 					@pag_terce, @obl_segur, @obl_carta,		--// Flags de Documentos Adicionales
 					@ruta_plano,  @ruta_contr)			--// Rutas de documentos

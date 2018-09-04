@@ -220,6 +220,31 @@ namespace Gestion_Tiendas.Formularios
                 Limpiar_Campos();
             }
         }
+
+        private void txt_ruc_benef_LostFocus(object sender, RoutedEventArgs e)
+        {
+            string razon = "";
+            razon = Contratos.Valida_Proveedor(txt_benef.Text.ToString());
+            if (razon.Length > 0)
+            {
+                txt_benef.Text = razon;
+            }
+            else
+            {
+                MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void txt_num_doc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_ruc_benef.Focus(); txt_ruc_benef.SelectAll(); }
+        }
+
+        private void txt_ruc_benef_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_monto.Focus(); txt_monto.SelectAll(); }
+        }
         #endregion
 
         #region Funciones de Programa

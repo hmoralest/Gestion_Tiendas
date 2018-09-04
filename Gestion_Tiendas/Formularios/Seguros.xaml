@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Seguros" Height="480" Width="450" ResizeMode="NoResize">
+        Title="Seguros" Height="480" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Grid>
         <Rectangle HorizontalAlignment="Left" Height="42" Margin="10,10,0,0" VerticalAlignment="Top" Width="422" Stroke="#FF0051FF" >
             <Rectangle.Fill>
@@ -26,13 +26,17 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="label_02" Content="Documento :" HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top" Height="27"/>
-        <Label x:Name="lbl_Doc" Content="Tipo - de dd/mm/yyyy a dd/mm/yyyy" HorizontalAlignment="Left" Margin="133,68,0,0" VerticalAlignment="Top" Height="27" Width="275"/>
+        <Label x:Name="label_02" Content="Tipo de Seguro :" HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top" Height="27"/>
+        <ComboBox x:Name="cbx_tipo" HorizontalAlignment="Left" Margin="135,68,0,0" VerticalAlignment="Top" Width="275" Height="27">
+            <ComboBoxItem Content="Multi Riesgo" Uid="Multi Riesgo"/>
+            <ComboBoxItem Content="Responsabilidad Civil a Terceros" Uid="Responsabilidad Civil a Terceros"/>
+            <ComboBoxItem Content="Deshonestidad" Uid="Deshonestidad"/>
+        </ComboBox>
         <Label x:Name="label_03" Content="Vigencia :" HorizontalAlignment="Left" Margin="24,100,0,0" VerticalAlignment="Top" Height="27" Width="275"/>
-        <Label x:Name="label_04" Content="De :" HorizontalAlignment="Left" Margin="26,132,0,0" VerticalAlignment="Top" Height="27"/>
-        <DatePicker x:Name="date_ini" HorizontalAlignment="Left" Margin="62,132,0,0" VerticalAlignment="Top" Height="27"/>
-        <Label x:Name="label_05" Content="Hasta :" HorizontalAlignment="Left" Margin="212,132,0,0" VerticalAlignment="Top" Height="27"/>
-        <DatePicker x:Name="date_fin" HorizontalAlignment="Left" Margin="263,132,0,0" VerticalAlignment="Top" Height="27"/>
+        <Label x:Name="label_04" Content="Desde :" HorizontalAlignment="Left" Margin="26,132,0,0" VerticalAlignment="Top" Height="27"/>
+        <DatePicker x:Name="date_ini" HorizontalAlignment="Left" Margin="80,132,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
+        <Label x:Name="label_05" Content="Hasta :" HorizontalAlignment="Left" Margin="239,132,0,0" VerticalAlignment="Top" Height="27"/>
+        <DatePicker x:Name="date_fin" HorizontalAlignment="Left" Margin="290,133,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
 
         <Label x:Name="label_06" Content="Aseguradora :" HorizontalAlignment="Left" Margin="26,164,0,0" VerticalAlignment="Top" Height="27"/>
         <ComboBox x:Name="cbx_aseg" HorizontalAlignment="Left" Margin="135,164,0,0" VerticalAlignment="Top" Width="275" Height="27"/>
@@ -45,7 +49,11 @@
         <Label x:Name="label_10" Content="Cantidad :" HorizontalAlignment="Left" Margin="26,292,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Height="27" Margin="135,292,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="123"/>
         <Label x:Name="label_11" Content="Unidad :" HorizontalAlignment="Left" Margin="26,324,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="135,324,0,0" VerticalAlignment="Top" Width="123" Height="27"/>
+        <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="135,324,0,0" VerticalAlignment="Top" Width="123" Height="27">
+            <ComboBoxItem Content="Pares" Uid="Pares"/>
+            <ComboBoxItem Content="Area de Local" Uid="Area de Local"/>
+            <ComboBoxItem Content="Valor Mercaderia" Uid="Valor Mercaderia"/>
+        </ComboBox>
         <Label x:Name="label_12" Content="Valor :" HorizontalAlignment="Left" Margin="26,356,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="textBox_Copy4" HorizontalAlignment="Left" Height="27" Margin="135,356,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="123"/>
 

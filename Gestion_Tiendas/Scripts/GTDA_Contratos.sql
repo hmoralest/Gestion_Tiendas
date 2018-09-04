@@ -10,6 +10,9 @@ GO
 -- Fch. Modifica	: 08/08/2018
 -- Asunto			: Se creó tabla para  Documentos (Contratos y Adendas)
 -- ====================================================================================================
+-- Fch. Modifica	: 03/09/2018
+-- Asunto			: Se agrego Cont_Reten para guardar indicador de Retención 1ra Categ
+-- ====================================================================================================
 
 /****** Object:  Table [dbo].[GTDA_Contratos]    Script Date: 08/08/2018 14:07:07 ******/
 SET ANSI_NULLS ON
@@ -41,6 +44,7 @@ CREATE TABLE [dbo].[GTDA_Contratos](
 	[Cont_GComunFijo] [decimal](18, 2) NULL,
 	[Cont_GComunFijo_P] [bit] NULL,
 	[Cont_GComunVar] [decimal](18, 2) NULL,
+	[Cont_Reten] [bit] NULL,
 	[Cont_DbJul] [bit] NULL,
 	[Cont_DbDic] [bit] NULL,
 	[Cont_ServPub] [bit] NULL,
@@ -57,5 +61,3 @@ CREATE TABLE [dbo].[GTDA_Contratos](
 	[Cont_RutaCont] [varchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-
-
