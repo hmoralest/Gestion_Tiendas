@@ -12,7 +12,7 @@ GO
 -- Asunto			: Se agregó campo para retención de 1ra Categ
 -- ====================================================================================================
 /*
-	Exec USP_GTDA_Ver_Documento_Actual '0000000002','ADEN','50102', 'TDA'
+	Exec USP_GTDA_Ver_Documento_Actual '0000000006','CONT','09993','ALM'
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Ver_Documento_Actual](
@@ -60,9 +60,9 @@ BEGIN
 			@IPC_GComun		Bit,
 			@IPC_Frecue		Smallint,
 			@IPC_Fec		Smalldatetime,
-			@PagoTercer		Bit,
-			@CartFianza		Bit,
-			@OblSegur		Bit,
+		--	@PagoTercer		Bit,
+		--	@CartFianza		Bit,
+		--	@OblSegur		Bit,
 			@RutaPlano		Varchar(max),
 			@RutaCont		Varchar(max);
 
@@ -73,10 +73,10 @@ BEGIN
 		From GTDA_Contratos
 		Where Cont_Id = @cod_cont
 		  And Cont_TipoCont = @tipo_cont
-
+		
 		--// Obtenemos los datos del contrato con mayor vigencia
 		Select *
-		Into #temp_Contrato
+		Into #temp_Contratos
 		From GTDA_Contratos
 		Where Cont_EntidId = @cod_tda
 		  And Cont_TipEnt = @tipo
@@ -103,7 +103,7 @@ BEGIN
 				@RentFija, @RentVar, @Adela, @Garantia, @Ingreso, @RevProy, @FondProm, @FondPromVar, @GComunFijo, @GComunFijo_P, @GComunVar,
 				@Reten, @DbJul, @DbDic, @ServPub, @ArbMunic, 
 				@IPC_RentFija, @IPC_FondProm, @IPC_GComun, @IPC_Frecue, @IPC_Fec, 
-				@PagoTercer, @CartFianza, @OblSegur, 
+		--		@PagoTercer, @CartFianza, @OblSegur, 
 				@RutaPlano, @RutaCont
 
 
@@ -111,7 +111,7 @@ BEGIN
 		BEGIN
 
 			--// Actualizamos datos en el temporal
-			Update #temp_Contrato 
+			Update #temp_Contratos 
 			Set	
 				Cont_TipoCont		= IsNull(@TipoCont,		Cont_TipoCont),
 				Cont_Area			= IsNull(@Area,			Cont_Area),
@@ -141,9 +141,9 @@ BEGIN
 				Cont_IPC_GComun		= IsNull(@IPC_GComun,	Cont_IPC_GComun),
 				Cont_IPC_Frecue		= IsNull(@IPC_Frecue,	Cont_IPC_Frecue),
 				Cont_IPC_Fec		= CASE WHEN (@IPC_RentFija = 0 And @IPC_FondProm = 0 And @IPC_GComun = 0) THEN null ELSE IsNull(@IPC_Fec, Cont_IPC_Fec) END,
-				Cont_PagoTercer		= IsNull(@PagoTercer,	Cont_PagoTercer),
-				Cont_CartFianza		= IsNull(@CartFianza,	Cont_CartFianza),
-				Cont_OblSegur		= IsNull(@OblSegur,		Cont_OblSegur),
+		--		Cont_PagoTercer		= IsNull(@PagoTercer,	Cont_PagoTercer),
+		--		Cont_CartFianza		= IsNull(@CartFianza,	Cont_CartFianza),
+		--		Cont_OblSegur		= IsNull(@OblSegur,		Cont_OblSegur),
 				Cont_RutaPlano		= IsNull(@RutaPlano,	Cont_RutaPlano),
 				Cont_RutaCont		= IsNull(@RutaCont,		Cont_RutaCont)
 			Where Cont_EntidId = @cod_tda
@@ -157,22 +157,24 @@ BEGIN
 					@RentFija, @RentVar, @Adela, @Garantia, @Ingreso, @RevProy, @FondProm, @FondPromVar, @GComunFijo, @GComunFijo_P, @GComunVar,
 					@Reten, @DbJul, @DbDic, @ServPub, @ArbMunic, 
 					@IPC_RentFija, @IPC_FondProm, @IPC_GComun, @IPC_Frecue, @IPC_Fec, 
-					@PagoTercer, @CartFianza, @OblSegur, 
+			--		@PagoTercer, @CartFianza, @OblSegur, 
 					@RutaPlano, @RutaCont
 		END
 
 		CLOSE Adendas;
 		DEALLOCATE Adendas;
+		
+		--// Muestra Datos
+		Select * from #temp_Contratos
+
+		--// Elimina Temporal
+		Drop table #temp_Contratos
+
 	END
 	IF (@tipo_cont = 'C')
 	BEGIN 
 		Exec USP_GTDA_Ver_Documento_Real @cod_cont_ini, @tipo_cont, @cod_tda, @tipo
 	END
 
-	--// Muestra Datos
-	Select * from #temp_Contrato
-
-	--// Elimina Temporal
-	Drop table #temp_Contrato
 
 END

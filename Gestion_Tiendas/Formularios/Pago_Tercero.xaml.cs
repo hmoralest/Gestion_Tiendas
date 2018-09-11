@@ -25,12 +25,9 @@ namespace Gestion_Tiendas.Formularios
         public static Boolean _activo_form = false;
         public Boolean _ok = false;
 
-        public static string _cod_contrato = "";
-        public static string _tipo_contrato = "";
+        public static string _cod_entidad = "";
+        public static string _tip_entidad = "";
         public DataTable datos = new DataTable();
-        public static DataTable datos_ini = new DataTable();
-
-        public static string _accion = "";
         #endregion
 
         #region Funciones de Interfaz e Iniciacion
@@ -38,7 +35,8 @@ namespace Gestion_Tiendas.Formularios
         {
             InitializeComponent();
         }
-        public Pago_Tercero(DataTable datos, string cod_cont, string tip_cont)
+
+        /*public Pago_Tercero(DataTable datos, string cod_cont, string tip_cont)
         {
             _cod_contrato = cod_cont;
             _tipo_contrato = tip_cont;
@@ -54,10 +52,23 @@ namespace Gestion_Tiendas.Formularios
             _accion = accion;
             datos_ini = datos;
             InitializeComponent();
+        }*/
+
+        public Pago_Tercero(string cod_ent, string tip_ent)
+        {
+            _cod_entidad = cod_ent;
+            _tip_entidad = tip_ent;
+            InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 167, 167));
+            SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 224, 224));
+
+            this.dg_pagos.RowBackground = color1;
+            this.dg_pagos.AlternatingRowBackground = color2;
+
             _ok = false;
             /******************************************/
             /*-------Listamos Bancos en Combo-------*/
@@ -84,7 +95,7 @@ namespace Gestion_Tiendas.Formularios
             txt_ctabco.Text = "";
             txt_porc.Text = "";
 
-            datos = new DataTable();
+            /*datos = new DataTable();
             // Declara Tablas usadas en los grid
             datos.TableName = "Pago_Terceros";
             datos.Columns.Add("Id", typeof(string));
@@ -96,12 +107,14 @@ namespace Gestion_Tiendas.Formularios
             datos.Columns.Add("banco_cta", typeof(string));
             
             if (_accion == "A") { btn_guardar.Visibility = Visibility.Visible; }
-            else                { btn_guardar.Visibility = Visibility.Hidden; }
+            else                { btn_guardar.Visibility = Visibility.Hidden; }*/
 
             //datos = Contratos.Lista_PagoTerceros(_cod_contrato, _tipo_contrato);
-            datos = datos_ini;
+            //datos = datos_ini;
+            datos = Locales.Lista_PagoTerceros(_cod_entidad, _tip_entidad);
             dg_pagos.ItemsSource = datos.AsDataView();
 
+            
         }
 
         private void btn_agregar_Click(object sender, RoutedEventArgs e)
@@ -120,15 +133,16 @@ namespace Gestion_Tiendas.Formularios
                 }
                 else
                 {
-                    ComboBoxItem escoger = (ComboBoxItem)(cbx_banco.SelectedValue);
-                    string banco_id = escoger.Uid.ToString();
-                    if (banco_id == "")
+                    if (cbx_banco.SelectedIndex == -1)
                     {
-                        MessageBox.Show("El campo Razón Social debe estar lleno.",
+                        MessageBox.Show("Debe Seleccionar el Banco del Tercero.",
                         "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
+                        ComboBoxItem escoger = (ComboBoxItem)(cbx_banco.SelectedValue);
+                        string banco_id = escoger.Uid.ToString();
+
                         if (txt_ctabco.Text.ToString() == "")
                         {
                             MessageBox.Show("El campo Cuenta Bancaria debe estar lleno.",
@@ -161,14 +175,41 @@ namespace Gestion_Tiendas.Formularios
         private void btn_guardar_Click(object sender, RoutedEventArgs e)
         {
             _ok = true;
-            MessageBox.Show("Esta Información se grabará al guardar el Documento.",
-            "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
+
+            DataView dv = datos.DefaultView;
+            decimal suma = dv.Table.AsEnumerable().Sum(y => y.Field<Decimal>("porcentaje"));
+            if (suma != 100 && datos.Rows.Count>0)
+            {
+                MessageBox.Show("La Suma de Porcentajes debe ser 100, favor verificar.",
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                try
+                {
+                    Locales.Elimina_PagosTerceros(_cod_entidad, _tip_entidad);
+                    foreach (DataRow pag in datos.Rows)
+                    { Locales.Graba_PagosTerceros(_cod_entidad, _tip_entidad, pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porcentaje"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }
+
+                    MessageBox.Show("La información se guardo Correctamente.",
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error en grabar la información. " + ex.Message,
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                //MessageBox.Show("Esta Información se grabará al guardar el Documento.",
+                //"Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                this.Close();
+            }
         }
 
         private void btn_limpiar_Click(object sender, RoutedEventArgs e)
         {
-            datos = datos_ini;
+            //datos = datos_ini;
+            datos.Clear();
             dg_pagos.ItemsSource = datos.AsDataView();
         }
 
@@ -183,12 +224,87 @@ namespace Gestion_Tiendas.Formularios
         private void Window_Unloaded(object sender, RoutedEventArgs e)
         {
             _activo_form = false;
-            _cod_contrato = "";
-            _tipo_contrato = "";
+            _cod_entidad = "";
+            _tip_entidad = "";
+        }
+
+        private void txt_RUC_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumero(e);
+        }
+
+        private void txt_razsoc_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumerosLetras(e);
+        }
+
+        private void txt_porc_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_ctabco_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumero(e);
         }
         #endregion
 
         #region Funciones de Programa
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y letras sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumerosLetras(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || (ascci >= 65 && ascci <= 90) || (ascci >= 97 && ascci <= 122))
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumero(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if (ascci >= 48 && ascci <= 57)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y separadores decimales (.) sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloDecimal(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || ascci == 46)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+
+        }
         #endregion
+
     }
 }

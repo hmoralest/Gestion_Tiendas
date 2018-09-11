@@ -8,11 +8,11 @@
         Title="Agregar / Modificar Local" Height="750" Width="800" Unloaded="Window_Unloaded" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid Margin="0,0,0,0">
 
-        <Rectangle HorizontalAlignment="Left" Height="142" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="142" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -27,7 +27,7 @@
         <Label x:Name="label05" Content="Tipo de Local :" HorizontalAlignment="Left" Margin="30,95,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <TextBox x:Name="txt_tipo" HorizontalAlignment="Left" Height="20" Margin="145,95,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80"/>
         <Label x:Name="label06" Content="Área :" HorizontalAlignment="Left" Margin="30,120,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_area" HorizontalAlignment="Left" Height="20" Margin="145,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80" KeyDown="txt_area_KeyDown"/>
+        <TextBox x:Name="txt_area" HorizontalAlignment="Left" Height="20" Margin="145,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80" KeyDown="txt_area_KeyDown" PreviewTextInput="txt_area_PreviewTextInput"/>
         <Label x:Name="label07" Content="Loc. Relac. :" HorizontalAlignment="Left" Margin="364,70,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <DataGrid x:Name="dg_loc_asoc" HorizontalAlignment="Left" Height="77" Margin="449,70,0,0" VerticalAlignment="Top" Width="300" IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
             <DataGrid.Columns>
@@ -59,16 +59,24 @@
         </DataGrid>
         <!--Button x:Name="btn_suma_alma" Content=" + " HorizontalAlignment="Left" Margin="705,84,0,0" VerticalAlignment="Top" Width="35" Height="30" Click="btn_suma_alma_Click" /-->
 
-        <Rectangle HorizontalAlignment="Left" Height="552" Margin="10,157,0,0" VerticalAlignment="Top" Width="772" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="552" Margin="10,157,0,0" VerticalAlignment="Top" Width="772" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="label08" Content="Contrato :" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <Label x:Name="label08" Content="Contrato :" HorizontalAlignment="Left" Margin="30,170,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528" FontWeight="Bold"/>
         <ComboBox x:Name="cbx_contrato" HorizontalAlignment="Left" Margin="145,170,0,0" VerticalAlignment="Top" Width="250" Height="27" IsReadOnly="True" SelectionChanged="cbx_contrato_SelectionChanged" Visibility="Hidden"/>
+
+        <Label x:Name="label12" Content="Desde :" HorizontalAlignment="Left" Margin="145,170,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <DatePicker Name="date_ini" HorizontalAlignment="Left" Margin="199,170,0,0" VerticalAlignment="Top" Height="27" Width="110" KeyDown="date_ini_KeyDown"/>
+        <Label x:Name="label13" Content="Hasta :" HorizontalAlignment="Left" Margin="314,170,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <DatePicker Name="date_fin" HorizontalAlignment="Left" Margin="365,170,0,0" VerticalAlignment="Top" Height="27" Width="110" KeyDown="date_fin_KeyDown"/>
+
+        <Label x:Name="label35" Content="Código Interno :" HorizontalAlignment="Left" Margin="491,169,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528" FontWeight="Bold"/>
+        <TextBox x:Name="txt_cod_int" HorizontalAlignment="Left" Height="20" Margin="598,169,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="142" KeyDown="txt_cod_int_KeyDown" PreviewTextInput="txt_cod_int_PreviewTextInput"/>
 
         <Label x:Name="label10" Content="Arrendatario(s) :" HorizontalAlignment="Left" Margin="30,202,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <DataGrid x:Name="dg_arrendatario" HorizontalAlignment="Left" Height="70" Margin="145,203,0,0" VerticalAlignment="Top" Width="555" IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
@@ -126,64 +134,59 @@
         </DataGrid>
         <Button x:Name="btn_suma_admin" Content=" + " HorizontalAlignment="Left" Margin="705,278,0,0" VerticalAlignment="Top" Width="35" Height="30" Click="btn_suma_admin_Click" />
 
-        <Label x:Name="label12" Content="Desde :" HorizontalAlignment="Left" Margin="222,171,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <DatePicker Name="date_ini" HorizontalAlignment="Left" Margin="276,171,0,0" VerticalAlignment="Top" Height="27" Width="110" KeyDown="date_ini_KeyDown"/>
-        <Label x:Name="label13" Content="Hasta :" HorizontalAlignment="Left" Margin="391,171,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <DatePicker Name="date_fin" HorizontalAlignment="Left" Margin="442,171,0,0" VerticalAlignment="Top" Height="27" Width="110" KeyDown="date_fin_KeyDown"/>
-
         <Label x:Name="label14" Content="Renta Mensual :" HorizontalAlignment="Left" Margin="30,353,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_rent" HorizontalAlignment="Left" Height="20" Margin="145,355,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_rent_KeyDown"/>
+        <TextBox x:Name="txt_rent" HorizontalAlignment="Left" Height="20" Margin="145,355,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_rent_KeyDown" PreviewTextInput="txt_rent_PreviewTextInput"/>
         <Label x:Name="label15" Content="Renta Variable :" HorizontalAlignment="Left" Margin="30,381,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_rent_v" HorizontalAlignment="Left" Height="20" Margin="145,385,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50" KeyDown="txt_rent_v_KeyDown"/>
+        <TextBox x:Name="txt_rent_v" HorizontalAlignment="Left" Height="20" Margin="145,385,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50" KeyDown="txt_rent_v_KeyDown" PreviewTextInput="txt_rent_v_PreviewTextInput"/>
         <Label x:Name="label15_02" Content="(%)" HorizontalAlignment="Left" Margin="200,381,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <Label x:Name="label16" Content="Adelanto :" HorizontalAlignment="Left" Margin="30,411,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_adela" HorizontalAlignment="Left" Height="20" Margin="145,415,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_adela_KeyDown"/>
+        <TextBox x:Name="txt_adela" HorizontalAlignment="Left" Height="20" Margin="145,415,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_adela_KeyDown" PreviewTextInput="txt_adela_PreviewTextInput"/>
         <Label x:Name="label17" Content="Garantía (Fianza) :" HorizontalAlignment="Left" Margin="30,441,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_garan" HorizontalAlignment="Left" Height="20" Margin="145,445,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_garan_KeyDown"/>
+        <TextBox x:Name="txt_garan" HorizontalAlignment="Left" Height="20" Margin="145,445,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_garan_KeyDown" PreviewTextInput="txt_garan_PreviewTextInput"/>
         <Label x:Name="label18" Content="Derecho de llave :" HorizontalAlignment="Left" Margin="30,471,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_ingreso" HorizontalAlignment="Left" Height="20" Margin="145,475,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_ingreso_KeyDown"/>
+        <TextBox x:Name="txt_ingreso" HorizontalAlignment="Left" Height="20" Margin="145,475,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_ingreso_KeyDown" PreviewTextInput="txt_ingreso_PreviewTextInput"/>
         <Label x:Name="label19" Content="Revisión de Proy. :" HorizontalAlignment="Left" Margin="30,501,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_rev_proy" HorizontalAlignment="Left" Height="20" Margin="145,505,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_rev_proy_KeyDown"/>
+        <TextBox x:Name="txt_rev_proy" HorizontalAlignment="Left" Height="20" Margin="145,505,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_rev_proy_KeyDown" PreviewTextInput="txt_rev_proy_PreviewTextInput"/>
         <Label x:Name="label20" Content="Fondo Promoción :" HorizontalAlignment="Left" Margin="30,531,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_promoc" HorizontalAlignment="Left" Height="20" Margin="145,535,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_promoc_KeyDown"/>
+        <TextBox x:Name="txt_promoc" HorizontalAlignment="Left" Height="20" Margin="145,535,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="100" KeyDown="txt_promoc_KeyDown" PreviewTextInput="txt_promoc_PreviewTextInput"/>
         <Label x:Name="label15_02_Copy" Content="(%)" HorizontalAlignment="Left" Margin="200,561,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <Label x:Name="label20_Copy" Content="F. Promo. Var. :" HorizontalAlignment="Left" Margin="30,561,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_promoc_var" HorizontalAlignment="Left" Height="20" Margin="145,565,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50" KeyDown="txt_promoc_var_KeyDown"/>
+        <TextBox x:Name="txt_promoc_var" HorizontalAlignment="Left" Height="20" Margin="145,565,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50" KeyDown="txt_promoc_var_KeyDown" PreviewTextInput="txt_promoc_var_PreviewTextInput"/>
         <Label x:Name="label21" Content="Gastos Comunes :" HorizontalAlignment="Left" Margin="30,591,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_comun" HorizontalAlignment="Left" Height="20" Margin="145,595,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80" KeyDown="txt_comun_KeyDown"/>
+        <TextBox x:Name="txt_comun" HorizontalAlignment="Left" Height="20" Margin="145,595,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80" KeyDown="txt_comun_KeyDown" PreviewTextInput="txt_comun_PreviewTextInput"/>
         <CheckBox x:Name="chk_gcomun_p" Content="(Prorrateo)" HorizontalAlignment="Left" Margin="230,597,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.268,-0.667"/>
         <Label x:Name="label22" Content="Gasto Comun Var.:" HorizontalAlignment="Left" Margin="30,621,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <TextBox x:Name="txt_comun_v" HorizontalAlignment="Left" Height="20" Margin="145,625,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50"/>
+        <TextBox x:Name="txt_comun_v" HorizontalAlignment="Left" Height="20" Margin="145,625,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="50" PreviewTextInput="txt_comun_v_PreviewTextInput"/>
         <Label x:Name="label15_02_Copy1" Content="(%)" HorizontalAlignment="Left" Margin="200,621,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
 
-        <Label x:Name="label23" Content="Doble Julio :" HorizontalAlignment="Left" Margin="346,408,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_julio" Content="" HorizontalAlignment="Left" Margin="456,411,0,0" VerticalAlignment="Top" Height="21"/>
-        <Label x:Name="label24" Content="Doble Diciembre :" HorizontalAlignment="Left" Margin="346,433,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_diciembre" Content="" HorizontalAlignment="Left" Margin="456,437,0,0" VerticalAlignment="Top" Height="21"/>
-        <Label x:Name="label25" Content="Serv. Públicos :" HorizontalAlignment="Left" Margin="346,456,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_publico" Content="" HorizontalAlignment="Left" Margin="456,463,0,0" VerticalAlignment="Top" Height="21"/>
-        <Label x:Name="label26" Content="Arbitrios Munic. :" HorizontalAlignment="Left" Margin="346,483,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_arbitrio" Content="" HorizontalAlignment="Left" Margin="456,489,0,0" VerticalAlignment="Top" Height="21"/>
+        <Label x:Name="label23" Content="Doble Julio :" HorizontalAlignment="Left" Margin="341,465,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_julio" Content="" HorizontalAlignment="Left" Margin="451,468,0,0" VerticalAlignment="Top" Height="21"/>
+        <Label x:Name="label24" Content="Doble Diciembre :" HorizontalAlignment="Left" Margin="341,490,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_diciembre" Content="" HorizontalAlignment="Left" Margin="451,494,0,0" VerticalAlignment="Top" Height="21"/>
+        <Label x:Name="label25" Content="Serv. Públicos :" HorizontalAlignment="Left" Margin="341,513,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_publico" Content="" HorizontalAlignment="Left" Margin="451,520,0,0" VerticalAlignment="Top" Height="21"/>
+        <Label x:Name="label26" Content="Arbitrios Munic. :" HorizontalAlignment="Left" Margin="341,540,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_arbitrio" Content="" HorizontalAlignment="Left" Margin="451,546,0,0" VerticalAlignment="Top" Height="21"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="146" Margin="341,509,0,0" VerticalAlignment="Top" Width="211" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="160" Margin="534,365,0,0" VerticalAlignment="Top" Width="211" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="label27" Content="Afecta IPC :" HorizontalAlignment="Left" Margin="346,509,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_ipc_renta" Content="Renta Fija" HorizontalAlignment="Left" Margin="394,536,0,0" VerticalAlignment="Top" Height="21"/>
-        <CheckBox x:Name="chk_ipc_promo" Content="Fondo Promoción" HorizontalAlignment="Left" Margin="394,557,0,0" VerticalAlignment="Top" Height="21"/>
-        <CheckBox x:Name="chk_ipc_comun" Content="Gasto Común" HorizontalAlignment="Left" Margin="394,578,0,0" VerticalAlignment="Top" Height="21"/>
-        <RadioButton x:Name="rdb_06mes" Content="06 meses" HorizontalAlignment="Left" Margin="351,599,0,0" VerticalAlignment="Top" GroupName="radIPC" Checked="rdb_mes_Checked"/>
-        <RadioButton x:Name="rdb_12mes" Content="12 meses" HorizontalAlignment="Left" Margin="456,599,0,0" VerticalAlignment="Top" GroupName="radIPC" Checked="rdb_mes_Checked"/>
-        <DatePicker x:Name="date_ipc" HorizontalAlignment="Left" Margin="379,619,0,0" VerticalAlignment="Top" Height="27"/>
+        <Label x:Name="label27" Content="Afecta IPC :" HorizontalAlignment="Left" Margin="550,369,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_ipc_renta" Content="Renta Fija" HorizontalAlignment="Left" Margin="593,396,0,0" VerticalAlignment="Top" Height="21"/>
+        <CheckBox x:Name="chk_ipc_promo" Content="Fondo Promoción" HorizontalAlignment="Left" Margin="593,415,0,0" VerticalAlignment="Top" Height="21"/>
+        <CheckBox x:Name="chk_ipc_comun" Content="Gasto Común" HorizontalAlignment="Left" Margin="593,436,0,0" VerticalAlignment="Top" Height="21"/>
+        <RadioButton x:Name="rdb_06mes" Content="06 meses" HorizontalAlignment="Left" Margin="557,459,0,0" VerticalAlignment="Top" GroupName="radIPC" Checked="rdb_mes_Checked"/>
+        <RadioButton x:Name="rdb_12mes" Content="12 meses" HorizontalAlignment="Left" Margin="662,459,0,0" VerticalAlignment="Top" GroupName="radIPC" Checked="rdb_mes_Checked"/>
+        <DatePicker x:Name="date_ipc" HorizontalAlignment="Left" Margin="576,483,0,0" VerticalAlignment="Top" Height="27"/>
 
-        <Label x:Name="label28" Content="Pagos a Terceros :" HorizontalAlignment="Left" Margin="570,349,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_Pago_Tercero" Content="" HorizontalAlignment="Left" Margin="680,355,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
-        <Button x:Name="btn_pago_tercero"  Margin="595,375,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_pago_tercero_Click" VerticalAlignment="Top">
+        <!--Label x:Name="label28" Content="Pagos a Terceros :" HorizontalAlignment="Left" Margin="570,349,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_Pago_Tercero" Content="" HorizontalAlignment="Left" Margin="680,355,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/-->
+        <!--Button x:Name="btn_pago_tercero"  Margin="595,375,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_pago_tercero_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -200,8 +203,8 @@
                 <Image Margin="5,0,0,0" Source="/Gestion_Tiendas;component/Imagenes/pag_terc.jpg" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
                 <TextBlock Text="Pag Terceros" VerticalAlignment="Center" Margin="33,8,29,8" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" Width="71"/>
             </Grid>
-        </Button>
-        <Label x:Name="label29" Content="Obl. Carta Fianza :" HorizontalAlignment="Left" Margin="570,418,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        </Button-->
+        <!--Label x:Name="label29" Content="Obl. Carta Fianza :" HorizontalAlignment="Left" Margin="570,418,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
         <CheckBox x:Name="chk_obl_carta" Content="" HorizontalAlignment="Left" Margin="680,424,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
         <Button x:Name="btn_carta"  Margin="595,444,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_carta_Click" VerticalAlignment="Top">
             <Button.ToolTip>
@@ -220,10 +223,10 @@
                 <Image Margin="5,0,0,0" Source="..\Imagenes\fianza.jpg" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
                 <TextBlock Text="Carta Fianza" VerticalAlignment="Center" Margin="32,8,37,8" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
-        </Button>
-        <Label x:Name="label30" Content="Obl. Seguro :" HorizontalAlignment="Left" Margin="570,487,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_obl_seg" Content="" HorizontalAlignment="Left" Margin="680,493,0,0" VerticalAlignment="Top" Height="21"/>
-        <Button x:Name="btn_seguro"  Margin="595,516,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_seguro_Click" VerticalAlignment="Top">
+        </Button-->
+        <!--Label x:Name="label30" Content="Obl. Seguro :" HorizontalAlignment="Left" Margin="570,487,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_obl_seg" Content="" HorizontalAlignment="Left" Margin="680,493,0,0" VerticalAlignment="Top" Height="21"/-->
+        <!--Button x:Name="btn_seguro"  Margin="595,516,0,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Left" Click="btn_seguro_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
@@ -240,16 +243,16 @@
                 <Image Margin="5,0,0,0" Source="..\Imagenes\seguro.jpg" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
                 <TextBlock Text="Seguro" VerticalAlignment="Center" Margin="0,0,10,0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
-        </Button>
+        </Button-->
 
-        <Label x:Name="label31" Content="Planos :" HorizontalAlignment="Left" Margin="570,576,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_ver_plano" Content="" HorizontalAlignment="Left" Margin="680,581,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
-        <TextBox x:Name="txt_ruta_plano" HorizontalAlignment="Left" Height="27" Margin="570,600,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="144"/>
-        <Button x:Name="btn_ruta_plano" Content="..." HorizontalAlignment="Left" Margin="719,600,0,0" VerticalAlignment="Top" Width="26" Height="27" Click="btn_ruta_plano_Click"/>
-        <Label x:Name="label32" Content="Contrato :" HorizontalAlignment="Left" Margin="570,628,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_ver_cont" Content="" HorizontalAlignment="Left" Margin="680,634,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
-        <TextBox x:Name="txt_ruta_cont" HorizontalAlignment="Left" Height="27" Margin="570,653,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="144"/>
-        <Button x:Name="btn_ruta_cont" Content="..." HorizontalAlignment="Left" Margin="719,653,0,0" VerticalAlignment="Top" Width="26" Height="27" Click="btn_ruta_cont_Click"/>
+        <Label x:Name="label31" Content="Planos :" HorizontalAlignment="Left" Margin="534,549,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_ver_plano" Content="" HorizontalAlignment="Left" Margin="720,552,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
+        <TextBox x:Name="txt_ruta_plano" HorizontalAlignment="Left" Height="20" Margin="534,573,0,0" Text="TextBox" VerticalAlignment="Top" Width="175" IsReadOnly="True"/>
+        <Button x:Name="btn_ruta_plano" Content="..." HorizontalAlignment="Left" Margin="714,573,0,0" VerticalAlignment="Top" Width="26" Height="20" Click="btn_ruta_plano_Click"/>
+        <Label x:Name="label32" Content="Contrato :" HorizontalAlignment="Left" Margin="534,600,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_ver_cont" Content="" HorizontalAlignment="Left" Margin="720,605,0,0" VerticalAlignment="Top" Height="21" IsEnabled="False"/>
+        <TextBox x:Name="txt_ruta_cont" HorizontalAlignment="Left" Height="20" Margin="534,626,0,0" Text="TextBox" VerticalAlignment="Top" Width="175" IsReadOnly="True"/>
+        <Button x:Name="btn_ruta_cont" Content="..." HorizontalAlignment="Left" Margin="714,626,0,0" VerticalAlignment="Top" Width="26" Height="20" Click="btn_ruta_cont_Click"/>
 
         <Button x:Name="btn_programa"  Margin="30,662,0,0" Cursor="Hand" Height="38" Width="235" HorizontalAlignment="Left" Click="btn_programa_Click" VerticalAlignment="Top">
             <Button.ToolTip>
@@ -297,13 +300,13 @@
             </Grid>
         </Button>
         <!--Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="51" Margin="351,333,0,0" Stroke="Black" VerticalAlignment="Top" Width="158"/-->
-        <Label x:Name="label33" Content="Moneda :" HorizontalAlignment="Left" Margin="341,349,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <ComboBox x:Name="cbx_moneda" HorizontalAlignment="Left" Margin="434,351,0,0" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.387,0.545">
+        <Label x:Name="label33" Content="Moneda :" HorizontalAlignment="Left" Margin="336,362,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <ComboBox x:Name="cbx_moneda" HorizontalAlignment="Left" Margin="428,365,0,0" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.387,0.545">
             <ComboBoxItem Content="PEN" Uid="PEN" IsSelected="True"/>
             <ComboBoxItem Content="USD" Uid="USD"/>
         </ComboBox>
-        <Label x:Name="label34" Content="Retención Renta :" HorizontalAlignment="Left" Margin="341,373,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
-        <CheckBox x:Name="chk_reten" Content="" HorizontalAlignment="Left" Margin="456,378,0,0" VerticalAlignment="Top" Height="21"/>
+        <Label x:Name="label34" Content="Retención Renta :" HorizontalAlignment="Left" Margin="336,406,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <CheckBox x:Name="chk_reten" Content="" HorizontalAlignment="Left" Margin="451,411,0,0" VerticalAlignment="Top" Height="21"/>
 
     </Grid>
 </Window>

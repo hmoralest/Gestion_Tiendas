@@ -1,4 +1,4 @@
-If Exists(Select * from sysobjects Where name = 'TRINS_GTDA_Contratos' And type = 'TR')
+  If Exists(Select * from sysobjects Where name = 'TRINS_GTDA_Contratos' And type = 'TR')
 	Drop TRIGGER TRINS_GTDA_Contratos
 GO
 
@@ -32,13 +32,15 @@ BEGIN
 			@Contr_ID			Varchar(10),
 			@Contr_Tipo			Varchar(1),
 
+			@Cod_Int			Varchar(max),
+
 			@dias_vigencia		SmallInt
 
 	Select @Fecha_Ini_new = Cont_FecIni, @Fecha_Fin_new = Cont_FecFin From inserted
 	Select @Fecha_actual  = GETDATE()
 	
 	Select	@Local_ID = Cont_EntidId,	@Local_Tipo = Cont_TipEnt,
-			@Contr_ID = Cont_Id,		@Contr_Tipo = Cont_TipoCont	From inserted
+			@Contr_ID = Cont_Id,		@Contr_Tipo = Cont_TipoCont, 	@Cod_Int = Cont_CodInt From inserted
 
 	Select @dias_vigencia = Cast(Par_valor AS smallint) From GTDA_Parametros Where Par_codigo = 'dias_vigen'
 	
@@ -50,27 +52,30 @@ BEGIN
 
 	End
 	
+		--// aun vigente (sin alerta)
 		IF (DATEDIFF(day, GETDATE(), @Fecha_Fin_new) > @dias_vigencia)
-			--// aun vigente (sin alerta)
 			Update GTDA_Estado_Locales 
 				Set Est_FechaVig = @Fecha_Fin_new, Est_Estado = 'Contrato Vigente',
-					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo
+					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo,
+					Est_CodInt = @Cod_Int
 			Where Est_LocId = @Local_ID
 			  And Est_LocTipo = @Local_Tipo
 			
+		--// aun vigente (con alerta)
 		IF (DATEDIFF(day, GETDATE(), @Fecha_Fin_new) BETWEEN 0 AND @dias_vigencia)
-			--// aun vigente (con alerta)
 			Update GTDA_Estado_Locales 
 				Set Est_FechaVig = @Fecha_Fin_new, Est_Estado = 'Contrato por Vencer',
-					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo
+					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo,
+					Est_CodInt = @Cod_Int
 			Where Est_LocId = @Local_ID
 			  And Est_LocTipo = @Local_Tipo
 
+		--// Vencido
 		IF (@Fecha_Fin_new < GETDATE())
-			--// Vencido
 			Update GTDA_Estado_Locales 
 				Set Est_FechaVig = @Fecha_Fin_new, Est_Estado = 'Contrato Vencido',
-					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo
+					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo,
+					Est_CodInt = @Cod_Int
 			Where Est_LocId = @Local_ID
 			  And Est_LocTipo = @Local_Tipo
 

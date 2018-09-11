@@ -28,6 +28,7 @@ CREATE TABLE [dbo].[GTDA_Estado_Locales](
 	[Est_LocTipo] [varchar](3) NOT NULL,
 	[Est_ContId] [varchar](10) NULL,
 	[Est_ContTipo] [varchar](1) NULL,
+	[Est_CodInt] [varchar](max) NULL,
 	[Est_FechaVig] [smalldatetime] NULL,
 	[Est_Estado] [varchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]

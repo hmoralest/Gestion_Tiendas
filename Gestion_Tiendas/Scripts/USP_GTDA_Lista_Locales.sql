@@ -12,10 +12,11 @@ GO
 -- Asunto			: Se agregó tabla de estados
 -- =====================================================================
 /*
-	Exec USP_GTDA_Lista_Locales '','','','','','','',''
+	Exec USP_GTDA_Lista_Locales '','','','','','','','',''
 */
 CREATE Procedure USP_GTDA_Lista_Locales (
 	@id			Varchar(5),
+	@cod_int	Varchar(max),
 	@des		Varchar(max),
 	@tipo		Varchar(3),
 	@super		Varchar(max),
@@ -31,6 +32,7 @@ BEGIN
 	--// Asunto			: Se agregó tabla de Estados
 	Select
 		locales.id			As id,
+		est.Est_CodInt		As cod_int,
 		locales.des			As des,
 		locales.tipo		As tipo,
 		locales.super		As super,
@@ -111,6 +113,7 @@ BEGIN
 	--// Se agrega Filtros
 	Where 
 			(locales.id								like '%' + @id + '%'		Or ltrim(rtrim(@id)) = '')
+	  And	(IsNull(est.Est_CodInt,'')				like '%' + @cod_int + '%'	Or ltrim(rtrim(@cod_int)) = '')
 	  And	(locales.des							like '%' + @des + '%'		Or ltrim(rtrim(@des)) = '')
 	  And	(locales.tipo							like '%' + @tipo + '%'		Or ltrim(rtrim(@tipo)) = '')
 	  And	(locales.super							like '%' + @super + '%'		Or ltrim(rtrim(@super)) = '')

@@ -12,7 +12,7 @@ GO
 -- Asunto			: Se agregó campo Retencion de 1ra Categ
 -- ====================================================================================================
 /*
-	Exec USP_GTDA_Ver_Contrato_Actual '','50102', 'TDA'
+	Exec USP_GTDA_Ver_Contrato_Actual '','09993','ALM'
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Ver_Contrato_Actual](
@@ -58,15 +58,16 @@ BEGIN
 			@IPC_GComun		Bit,
 			@IPC_Frecue		Smallint,
 			@IPC_Fec		Smalldatetime,
-			@PagoTercer		Bit,
-			@CartFianza		Bit,
-			@OblSegur		Bit,
+		--	@PagoTercer		Bit,
+		--	@CartFianza		Bit,
+		--	@OblSegur		Bit,
 			@RutaPlano		Varchar(max),
 			@RutaCont		Varchar(max);
 
 	--// Obtenemos codigo 
 	If(ltrim(rtrim(isnull(@codigo,''))) = '')
 		Select @codigo= dbo.USP_GTDA_Obten_Contrato(@cod_tda, @tipo, GETDATE())
+		-- Select dbo.USP_GTDA_Obten_Contrato('09993','ALM', GETDATE())
 
 	--// Obtenemos los datos del contrato con mayor vigencia
 	Select *
@@ -96,7 +97,7 @@ BEGIN
 			@RentFija, @RentVar, @Adela, @Garantia, @Ingreso, @RevProy, @FondProm, @FondPromVar, @GComunFijo, @GComunFijo_P, @GComunVar,
 			@Reten, @DbJul, @DbDic, @ServPub, @ArbMunic, 
 			@IPC_RentFija, @IPC_FondProm, @IPC_GComun, @IPC_Frecue, @IPC_Fec, 
-			@PagoTercer, @CartFianza, @OblSegur, 
+	--		@PagoTercer, @CartFianza, @OblSegur, 
 			@RutaPlano, @RutaCont
 
 
@@ -134,9 +135,9 @@ BEGIN
 			Cont_IPC_GComun		= IsNull(@IPC_GComun,	Cont_IPC_GComun),
 			Cont_IPC_Frecue		= IsNull(@IPC_Frecue,	Cont_IPC_Frecue),
 			Cont_IPC_Fec		= CASE WHEN (@IPC_RentFija = 0 And @IPC_FondProm = 0 And @IPC_GComun = 0) THEN null ELSE IsNull(@IPC_Fec, Cont_IPC_Fec) END,
-			Cont_PagoTercer		= IsNull(@PagoTercer,	Cont_PagoTercer),
-			Cont_CartFianza		= IsNull(@CartFianza,	Cont_CartFianza),
-			Cont_OblSegur		= IsNull(@OblSegur,		Cont_OblSegur),
+		--	Cont_PagoTercer		= IsNull(@PagoTercer,	Cont_PagoTercer),
+		--	Cont_CartFianza		= IsNull(@CartFianza,	Cont_CartFianza),
+		--	Cont_OblSegur		= IsNull(@OblSegur,		Cont_OblSegur),
 			Cont_RutaPlano		= IsNull(@RutaPlano,	Cont_RutaPlano),
 			Cont_RutaCont		= IsNull(@RutaCont,		Cont_RutaCont)
 		Where Cont_EntidId = @cod_tda
@@ -150,7 +151,7 @@ BEGIN
 				@RentFija, @RentVar, @Adela, @Garantia, @Ingreso, @RevProy, @FondProm, @FondPromVar, @GComunFijo, @GComunFijo_P, @GComunVar,
 				@Reten, @DbJul, @DbDic, @ServPub, @ArbMunic, 
 				@IPC_RentFija, @IPC_FondProm, @IPC_GComun, @IPC_Frecue, @IPC_Fec, 
-				@PagoTercer, @CartFianza, @OblSegur, 
+			--	@PagoTercer, @CartFianza, @OblSegur, 
 				@RutaPlano, @RutaCont
 	END
 

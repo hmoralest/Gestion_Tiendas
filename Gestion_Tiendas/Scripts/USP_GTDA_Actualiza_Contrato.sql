@@ -52,9 +52,9 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Actualiza_Contrato](
 	@fecha_IPCa		Varchar(10),
 	--@fecha_IPC		SmallDatetime,
 
-	@pag_terce		Bit,
-	@obl_segur		Bit,
-	@obl_carta		Bit,
+	--@pag_terce		Bit,
+	--@obl_segur		Bit,
+	--@obl_carta		Bit,
 
 	@ruta_plano		Varchar(max),
 	@ruta_contr		Varchar(max)
@@ -102,9 +102,9 @@ BEGIN
 				Cont_IPC_GComun	=  @IPC_comun,
 				Cont_IPC_Frecue	=  @IPC_frecu,
 				Cont_IPC_Fec	=  @fecha_IPC,
-				Cont_PagoTercer	=  @pag_terce,
-				Cont_CartFianza	=  @obl_carta,
-				Cont_OblSegur	=  @obl_segur,
+				--Cont_PagoTercer	=  @pag_terce,
+				--Cont_CartFianza	=  @obl_carta,
+				--Cont_OblSegur	=  @obl_segur,
 				Cont_RutaPlano	=  @ruta_plano,
 				Cont_RutaCont	=  @ruta_contr
 			Where 

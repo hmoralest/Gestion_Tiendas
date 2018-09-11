@@ -33,6 +33,8 @@ BEGIN
 			@Contr_ID			Varchar(10),
 			@Contr_Tipo			Varchar(1),
 
+			@Cod_Int			Varchar(max),
+
 			@dias_vigencia		SmallInt
 
 	Select @Fecha_Ini_ant = Cont_FecIni, @Fecha_Fin_ant = Cont_FecFin From deleted
@@ -40,7 +42,7 @@ BEGIN
 	Select @Fecha_actual  = GETDATE()
 	
 	Select	@Local_ID = Cont_EntidId,	@Local_Tipo = Cont_TipEnt,
-			@Contr_ID = Cont_Id,		@Contr_Tipo = Cont_TipoCont	From inserted
+			@Contr_ID = Cont_Id,		@Contr_Tipo = Cont_TipoCont, 	@Cod_Int = Cont_CodInt	From inserted
 
 	Select @dias_vigencia = Cast(Par_valor AS smallint) From GTDA_Parametros Where Par_codigo = 'dias_vigen'
 
@@ -51,7 +53,8 @@ BEGIN
 			--// aun vigente (sin alerta)
 			Update GTDA_Estado_Locales 
 				Set Est_FechaVig = @Fecha_Fin_new, Est_Estado = 'Contrato Vigente',
-					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo
+					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo,
+					Est_CodInt = @Cod_Int
 			Where Est_LocId = @Local_ID
 			  And Est_LocTipo =@Local_Tipo
 			
@@ -59,7 +62,8 @@ BEGIN
 			--// aun vigente (con alerta)
 			Update GTDA_Estado_Locales 
 				Set Est_FechaVig = @Fecha_Fin_new, Est_Estado = 'Contrato por Vencer',
-					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo
+					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo,
+					Est_CodInt = @Cod_Int
 			Where Est_LocId = @Local_ID
 			  And Est_LocTipo =@Local_Tipo
 
@@ -67,7 +71,8 @@ BEGIN
 			--// Vencido
 			Update GTDA_Estado_Locales 
 				Set Est_FechaVig = @Fecha_Fin_new, Est_Estado = 'Contrato Vencido',
-					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo
+					Est_ContId = @Contr_ID, Est_ContTipo = @Contr_Tipo,
+					Est_CodInt = @Cod_Int
 			Where Est_LocId = @Local_ID
 			  And Est_LocTipo =@Local_Tipo
 

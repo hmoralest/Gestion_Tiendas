@@ -201,12 +201,12 @@ namespace Gestion_Tiendas.Funciones
             return result;
         }
 
-        public static string Ingresa_Contrato(string _codigo, string _tipo, string _tipo_doc, string _cont_pad, DateTime _fechaini, DateTime _fechafin, decimal _area, string _moneda,
+        public static string Ingresa_Contrato(string _codigo, string _tipo, string cod_int, string _tipo_doc, string _cont_pad, DateTime _fechaini, DateTime _fechafin, decimal _area, string _moneda,
                                             string _arrenda, string _adminis,
                                             decimal _rent_fij, decimal _rent_var, decimal _adelanto, decimal _garantia, decimal _der_ingr, decimal _rev_proy, decimal _promocio, decimal _promoc_v, decimal _gast_com, decimal _gs_com_p, decimal _gs_com_v,
                                             int _Reten, int _dbJulio, int _dbDiciembre, int _serv_public, int _arbitrios,
                                             int _IPC_renta, int _IPC_promo, int _IPC_comun, int _IPC_frecu, DateTime _fecha_IPC,
-                                            int _pag_terce, int _obl_segur, int _obl_carta,
+                                            /*int _pag_terce, int _obl_segur, int _obl_carta,*/
                                             string _ruta_plano, string _ruta_contr)
         {
             DataTable result = new DataTable();
@@ -223,6 +223,7 @@ namespace Gestion_Tiendas.Funciones
 
                     cmd.Parameters.Add("@codigo", SqlDbType.VarChar).Value = _codigo;
                     cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = _tipo;
+                    cmd.Parameters.Add("@cod_int", SqlDbType.VarChar).Value = cod_int;
                     cmd.Parameters.Add("@tipo_doc", SqlDbType.VarChar).Value = _tipo_doc;
                     cmd.Parameters.Add("@cont_pad", SqlDbType.VarChar).Value = _cont_pad;
                     cmd.Parameters.Add("@fechaini", SqlDbType.VarChar).Value = _fechaini.ToShortDateString();
@@ -257,9 +258,9 @@ namespace Gestion_Tiendas.Funciones
                     cmd.Parameters.Add("@IPC_frecu", SqlDbType.VarChar).Value = _IPC_frecu;
                     cmd.Parameters.Add("@fecha_IPCa", SqlDbType.VarChar).Value = _fecha_IPC.ToShortDateString();
 
-                    cmd.Parameters.Add("@pag_terce", SqlDbType.VarChar).Value = _pag_terce;
+                    /*cmd.Parameters.Add("@pag_terce", SqlDbType.VarChar).Value = _pag_terce;
                     cmd.Parameters.Add("@obl_segur", SqlDbType.VarChar).Value = _obl_segur;
-                    cmd.Parameters.Add("@obl_carta", SqlDbType.VarChar).Value = _obl_carta;
+                    cmd.Parameters.Add("@obl_carta", SqlDbType.VarChar).Value = _obl_carta;*/
 
                     cmd.Parameters.Add("@ruta_plano", SqlDbType.VarChar).Value = _ruta_plano;
                     cmd.Parameters.Add("@ruta_contr", SqlDbType.VarChar).Value = _ruta_contr;
@@ -279,12 +280,12 @@ namespace Gestion_Tiendas.Funciones
             return result.Rows[0]["codigo"].ToString();
         }
 
-        public static void Actualiza_Contrato(  string _codigo, string _tipo, string cod_contrato, DateTime _fechaini, DateTime _fechafin, decimal _area, string _moneda,
+        public static void Actualiza_Contrato(  string _codigo, string _tipo, string cod_contrato, string cod_int, DateTime _fechaini, DateTime _fechafin, decimal _area, string _moneda,
                                                 string _arrenda, string _adminis,
                                                 decimal _rent_fij, decimal _rent_var, decimal _adelanto, decimal _garantia, decimal _der_ingr, decimal _rev_proy, decimal _promocio, decimal _promoc_v, decimal _gast_com, int _gs_com_p, decimal _gs_com_v,
                                                 int _Reten, int _dbJulio, int _dbDiciembre, int _serv_public, int _arbitrios,
                                                 int _IPC_renta, int _IPC_promo, int _IPC_comun, int _IPC_frecu, DateTime _fecha_IPC,
-                                                int _pag_terce, int _obl_segur, int _obl_carta,
+                                                /*int _pag_terce, int _obl_segur, int _obl_carta,*/
                                                 string _ruta_plano, string _ruta_contr)
         {
 
@@ -302,6 +303,7 @@ namespace Gestion_Tiendas.Funciones
                     cmd.Parameters.Add("@codigo", SqlDbType.VarChar).Value = _codigo;
                     cmd.Parameters.Add("@tipo", SqlDbType.VarChar).Value = _tipo;
                     cmd.Parameters.Add("@Id", SqlDbType.VarChar).Value = cod_contrato;
+                    cmd.Parameters.Add("@cod_int", SqlDbType.VarChar).Value = cod_int;
                     cmd.Parameters.Add("@fechaini", SqlDbType.VarChar).Value = _fechaini.ToShortDateString();
                     cmd.Parameters.Add("@fechafin", SqlDbType.VarChar).Value = _fechafin.ToShortDateString();
                     cmd.Parameters.Add("@area", SqlDbType.VarChar).Value = _area;
@@ -334,9 +336,9 @@ namespace Gestion_Tiendas.Funciones
                     cmd.Parameters.Add("@IPC_frecu", SqlDbType.VarChar).Value = _IPC_frecu;
                     cmd.Parameters.Add("@fecha_IPCa", SqlDbType.VarChar).Value = _fecha_IPC.ToShortDateString();
 
-                    cmd.Parameters.Add("@pag_terce", SqlDbType.Bit).Value = _pag_terce;
+                    /*cmd.Parameters.Add("@pag_terce", SqlDbType.Bit).Value = _pag_terce;
                     cmd.Parameters.Add("@obl_segur", SqlDbType.Bit).Value = _obl_segur;
-                    cmd.Parameters.Add("@obl_carta", SqlDbType.Bit).Value = _obl_carta;
+                    cmd.Parameters.Add("@obl_carta", SqlDbType.Bit).Value = _obl_carta;*/
 
                     cmd.Parameters.Add("@ruta_plano", SqlDbType.VarChar).Value = _ruta_plano;
                     cmd.Parameters.Add("@ruta_contr", SqlDbType.VarChar).Value = _ruta_contr;
@@ -594,7 +596,69 @@ namespace Gestion_Tiendas.Funciones
 
         }
 
-        public static DataTable Lista_PagoTerceros(string cod_cont, string tip_cont, string cod_ent, string tip_ent)
+        public static void Actualiza_RutaPlano(string cod_doc, string tip_doc, string new_ruta)
+        {
+            using (SqlConnection con = Conexion.getConexionSQL())
+            {
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand();
+
+                    cmd.CommandText = "USP_GTDA_Actualiza_RUTA_Archivos";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = con;
+
+                    cmd.Parameters.Add("@cod_doc", SqlDbType.VarChar).Value = cod_doc;
+                    cmd.Parameters.Add("@tip_doc", SqlDbType.VarChar).Value = tip_doc;
+
+                    cmd.Parameters.Add("@tip_ruta", SqlDbType.VarChar).Value = "PLAN";
+                    cmd.Parameters.Add("@new_ruta", SqlDbType.VarChar).Value = new_ruta;
+
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+                }
+                catch (Exception Ex)
+                {
+                    throw Ex;
+                }
+            }
+
+        }
+
+        public static void Actualiza_RutaContrato(string cod_doc, string tip_doc, string new_ruta)
+        {
+            using (SqlConnection con = Conexion.getConexionSQL())
+            {
+                try
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand();
+
+                    cmd.CommandText = "USP_GTDA_Actualiza_RUTA_Archivos";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = con;
+
+                    cmd.Parameters.Add("@cod_doc", SqlDbType.VarChar).Value = cod_doc;
+                    cmd.Parameters.Add("@tip_doc", SqlDbType.VarChar).Value = tip_doc;
+
+                    cmd.Parameters.Add("@tip_ruta", SqlDbType.VarChar).Value = "CONT";
+                    cmd.Parameters.Add("@new_ruta", SqlDbType.VarChar).Value = new_ruta;
+
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+                }
+                catch (Exception Ex)
+                {
+                    throw Ex;
+                }
+            }
+
+        }
+
+        /*public static DataTable Lista_PagoTerceros(string cod_cont, string tip_cont, string cod_ent, string tip_ent)
         {
             DataTable lista = new DataTable();
 
@@ -694,9 +758,9 @@ namespace Gestion_Tiendas.Funciones
                 }
             }
 
-        }
-        
-        public static DataTable Lista_CartaFianza(string cod_cont, string tip_cont)
+        }*/
+
+        /*public static DataTable Lista_CartaFianza(string cod_cont, string tip_cont)
         {
             DataTable lista = new DataTable();
 
@@ -796,7 +860,7 @@ namespace Gestion_Tiendas.Funciones
                 }
             }
 
-        }
+        }*/
         #endregion
 
     }

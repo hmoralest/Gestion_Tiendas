@@ -20,11 +20,12 @@ AS
 BEGIN 
 
 	Select
-		ent.cod_entid			As Id,
-		ent.des_entid			As nombre,
-		ubigeo.descripcion		As dist,
-		ent.des_direc1			As direc,
-		@tipo					As tipo
+		ent.cod_entid					As Id,
+		ent.des_entid					As nombre,
+		ubigeo.descripcion				As dist,
+		ent.des_direc1					As direc,
+		@tipo							As tipo,
+		isnull(est.Est_CodInt,'')		As cod_int
 	From [POSTGRES].[scomercial].[public].[tentidad] ent
 		Left Join 
 		(
@@ -38,6 +39,8 @@ BEGIN
 					On u1.cod_dpto = u3.cod_dpto And u3.cod_prov = '00' And u3.cod_dist='00'
 			Where u1.cod_prov <> '00' And u1.cod_dist <> '00'									)	ubigeo
 			On ent.cod_ubige1 = ubigeo.codigo
+		Left Join GTDA_Estado_Locales est
+			On ent.cod_entid = est.Est_LocId And est.Est_LocTipo = @tipo
 	Where ent.cod_entid = @cod_ent
 
 

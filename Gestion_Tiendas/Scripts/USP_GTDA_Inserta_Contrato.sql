@@ -18,6 +18,7 @@ GO
 CREATE PROCEDURE [dbo].[USP_GTDA_Inserta_Contrato](
 	@codigo			Varchar(5),		-- Cod. Entidad
 	@tipo			Varchar(3),		-- Tipo Entidad (ALM, TDA)
+	@cod_int		Varchar(max),
 	@tipo_doc		Varchar(1),		-- Documento (C: Contrato; A: Adenda)
 	@cont_pad		Varchar(10),	-- Documento padre
 	@fechaini		SmallDatetime,	-- Contrato
@@ -53,9 +54,9 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Inserta_Contrato](
 	@fecha_IPCa		Varchar(10),
 	--@fecha_IPC		SmallDatetime,
 
-	@pag_terce		Bit,
-	@obl_segur		Bit,
-	@obl_carta		Bit,
+	--@pag_terce		Bit,
+	--@obl_segur		Bit,
+	--@obl_carta		Bit,
 
 	@ruta_plano		Varchar(max),
 	@ruta_contr		Varchar(max)
@@ -92,6 +93,7 @@ BEGIN
 			Cont_PadreID		Varchar(10),
 			Cont_EntidId		Varchar(5),
 			Cont_TipEnt			Varchar(3),
+			Cont_CodInt			Varchar(max),
 			Cont_Area			Decimal(18, 2),
 			Cont_FecIni			Smalldatetime,
 			Cont_FecFin			Smalldatetime,
@@ -119,16 +121,18 @@ BEGIN
 			Cont_IPC_GComun		Bit,
 			Cont_IPC_Frecue		Smallint,
 			Cont_IPC_Fec		Smalldatetime,
-			Cont_PagoTercer		Bit,
-			Cont_CartFianza		Bit,
-			Cont_OblSegur		Bit,
+		--	Cont_PagoTercer		Bit,
+		--	Cont_CartFianza		Bit,
+		--	Cont_OblSegur		Bit,
 			Cont_RutaPlano		Varchar(max),
 			Cont_RutaCont		Varchar(max)
 		)
 
 		Insert Into #Contratos
 		Exec USP_GTDA_Ver_Contrato_Actual @cont_pad,@codigo, @tipo
-
+		
+		if(@cod_int = (Select Cont_CodInt From #Contratos))
+			Set @cod_int = null;
 		if(@area = (Select Cont_Area From #Contratos))
 			Set @area = null;
 		if(@moneda = (Select Cont_Moneda From #Contratos))
@@ -184,12 +188,12 @@ BEGIN
 		if(@fecha_IPC = (Select Cont_IPC_Fec From #Contratos) Or (@IPC_renta = 0 And @IPC_promo = 0 And @IPC_comun = 0))
 			Set @fecha_IPC = null;
 
-		if(@pag_terce = (Select Cont_PagoTercer From #Contratos))
+		/*if(@pag_terce = (Select Cont_PagoTercer From #Contratos))
 			Set @pag_terce = null;
 		if(@obl_segur = (Select Cont_OblSegur From #Contratos))
 			Set @obl_segur = null;
 		if(@obl_carta = (Select Cont_CartFianza From #Contratos))
-			Set @obl_carta = null;
+			Set @obl_carta = null;*/
 			
 		if(@ruta_plano = (Select Cont_RutaPlano From #Contratos))
 			Set @ruta_plano = null;
@@ -200,13 +204,13 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRAN Grabar_Contratos
 	
-			Insert into GTDA_Contratos
-			values (@codigo_cont, @tipo_doc, @cont_pad, @codigo, @tipo, @area, @fechaini, @fechafin, @moneda,	--// Valores grales de contrato
+			Insert into GTDA_Contratos (Cont_Id, Cont_TipoCont, Cont_PadreID, Cont_EntidId, Cont_TipEnt, Cont_CodInt, Cont_Area ,Cont_FecIni ,Cont_FecFin ,Cont_Moneda ,Cont_Arrenda ,Cont_Adminis ,Cont_RentFija ,Cont_RentVar ,Cont_Adela ,Cont_Garantia ,Cont_Ingreso ,Cont_RevProy ,Cont_FondProm ,Cont_FondPromVar ,Cont_GComunFijo, Cont_GComunFijo_P, Cont_GComunVar, Cont_Reten, Cont_DbJul, Cont_DbDic, Cont_ServPub, Cont_ArbMunic ,Cont_IPC_RentFija, Cont_IPC_FondProm, Cont_IPC_GComun, Cont_IPC_Frecue, Cont_IPC_Fec, /*Cont_PagoTercer, Cont_CartFianza, Cont_OblSegur,*/ Cont_RutaPlano, Cont_RutaCont)
+			values (@codigo_cont, @tipo_doc, @cont_pad, @codigo, @tipo, @cod_int, @area, @fechaini, @fechafin, @moneda,	--// Valores grales de contrato
 					@arrendador, @administra,		--// relacion
 					@rent_fij, @rent_var, @adelanto, @garantia, @der_ingr, @rev_proy, @promocio, @promoc_v,  @gast_com, @gs_com_p, @gs_com_v,	--// Valores monetarios y porcentajes
 					@Reten, @dbJulio, @dbDiciembre, @serv_public, @arbitrios,	--// Flags de comportamiento
 					@IPC_renta, @IPC_promo,  @IPC_comun, @IPC_frecu, @fecha_IPC,	--// Comportamiento IPC
-					@pag_terce, @obl_segur, @obl_carta,		--// Flags de Documentos Adicionales
+					/*@pag_terce, @obl_segur, @obl_carta,*/		--// Flags de Documentos Adicionales
 					@ruta_plano,  @ruta_contr)			--// Rutas de documentos
 
 			Select @codigo_cont As codigo

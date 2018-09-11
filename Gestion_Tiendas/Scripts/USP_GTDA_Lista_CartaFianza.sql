@@ -7,13 +7,17 @@ GO
 -- Fch. Modifica	: 28/08/2018
 -- Asunto			: Lista Cronograma de Pagos Registrado (Por Documento)
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 06/09/2018
+-- Asunto			: Se modificó para que dependan unicamente de los locales
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Lista_CartaFianza '',''
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Lista_CartaFianza](
-	@cod_cont			Varchar(10),	-- Cod. Contrato
-	@tip_cont			Varchar(1)
+	@cod_ent			Varchar(5),
+	@tip_ent			Varchar(3)
 )
    
 AS    
@@ -28,9 +32,12 @@ BEGIN
 		CarF_NroDoc							As Nro_Doc,
 		CarF_BenefRUC						As Benef_RUC,
 		CarF_BenefDesc						As Benef_desc,
-		CarF_Monto							As Monto
+		CarF_Monto							As Monto,
+		CarF_RutaDoc						As Ruta
 	From GTDA_Carta_Fianza
-	Where CarF_ContId = @cod_cont
-	  And CarF_ContTipo = @tip_cont
+	Where CarF_EntCod = @cod_ent
+	  And CarF_EntTip = @tip_ent
+	--Where CarF_ContId = @cod_cont
+	--  And CarF_ContTipo = @tip_cont
 
 END

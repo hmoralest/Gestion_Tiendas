@@ -7,24 +7,24 @@
         mc:Ignorable="d"
         Title="Pago a Terceros" Height="430" Width="630" Loaded="Window_Loaded" Unloaded="Window_Unloaded" ResizeMode="NoResize">
     <Grid>
-        <Rectangle HorizontalAlignment="Left" Height="379" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="602">
+        <Rectangle HorizontalAlignment="Left" Height="379" Margin="10,10,0,0" VerticalAlignment="Top" Width="602" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="label_01" Content="RUC :" HorizontalAlignment="Left" Margin="25,22,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_RUC" HorizontalAlignment="Left" Height="23" Margin="78,26,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="152"/>
+        <TextBox x:Name="txt_RUC" HorizontalAlignment="Left" Height="23" Margin="78,26,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="152" PreviewTextInput="txt_RUC_PreviewTextInput"/>
         <Label x:Name="label_02" Content="Razon Social :" HorizontalAlignment="Left" Margin="264,22,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_razsoc" HorizontalAlignment="Left" Height="23" Margin="352,26,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="245"/>
+        <TextBox x:Name="txt_razsoc" HorizontalAlignment="Left" Height="23" Margin="352,26,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="245" PreviewTextInput="txt_razsoc_PreviewTextInput"/>
         <Label x:Name="label_03" Content="Banco :" HorizontalAlignment="Left" Margin="25,53,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbx_banco" HorizontalAlignment="Left" Margin="78,61,0,0" VerticalAlignment="Top" Width="152"/>
         <Label x:Name="label_04" Content="Cuenta :" HorizontalAlignment="Left" Margin="264,53,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_ctabco" HorizontalAlignment="Left" Height="23" Margin="352,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="245"/>
+        <TextBox x:Name="txt_ctabco" HorizontalAlignment="Left" Height="23" Margin="352,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="245" PreviewTextInput="txt_ctabco_PreviewTextInput"/>
         <Label x:Name="label_05" Content="Porcentaje :" HorizontalAlignment="Left" Margin="25,84,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txt_porc" HorizontalAlignment="Left" Height="23" Margin="101,88,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80"/>
+        <TextBox x:Name="txt_porc" HorizontalAlignment="Left" Height="23" Margin="101,88,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="80" PreviewTextInput="txt_porc_PreviewTextInput"/>
         <Button x:Name="btn_agregar"  Margin="497,85,0,0" Cursor="Hand" Height="26" Width="100" HorizontalAlignment="Left" Click="btn_agregar_Click" VerticalAlignment="Top">
             <Button.ToolTip>
                 <ToolTip>

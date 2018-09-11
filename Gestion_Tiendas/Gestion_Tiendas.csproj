@@ -259,9 +259,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Imagenes\seguro.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Imagenes\fianza.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +278,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icono.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\contrato.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\seguro.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\dollar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\bill.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

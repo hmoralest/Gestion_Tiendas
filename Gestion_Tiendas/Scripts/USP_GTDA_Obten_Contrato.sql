@@ -25,7 +25,7 @@ BEGIN
 	--// Obtenemos mayor codigo (correlativo)
 	Select 	@codigo = MAX(Cont_Id)
 	From GTDA_Contratos
-	Where Cont_FecIni <= @Fecha
+	Where Convert(Varchar,Cont_FecIni,103) <= Convert(Varchar,@Fecha,103)
 	  And Cont_EntidId = @cod_tda
 	  And Cont_TipEnt = @tipo
 	  And Cont_TipoCont = 'C'

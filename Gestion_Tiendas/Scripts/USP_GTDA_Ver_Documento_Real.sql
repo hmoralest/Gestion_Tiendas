@@ -8,7 +8,7 @@ GO
 -- Asunto			: Obtiene el Documento Real
 -- ====================================================================================================
 /*
-	Exec USP_GTDA_Ver_Documento_Real '0000000004','ADEN','50102', 'TDA'
+	Exec USP_GTDA_Ver_Documento_Real '0000000006','CONT','09993','ALM'
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Ver_Documento_Real](

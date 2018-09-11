@@ -59,6 +59,12 @@ namespace Gestion_Tiendas.Formularios
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 167, 167));
+            SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 224, 224));
+
+            this.dg_datos.RowBackground = color1;
+            this.dg_datos.AlternatingRowBackground = color2;
+            
             _ok = false;
 
             datos = new DataTable();

@@ -12,8 +12,8 @@ GO
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Inserta_Linea_PagoTerceros](
-	@cod_cont		Varchar(10),	-- Cod. Contrato
-	@tip_cont		Varchar(1),		-- TipoContrato
+	@cod_loc		Varchar(5),		-- Cod. Contrato
+	@tip_loc		Varchar(3),		-- TipoContrato
 
 	@id				Varchar(2),
 	@ruc			Varchar(15),
@@ -32,8 +32,8 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRAN Grabar_PagoTercero
 	
-			Insert Into GTDA_Pago_Terceros (Pag_ContID, Pag_ContTipo, Pag_Id, Pag_RUC, Pag_RazSoc, Pag_Porc, Pag_BanId, Pag_BanDes, Pag_BanCta)
-			Values (@cod_cont, @tip_cont,			--// Identifica Contrato
+			Insert Into GTDA_Pago_Terceros (Pag_CodLoc, Pag_TipLoc, Pag_Id, Pag_RUC, Pag_RazSoc, Pag_Porc, Pag_BanId, Pag_BanDes, Pag_BanCta)
+			Values (@cod_loc, @tip_loc,			--// Identifica Contrato
 					@id, @ruc, @raz_soc,		--// RUC
 					@porc,
 					@ban_id, @ban_des, @ban_cta)		--// Fechas Cronograma

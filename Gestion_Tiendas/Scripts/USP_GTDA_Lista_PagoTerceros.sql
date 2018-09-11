@@ -7,13 +7,17 @@ GO
 -- Fch. Modifica	: 22/08/2018
 -- Asunto			: Lista Pagos a Terceros (Por Documento)
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 05/09/2018
+-- Asunto			: Se modificó para considerar el pago a 3eros directo con la entidad
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Lista_PagoTerceros 
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Lista_PagoTerceros](
-	@cod_cont			Varchar(10),	-- Cod. Contrato
-	@tip_cont			Varchar(1),		-- Contrato
+--	@cod_cont			Varchar(10),	-- Cod. Contrato
+--	@tip_cont			Varchar(1),		-- Contrato
 	@cod_ent			Varchar(5),
 	@tip_ent			Varchar(3)
 )
@@ -21,7 +25,7 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Lista_PagoTerceros](
 AS    
 BEGIN 
 
-	IF(@cod_cont = '')
+	/*IF(@cod_cont = '')
 	BEGIN
 		--// Obtenemos codigo 
 		If(ltrim(rtrim(isnull(@cod_cont,''))) = '')
@@ -30,7 +34,7 @@ BEGIN
 		If Exists (Select 1 From GTDA_Contratos Where Cont_PadreID = @cod_cont)
 			Select @cod_cont = MAX(cont_id), @tip_cont = 'A' From GTDA_Contratos Where Cont_PadreID = @cod_cont And Cont_EntidId = @cod_ent And Cont_TipEnt = @tip_ent
 
-	END
+	END*/
 
 	Select 
 		Pag_Id			As Id,
@@ -41,8 +45,10 @@ BEGIN
 		Pag_BanDes		As banco_desc,
 		Pag_BanCta		As banco_cta
 	From GTDA_Pago_Terceros
-	Where Pag_ContID = @cod_cont
-		And Pag_ContTipo = @tip_cont
+	Where Pag_CodLoc = @cod_ent
+	  And Pag_TipLoc = @tip_ent
+	--Where Pag_ContID = @cod_cont
+	--	And Pag_ContTipo = @tip_cont
 
 
 END

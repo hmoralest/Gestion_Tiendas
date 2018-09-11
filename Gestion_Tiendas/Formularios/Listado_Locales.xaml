@@ -8,18 +8,18 @@
         Title="Gestion Locales" Height="820" Width="1320" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid>
 
-        <Rectangle HorizontalAlignment="Left" Height="769" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="1292">
+        <Rectangle HorizontalAlignment="Left" Height="769" Margin="10,10,0,0" Stroke="Red" VerticalAlignment="Top" Width="1292">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="Label01" Content="Código :" HorizontalAlignment="Left" Margin="20,50,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_codigo" HorizontalAlignment="Left" Height="27" Margin="79,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" KeyDown="txt_codigo_KeyDown"/>
+        <TextBox x:Name="txt_codigo" HorizontalAlignment="Left" Height="27" Margin="79,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" KeyDown="txt_codigo_KeyDown" PreviewTextInput="txt_codigo_PreviewTextInput" MaxLength="5"/>
         <Label x:Name="Label02" Content="Nombre :" HorizontalAlignment="Left" Margin="240,50,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_nombre" HorizontalAlignment="Left" Height="27" Margin="305,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_nombre_KeyDown"/>
+        <TextBox x:Name="txt_nombre" HorizontalAlignment="Left" Height="27" Margin="305,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_nombre_KeyDown" PreviewTextInput="txt_nombre_PreviewTextInput"/>
         <Label x:Name="Label03" Content="Tipo :" HorizontalAlignment="Left" Margin="607,50,0,0" VerticalAlignment="Top" Height="27"/>
         <ComboBox x:Name="cbx_tipo" HorizontalAlignment="Left" Margin="651,50,0,0" VerticalAlignment="Top" Width="150" Height="27">
             <ComboBoxItem Content="ALM" Uid="ALM"/>
@@ -32,22 +32,25 @@
             <ComboBoxItem Content="Contrato por Vencer" Uid="Contrato por Vencer"/>
             <ComboBoxItem Content="Contrato Vencido" Uid="Contrato Vencido"/>
         </ComboBox>
-        <Label x:Name="Label05" Content="Distrito :" HorizontalAlignment="Left" Margin="20,91,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_distrit" HorizontalAlignment="Left" Height="27" Margin="80,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_distrit_KeyDown"/>
+        <Label x:Name="Label01_Copy" Content="C. Alterno :" HorizontalAlignment="Left" Margin="20,91,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_cod_int" HorizontalAlignment="Left" Height="27" Margin="79,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" KeyDown="txt_cod_int_KeyDown" PreviewTextInput="txt_cod_int_PreviewTextInput" MaxLength="5"/>
+        <Label x:Name="Label05" Content="Distrito :" HorizontalAlignment="Left" Margin="245,91,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_distrit" HorizontalAlignment="Left" Height="27" Margin="305,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" KeyDown="txt_distrit_KeyDown" PreviewTextInput="txt_distrit_PreviewTextInput"/>
         <!--Label x:Name="Label06" Content="Supervisor :" HorizontalAlignment="Left" Margin="369,91,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox x:Name="txt_super" HorizontalAlignment="Left" Height="27" Margin="446,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200"/-->
         <Label x:Name="Label07" Content="Arrendatario :" HorizontalAlignment="Left" Margin="607,91,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_arrend" HorizontalAlignment="Left" Height="27" Margin="694,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" KeyDown="txt_arrend_KeyDown"/>
+        <TextBox x:Name="txt_arrend" HorizontalAlignment="Left" Height="27" Margin="694,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="300" KeyDown="txt_arrend_KeyDown" PreviewTextInput="txt_arrend_PreviewTextInput"/>
 
         <DataGrid x:Name="dtg_locales" HorizontalAlignment="Left" Height="610" Margin="20,156,0,0" VerticalAlignment="Top" Width="1272"  IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="Codigo" Width="50"/>
+                <DataGridTextColumn Binding="{Binding cod_int}" ClipboardContentBinding="{x:Null}" Header="Alterno" Width="50"/>
                 <DataGridTextColumn Binding="{Binding des}" ClipboardContentBinding="{x:Null}" Header="Nombre" Width="140"/>
                 <DataGridTextColumn Binding="{Binding tipo}" ClipboardContentBinding="{x:Null}" Header="Tipo" Width="40"/>
                 <!--DataGridTextColumn Binding="{Binding super}" ClipboardContentBinding="{x:Null}" Header="Supervisor" Width="150"/-->
                 <DataGridTextColumn Binding="{Binding arren}" ClipboardContentBinding="{x:Null}" Header="Arrendatario" Width="230"/>
                 <DataGridTextColumn Binding="{Binding ubic}" ClipboardContentBinding="{x:Null}" Header="Distrito" Width="200"/>
-                <DataGridTextColumn Binding="{Binding direc}" ClipboardContentBinding="{x:Null}" Header="Direccion" Width="250"/>
+                <DataGridTextColumn Binding="{Binding direc}" ClipboardContentBinding="{x:Null}" Header="Direccion" Width="200"/>
                 <DataGridTextColumn Binding="{Binding estado}" ClipboardContentBinding="{x:Null}" Header="Estado" Width="90"/>
 
                 <!--DataGridTemplateColumn Header="Planos">
@@ -70,12 +73,12 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </-->
 
-                <DataGridTemplateColumn Header="Detalle Docs">
+                <DataGridTemplateColumn Header="Contratos">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Button Name="btn_detale" Cursor="Hand" Click="btn_detale_Click" >
-                                    <Image Source="..\Imagenes\papiro.png" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    <Image Source="..\Imagenes\contrato.png" Height="16" Width="16" VerticalAlignment="Bottom">
                                     </Image>
                                     <Button.ToolTip>
                                         <ToolTip>
@@ -142,13 +145,76 @@
                                             <StackPanel>
                                                 <TextBlock FontWeight="Bold" TextAlignment="Left" >Editar Local</TextBlock>
                                             </StackPanel>
-                                        </ToolTip>
+                                        </ToolTip>2
                                     </Button.ToolTip>
                                 </Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn-->
+
+                <!--DataGridTextColumn Binding="{Binding est_seg}" ClipboardContentBinding="{x:Null}" Header="Estado Seguro" Width="90"/-->
+                <DataGridTemplateColumn Header="C. Fianza">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_Carta" Cursor="Hand" Click="btn_Carta_Click" >
+                                    <Image Source="..\Imagenes\bill.png" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Gestionar Carta Fianzas</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--DataGridTextColumn Binding="{Binding est_seg}" ClipboardContentBinding="{x:Null}" Header="Estado Seguro" Width="90"/-->
+                <DataGridTemplateColumn Header="Seguros">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_seguros" Cursor="Hand" Click="btn_seguros_Click" >
+                                    <Image Source="..\Imagenes\lock.png" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Gestionar Seguro</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--DataGridTextColumn Binding="{Binding est_pag3}" ClipboardContentBinding="{x:Null}" Header="Estado Pag Terc" Width="90"/-->
+                <DataGridTemplateColumn Header="Pg. Terceros">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Button Name="btn_pag_terc" Cursor="Hand" Click="btn_pag_terc_Click" >
+                                    <Image Source="..\Imagenes\dollar.png" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    </Image>
+                                    <Button.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel>
+                                                <TextBlock FontWeight="Bold" TextAlignment="Left" >Gestionar Pago a Terceros</TextBlock>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </Button.ToolTip>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 

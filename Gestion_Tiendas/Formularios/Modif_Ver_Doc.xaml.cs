@@ -1,7 +1,9 @@
 ﻿using Gestion_Tiendas.Funciones;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +71,18 @@ namespace Gestion_Tiendas.Formularios
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 167, 167));
+            SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 224, 224));
+
+            this.dg_admins.RowBackground = color1;
+            this.dg_admins.AlternatingRowBackground = color2;
+
+            this.dg_arrendatario.RowBackground = color1;
+            this.dg_arrendatario.AlternatingRowBackground = color2;
+
+            this.dg_loc_asoc.RowBackground = color1;
+            this.dg_loc_asoc.AlternatingRowBackground = color2;
+
             DataTable dat_gral = new DataTable();
             DataTable dat_rel = new DataTable();
             //DataTable dat_cont = new DataTable();
@@ -134,8 +148,9 @@ namespace Gestion_Tiendas.Formularios
             txt_dist.Text = dat_gral.Rows[0]["dist"].ToString().Trim();
             txt_direc.Text = dat_gral.Rows[0]["direc"].ToString().Trim();
             txt_tipo.Text = dat_gral.Rows[0]["tipo"].ToString().Trim();
+            txt_cod_int.Text = dat_gral.Rows[0]["cod_int"].ToString().Trim();
 
-            dg_loc_asoc.ItemsSource = dat_rel.DefaultView;
+            dg_loc_asoc.ItemsSource = dat_rel.AsDataView();
 
             txt_area.Focus(); txt_area.SelectAll();
         }
@@ -155,12 +170,26 @@ namespace Gestion_Tiendas.Formularios
 
         private void btn_ruta_cont_Click(object sender, RoutedEventArgs e)
         {
-
+            var dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Seleccione la Ruta del Contrato a Anexar...";
+            if (dialog.ShowDialog(this) == true)
+            {
+                txt_ruta_cont.Text = dialog.FileName;
+                chk_ver_cont.IsChecked = true;
+            }
         }
 
         private void btn_ruta_plano_Click(object sender, RoutedEventArgs e)
         {
-
+            var dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Seleccione la Ruta del Plano a Anexar...";
+            if (dialog.ShowDialog(this) == true)
+            {
+                txt_ruta_plano.Text = dialog.FileName;
+                chk_ver_plano.IsChecked = true;
+            }
         }
 
         private void btn_programa_Click(object sender, RoutedEventArgs e)
@@ -187,7 +216,7 @@ namespace Gestion_Tiendas.Formularios
             }
         }
 
-        private void btn_pago_tercero_Click(object sender, RoutedEventArgs e)
+        /*private void btn_pago_tercero_Click(object sender, RoutedEventArgs e)
         {
             // Se debe capturar el código
             if (!Pago_Tercero._activo_form)
@@ -200,9 +229,9 @@ namespace Gestion_Tiendas.Formularios
                 Pago_Tercero._activo_form = true;
                 frm2.Closed += Pago_tercero_Closed;
             }
-        }
+        }*/
 
-        private void btn_carta_Click(object sender, RoutedEventArgs e)
+        /*private void btn_carta_Click(object sender, RoutedEventArgs e)
         {
             if (date_fin.Text.ToString() != "" && date_ini.Text.ToString() != "")
             {
@@ -231,17 +260,17 @@ namespace Gestion_Tiendas.Formularios
                 MessageBox.Show("Es necesario ingresar Fechas de Contrato para continuar. ",
                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
+        }*/
 
-        private void btn_seguro_Click(object sender, RoutedEventArgs e)
+        /*private void btn_seguro_Click(object sender, RoutedEventArgs e)
         {
 
-        }
+        }*/
 
-        private void btn_resta_alma_Click(object sender, RoutedEventArgs e)
+        /*private void btn_resta_alma_Click(object sender, RoutedEventArgs e)
         {
 
-        }
+        }*/
 
         private void btn_resta_arren_Click(object sender, RoutedEventArgs e)
         {
@@ -250,7 +279,7 @@ namespace Gestion_Tiendas.Formularios
             //string _barra = (String)row["Cod_Barra"].ToString();
 
             dt_arrend.Rows.Remove(row.Row);
-            dg_arrendatario.ItemsSource = dt_arrend.DefaultView;
+            dg_arrendatario.ItemsSource = dt_arrend.AsDataView();
         }
 
         /*private void btn_resta_prop_Click(object sender, RoutedEventArgs e)
@@ -265,7 +294,7 @@ namespace Gestion_Tiendas.Formularios
             //string _barra = (String)row["Cod_Barra"].ToString();
 
             dt_admin.Rows.Remove(row.Row);
-            dg_admins.ItemsSource = dt_admin.DefaultView;
+            dg_admins.ItemsSource = dt_admin.AsDataView();
         }
 
         /*private void btn_suma_alma_Click(object sender, RoutedEventArgs e)
@@ -353,9 +382,75 @@ namespace Gestion_Tiendas.Formularios
             Llena_datos_Documento();*/
         }
 
+        private void txt_cod_int_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumerosLetras(e);
+        }
+
+        private void txt_area_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_rent_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_rent_v_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_adela_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_garan_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_ingreso_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_rev_proy_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_promoc_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_promoc_var_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_comun_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_comun_v_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_cod_int_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) { txt_rent.Focus(); txt_rent.SelectAll(); }
+        }
+
         private void txt_area_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) { date_ini.Focus(); }
+            //if (e.Key == Key.Enter) { date_ini.Focus(); }
+            if (e.Key == Key.Enter) { txt_cod_int.Focus(); txt_cod_int.SelectAll(); }
         }
 
         private void date_ini_KeyDown(object sender, KeyEventArgs e)
@@ -455,7 +550,7 @@ namespace Gestion_Tiendas.Formularios
             }
 
             // (refrescar)
-            dg_arrendatario.ItemsSource = dt_arrend.DefaultView;
+            dg_arrendatario.ItemsSource = dt_arrend.AsDataView();
             //QuitarEfecto(this);
             this.IsEnabled = true;
         }
@@ -488,7 +583,7 @@ namespace Gestion_Tiendas.Formularios
             }
 
             // (refrescar)
-            dg_admins.ItemsSource = dt_admin.DefaultView;
+            dg_admins.ItemsSource = dt_admin.AsDataView();
             //QuitarEfecto(this);
             this.IsEnabled = true;
         }
@@ -510,7 +605,7 @@ namespace Gestion_Tiendas.Formularios
             this.IsEnabled = true;
         }
 
-        private void Pago_tercero_Closed(object sender, EventArgs e)
+        /*private void Pago_tercero_Closed(object sender, EventArgs e)
         {
             Pago_Tercero ventana = sender as Pago_Tercero;
 
@@ -528,9 +623,9 @@ namespace Gestion_Tiendas.Formularios
             // (refrescar)
             //QuitarEfecto(this);
             this.IsEnabled = true;
-        }
+        }*/
 
-        private void Carta_Fianza_Closed(object sender, EventArgs e)
+        /*private void Carta_Fianza_Closed(object sender, EventArgs e)
         {
             Carta_Fianza ventana = sender as Carta_Fianza;
             if (ventana._ok)
@@ -547,7 +642,7 @@ namespace Gestion_Tiendas.Formularios
             // (refrescar)
             //QuitarEfecto(this);
             this.IsEnabled = true;
-        }
+        }*/
 
         private void Llena_datos_Documento()
         {
@@ -564,9 +659,9 @@ namespace Gestion_Tiendas.Formularios
             dt_admin_ini.Columns.Add("raz_soc", typeof(string));
 
             //-- LLena datos de Pagos a Terceros
-            dt_pago_terc = Contratos.Lista_PagoTerceros(_cod_contrato, _tipo_contrato, _cod_tda, _tipo);
+            //dt_pago_terc = Contratos.Lista_PagoTerceros(_cod_contrato, _tipo_contrato, _cod_tda, _tipo);
             //-- LLena datos de Carta Fianza
-            dt_carta_fianza = Contratos.Lista_CartaFianza(_cod_contrato, _tipo_contrato); ;
+            //dt_carta_fianza = Contratos.Lista_CartaFianza(_cod_contrato, _tipo_contrato); ;
 
             try
             {
@@ -684,20 +779,28 @@ namespace Gestion_Tiendas.Formularios
 
                     //Data Adicional//
                     //------------------------------------------//
-                    if (dat_cont.Rows[0]["Cont_PagoTercer"].ToString() == "") { }
+                    /*if (dat_cont.Rows[0]["Cont_PagoTercer"].ToString() == "") { }
                     else { chk_Pago_Tercero.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_PagoTercer"]); }
                     if (dat_cont.Rows[0]["Cont_CartFianza"].ToString() == "") { }
                     else { chk_obl_carta.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_CartFianza"]); }
                     if (dat_cont.Rows[0]["Cont_OblSegur"].ToString() == "") { }
-                    else { chk_obl_seg.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_OblSegur"]); }
+                    else { chk_obl_seg.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_OblSegur"]); }*/
 
                     //Data Rutas//
                     //------------------------------------------//
-                    if (dat_cont.Rows[0]["Cont_RutaPlano"].ToString() == "") { txt_ruta_plano.Text = ""; }
-                    else { txt_ruta_plano.Text = dat_cont.Rows[0]["Cont_RutaPlano"].ToString().Trim(); }
-                    if (dat_cont.Rows[0]["Cont_RutaCont"].ToString() == "") { txt_ruta_cont.Text = ""; }
-                    else { txt_ruta_cont.Text = dat_cont.Rows[0]["Cont_RutaCont"].ToString().Trim(); }
-                    
+                    if (dat_cont.Rows[0]["Cont_RutaPlano"].ToString() == ""){
+                        txt_ruta_plano.Text = "";
+                        chk_ver_plano.IsChecked = false;                    }
+                    else {
+                        txt_ruta_plano.Text = dat_cont.Rows[0]["Cont_RutaPlano"].ToString().Trim();
+                        chk_ver_plano.IsChecked = true;                    }
+                    if (dat_cont.Rows[0]["Cont_RutaCont"].ToString() == "") {
+                        txt_ruta_cont.Text = "";
+                        chk_ver_cont.IsChecked = false;                    }
+                    else {
+                        txt_ruta_cont.Text = dat_cont.Rows[0]["Cont_RutaCont"].ToString().Trim();
+                        chk_ver_cont.IsChecked = true;                    }
+
                     valida_btn_guardar();
                 }
                 else
@@ -743,9 +846,9 @@ namespace Gestion_Tiendas.Formularios
 
                         //Data Adicional//
                         //------------------------------------------//
-                        chk_Pago_Tercero.IsChecked = false;
-                        chk_obl_carta.IsChecked = false;
-                        chk_obl_seg.IsChecked = false;
+                        //chk_Pago_Tercero.IsChecked = false;
+                        //chk_obl_carta.IsChecked = false;
+                        //chk_obl_seg.IsChecked = false;
 
                         //Data Rutas//
                         //------------------------------------------//
@@ -792,6 +895,7 @@ namespace Gestion_Tiendas.Formularios
         {
             // Declara variables
             string _codigo = txt_cod.Text.ToString();
+            string _cod_int = txt_cod_int.Text.ToString();
             DateTime _fechaini = Convert.ToDateTime(date_ini.Text.ToString());
             DateTime _fechafin = Convert.ToDateTime(date_fin.Text.ToString());
             decimal _area = Convert.ToDecimal(txt_area.Text.ToString());
@@ -844,35 +948,74 @@ namespace Gestion_Tiendas.Formularios
                 _fecha_IPC = Convert.ToDateTime(date_ipc.Text.ToString());
             }
 
-            int _pag_terce = (Convert.ToBoolean(chk_Pago_Tercero.IsChecked)) ? 1 : 0;
-            int _obl_segur = (Convert.ToBoolean(chk_obl_seg.IsChecked)) ? 1 : 0;
-            int _obl_carta = (Convert.ToBoolean(chk_obl_carta.IsChecked)) ? 1 : 0;
+            //int _pag_terce = (Convert.ToBoolean(chk_Pago_Tercero.IsChecked)) ? 1 : 0;
+            //int _obl_segur = (Convert.ToBoolean(chk_obl_seg.IsChecked)) ? 1 : 0;
+            //int _obl_carta = (Convert.ToBoolean(chk_obl_carta.IsChecked)) ? 1 : 0;
 
             string _ruta_plano = txt_ruta_plano.Text.ToString();
             string _ruta_contr = txt_ruta_cont.Text.ToString();
 
             try
             {
+
                 //-- Enviar a Método de Actualización
-                Contratos.Actualiza_Contrato(_codigo, _tipo, _cod_contrato, _fechaini, _fechafin, _area, _moneda,
+                Contratos.Actualiza_Contrato(_codigo, _tipo, _cod_contrato, _cod_int, _fechaini, _fechafin, _area, _moneda,
                                              _arrenda, _adminis,
                                              _rent_fij, _rent_var, _adelanto, _garantia, _der_ingr, _rev_proy, _promocio, _promoc_v, _gast_com, _gs_com_p, _gs_com_v,
                                              _Reten, _dbJulio, _dbDiciembre, _serv_public, _arbitrios,
                                              _IPC_renta, _IPC_promo, _IPC_comun, _IPC_frecu, _fecha_IPC,
-                                             _pag_terce, _obl_segur, _obl_carta,
+                                             /*_pag_terce, _obl_segur, _obl_carta,*/
                                              _ruta_plano, _ruta_contr);
 
-                Contratos.Elimina_CronogramaPagos(_cod_contrato, "C");
+                string patha = Environment.CurrentDirectory;
+                string nombre = "Archivos";
+                if (!Directory.Exists(patha + "\\" + nombre))
+                {   //Crea el directorio
+                    DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre);
+                }
+                string carpeta = _tipo + "_" + _cod_tda;
+                if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta))
+                {   //Crea el directorio
+                    DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta);
+                }
+
+                // Copia Plano
+                if (txt_ruta_plano.Text.ToString() != "" && txt_ruta_plano.Text != null)
+                {
+                    string file = "PLAN_" + _cod_contrato + System.IO.Path.GetExtension(txt_ruta_plano.Text.ToString());
+                    // Elimina si existe
+                    if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, file)))
+                    { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, file)); }
+                    // Ingresa nuevo archivo
+                    File.Copy(txt_ruta_plano.Text, System.IO.Path.Combine(patha, nombre, carpeta, file));
+                    // Actualiza datos en BD
+                    Contratos.Actualiza_RutaPlano(_cod_contrato, ult_tipo_cont, System.IO.Path.Combine(patha, nombre, carpeta, file).ToString());
+                }
+
+                // Copia Contrato
+                if (txt_ruta_cont.Text.ToString() != "" && txt_ruta_cont.Text != null)
+                {
+                    string file = "CONT_" + _cod_contrato + System.IO.Path.GetExtension(txt_ruta_cont.Text.ToString());
+                    // Elimina si existe
+                    if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, file)))
+                    { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, file));  }
+                    // Ingresa nuevo archivo
+                    File.Copy(txt_ruta_cont.Text, System.IO.Path.Combine(patha, nombre, carpeta, file));
+                    // Actualiza datos en BD
+                    Contratos.Actualiza_RutaContrato(_cod_contrato, ult_tipo_cont, System.IO.Path.Combine(patha, nombre, carpeta, file).ToString());
+                }
+
+                Contratos.Elimina_CronogramaPagos(_cod_contrato, ult_tipo_cont);
                 foreach (DataRow cron in dt_programa.Rows)
-                { Contratos.Graba_CronogramaPagos(_cod_contrato, "C", cron["Nro"].ToString(), Convert.ToDecimal(cron["Fijo"]), Convert.ToDecimal(cron["Variable"]), Convert.ToDateTime(cron["Fec_Ini"]), Convert.ToDateTime(cron["Fec_Fin"]), cron["Fecha"].ToString()); }
+                { Contratos.Graba_CronogramaPagos(_cod_contrato, ult_tipo_cont, cron["Nro"].ToString(), Convert.ToDecimal(cron["Fijo"]), Convert.ToDecimal(cron["Variable"]), Convert.ToDateTime(cron["Fec_Ini"]), Convert.ToDateTime(cron["Fec_Fin"]), cron["Fecha"].ToString()); }
 
-                Contratos.Elimina_PagosTerceros(_cod_contrato, _tipo_contrato);
+                /*Contratos.Elimina_PagosTerceros(_cod_contrato, _tipo_contrato);
                 foreach (DataRow pag in dt_pago_terc.Rows)
-                { Contratos.Graba_PagosTerceros(_cod_contrato, _tipo_contrato, pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porcentaje"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }
+                { Contratos.Graba_PagosTerceros(_cod_contrato, _tipo_contrato, pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porcentaje"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }*/
 
-                Contratos.Elimina_CartaFianza(_cod_contrato, _tipo_contrato);
+                /*Contratos.Elimina_CartaFianza(_cod_contrato, _tipo_contrato);
                 foreach (DataRow car in dt_carta_fianza.Rows)
-                { Contratos.Graba_CartaFianza(_cod_contrato, _tipo_contrato, car["Id"].ToString(), Convert.ToDateTime(car["Fecha_Ini"].ToString()), Convert.ToDateTime(car["Fecha_Fin"].ToString()), car["Bco_Id"].ToString(), car["Bco_Des"].ToString(), car["Nro_Doc"].ToString(), car["Benef_RUC"].ToString(), car["Benef_desc"].ToString(), Convert.ToDecimal(car["Monto"].ToString())); }
+                { Contratos.Graba_CartaFianza(_cod_contrato, _tipo_contrato, car["Id"].ToString(), Convert.ToDateTime(car["Fecha_Ini"].ToString()), Convert.ToDateTime(car["Fecha_Fin"].ToString()), car["Bco_Id"].ToString(), car["Bco_Des"].ToString(), car["Nro_Doc"].ToString(), car["Benef_RUC"].ToString(), car["Benef_desc"].ToString(), Convert.ToDecimal(car["Monto"].ToString())); }*/
 
                 //this.DialogResult = false;
                 this.Close();
@@ -883,7 +1026,62 @@ namespace Gestion_Tiendas.Formularios
                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y letras sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumerosLetras(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || (ascci >= 65 && ascci <= 90) || (ascci >= 97 && ascci <= 122))
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumero(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if (ascci >= 48 && ascci <= 57)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y separadores decimales (.) sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloDecimal(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || ascci == 46)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+
+        }
         #endregion
-        
+
     }
 }

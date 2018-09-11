@@ -5,25 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Carta Fianza" Height="400" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+        Title="Carta Fianza" Height="450" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Grid>
 
-        <Rectangle HorizontalAlignment="Left" Height="42" Margin="10,10,0,0" VerticalAlignment="Top" Width="422" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="42" Margin="10,10,0,0" VerticalAlignment="Top" Width="422" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="label_01" Content="Cartas :" HorizontalAlignment="Left" Margin="24,18,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbx_Carta" HorizontalAlignment="Left" Margin="133,18,0,0" VerticalAlignment="Top" Width="273" Height="27" SelectionChanged="cbx_Carta_SelectionChanged"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="78" Margin="10,57,0,0" VerticalAlignment="Top" Width="422" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="78" Margin="10,57,0,0" VerticalAlignment="Top" Width="422" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -33,26 +33,30 @@
         <Label x:Name="label_05" Content="Hasta :" HorizontalAlignment="Left" Margin="235,100,0,0" VerticalAlignment="Top" Height="27"/>
         <DatePicker x:Name="date_fin" HorizontalAlignment="Left" Margin="286,100,0,0" VerticalAlignment="Top" Width="120"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="219" Margin="10,140,0,0" VerticalAlignment="Top" Width="422" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="271" Margin="10,140,0,0" VerticalAlignment="Top" Width="422" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="label_06" Content="Entidad Bancaria :" HorizontalAlignment="Left" Margin="24,145,0,0" VerticalAlignment="Top" Height="27"/>
         <ComboBox x:Name="cbx_banco" HorizontalAlignment="Left" Margin="133,145,0,0" VerticalAlignment="Top" Width="273" Height="27"/>
         <Label x:Name="label_07" Content="Número Doc. :" HorizontalAlignment="Left" Margin="24,177,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_num_doc" HorizontalAlignment="Left" Height="27" Margin="133,177,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" KeyDown="txt_num_doc_KeyDown"/>
+        <TextBox x:Name="txt_num_doc" HorizontalAlignment="Left" Height="27" Margin="133,177,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" KeyDown="txt_num_doc_KeyDown" PreviewTextInput="txt_num_doc_PreviewTextInput"/>
         <Label x:Name="label_08" Content="RUC. Benef. :" HorizontalAlignment="Left" Margin="24,209,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_ruc_benef" HorizontalAlignment="Left" Height="27" Margin="133,209,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" LostFocus="txt_ruc_benef_LostFocus" KeyDown="txt_ruc_benef_KeyDown"/>
+        <TextBox x:Name="txt_ruc_benef" HorizontalAlignment="Left" Height="27" Margin="133,209,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" LostFocus="txt_ruc_benef_LostFocus" KeyDown="txt_ruc_benef_KeyDown" PreviewTextInput="txt_ruc_benef_PreviewTextInput"/>
         <Label x:Name="label_09" Content="Beneficiario :" HorizontalAlignment="Left" Margin="24,241,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_benef" HorizontalAlignment="Left" Height="27" Margin="133,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" IsReadOnly="True"/>
+        <TextBox x:Name="txt_benef" HorizontalAlignment="Left" Height="27" Margin="133,241,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="273" IsReadOnly="True" PreviewTextInput="txt_benef_PreviewTextInput"/>
         <Label x:Name="label_10" Content="Monto :" HorizontalAlignment="Left" Margin="24,273,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_monto" HorizontalAlignment="Left" Height="27" Margin="133,273,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="119"/>
+        <TextBox x:Name="txt_monto" HorizontalAlignment="Left" Height="27" Margin="133,273,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="119" PreviewTextInput="txt_monto_PreviewTextInput"/>
 
-        <Button x:Name="btn_grabar"  Margin="0,313,162,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
+        <Label x:Name="label_11" Content="Ruta Doc :" HorizontalAlignment="Left" Margin="24,317,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <TextBox x:Name="txt_ruta" HorizontalAlignment="Left" Height="20" Margin="133,321,0,0" Text="TextBox" VerticalAlignment="Top" Width="242" IsReadOnly="True"/>
+        <Button x:Name="btn_ruta" Content="..." HorizontalAlignment="Left" Margin="380,321,0,0" VerticalAlignment="Top" Width="26" Height="20" Click="btn_ruta_Click"/>
+        
+        <Button x:Name="btn_grabar"  Margin="0,361,163,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>

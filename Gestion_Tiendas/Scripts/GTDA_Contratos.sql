@@ -10,8 +10,14 @@ GO
 -- Fch. Modifica	: 08/08/2018
 -- Asunto			: Se creó tabla para  Documentos (Contratos y Adendas)
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
 -- Fch. Modifica	: 03/09/2018
 -- Asunto			: Se agrego Cont_Reten para guardar indicador de Retención 1ra Categ
+-- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 06/09/2018
+-- Asunto			: Se comentó los flag de obligatorio Carta Fianza, seguro y Pago a Terceros
+--					  Se traslado a dependencia directa a locales
 -- ====================================================================================================
 
 /****** Object:  Table [dbo].[GTDA_Contratos]    Script Date: 08/08/2018 14:07:07 ******/
@@ -27,6 +33,7 @@ CREATE TABLE [dbo].[GTDA_Contratos](
 	[Cont_PadreID] [varchar](10) NULL,
 	[Cont_EntidId] [varchar](5) NOT NULL,
 	[Cont_TipEnt] [varchar](3) NOT NULL,
+	[Cont_CodInt] [varchar](max) NULL,
 	[Cont_Area] [decimal](18, 2) NULL,
 	[Cont_FecIni] [smalldatetime] NULL,
 	[Cont_FecFin] [smalldatetime] NULL,
@@ -54,9 +61,9 @@ CREATE TABLE [dbo].[GTDA_Contratos](
 	[Cont_IPC_GComun] [bit] NULL,
 	[Cont_IPC_Frecue] [smallint] NULL,
 	[Cont_IPC_Fec] [smalldatetime] NULL,
-	[Cont_PagoTercer] [bit] NULL,
-	[Cont_CartFianza] [bit] NULL,
-	[Cont_OblSegur] [bit] NULL,
+	--[Cont_PagoTercer] [bit] NULL,
+	--[Cont_CartFianza] [bit] NULL,
+	--[Cont_OblSegur] [bit] NULL,
 	[Cont_RutaPlano] [varchar](max) NULL,
 	[Cont_RutaCont] [varchar](max) NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]

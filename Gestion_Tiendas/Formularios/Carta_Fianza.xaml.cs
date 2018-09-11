@@ -1,7 +1,9 @@
 ﻿using Gestion_Tiendas.Funciones;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,10 +28,11 @@ namespace Gestion_Tiendas.Formularios
         public Boolean _ok = false;
 
         public static string _cod_ent;
-        public static string _tipo_ent;
-        public static string _desc_ent;
+        public static string _tip_ent;
+        /*public static string _desc_ent;
         public static DateTime _fec_ini;
-        public static DateTime _fec_fin;
+        public static DateTime _fec_fin;*/
+        public static string _ult_carta;
 
         public DataTable datos = new DataTable();
         #endregion
@@ -40,15 +43,23 @@ namespace Gestion_Tiendas.Formularios
             InitializeComponent();
         }
 
-        public Carta_Fianza(DataTable dat_ini, DateTime fec_ini, DateTime fec_fin)
+        /*public Carta_Fianza(DataTable dat_ini, DateTime fec_ini, DateTime fec_fin)
         {
             _fec_ini = fec_ini;
             _fec_fin = fec_fin;
             datos = dat_ini;
             InitializeComponent();
             
+        }*/
+
+        public Carta_Fianza(string cod_ent, string tip_ent)
+        {
+            _cod_ent = cod_ent;
+            _tip_ent = tip_ent;
+            InitializeComponent();
+
         }
-        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _ok = false;
@@ -67,6 +78,7 @@ namespace Gestion_Tiendas.Formularios
             }
 
             /* Combo Cartas */
+            datos = Locales.Lista_CartaFianza(_cod_ent, _tip_ent); ;
             ComboBoxItem item1 = new ComboBoxItem();
             item1.Uid = "";
             item1.Content = "[NUEVA CARTA FIANZA]";
@@ -78,6 +90,7 @@ namespace Gestion_Tiendas.Formularios
                 item.Uid = row["Id"].ToString();
                 item.Content = " de :" + row["Fecha_Ini"].ToString() + " hasta : "+ row["Fecha_Fin"].ToString();
                 cbx_Carta.Items.Add(item);
+                _ult_carta = row["Id"].ToString();
             }
 
             // Limpiando campos
@@ -99,110 +112,188 @@ namespace Gestion_Tiendas.Formularios
             _activo_form = false;
         }
 
+        private void txt_num_doc_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumerosLetras(e);
+        }
+
+        private void txt_ruc_benef_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumero(e);
+        }
+
+        private void txt_benef_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloNumerosLetras(e);
+        }
+
+        private void txt_monto_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
         private void btn_grabar_Click(object sender, RoutedEventArgs e)
         {
+            ComboBoxItem escoger = (ComboBoxItem)(cbx_Carta.SelectedValue);
+            string _valor = escoger.Uid.ToString();
 
-            if (Convert.ToDateTime(date_ini.Text.ToString()) < _fec_ini || Convert.ToDateTime(date_fin.Text.ToString()) > _fec_fin)
+            if (date_ini.Text.ToString() != "" && date_ini != null && date_fin.Text.ToString() != "" && date_fin != null)
             {
-                MessageBox.Show("Las Fechas de la Carta exceden el rango de Fechas del documento; Inicio: "+ _fec_ini .ToShortDateString()+ " Fin: " + _fec_fin.ToShortDateString() + ".",
-                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else
-            {
-                ComboBoxItem escoger = (ComboBoxItem)(cbx_Carta.SelectedValue);
-                string _valor = escoger.Uid.ToString();
-
-                if (date_ini.Text.ToString() != "" && date_ini != null && date_fin.Text.ToString() != "" && date_fin != null)
+                if (Convert.ToDateTime(date_ini.Text.ToString()) < Convert.ToDateTime(date_fin.Text.ToString()))
                 {
-                    if (Convert.ToDateTime(date_ini.Text.ToString()) < Convert.ToDateTime(date_fin.Text.ToString()))
+                    if (cbx_banco.SelectedIndex != -1)
                     {
-                        if (cbx_banco.SelectedIndex != -1)
-                        {
-                            ComboBoxItem escoge_bco = (ComboBoxItem)(cbx_banco.SelectedValue);
-                            string banco_id = escoge_bco.Uid.ToString();
-                            string banco_des = escoge_bco.Content.ToString();
+                        ComboBoxItem escoge_bco = (ComboBoxItem)(cbx_banco.SelectedValue);
+                        string banco_id = escoge_bco.Uid.ToString();
+                        string banco_des = escoge_bco.Content.ToString();
 
-                            if (txt_num_doc.Text.ToString() != "" && txt_num_doc != null)
+                        if (txt_num_doc.Text.ToString() != "" && txt_num_doc != null)
+                        {
+                            if (txt_ruc_benef.Text.ToString() != "" && txt_ruc_benef != null && txt_benef.Text.ToString() != "" && txt_benef != null)
                             {
-                                if (txt_ruc_benef.Text.ToString() != "" && txt_ruc_benef != null && txt_benef.Text.ToString() != "" && txt_benef != null)
+                                if (txt_monto.Text.ToString() != "" && txt_monto != null && Convert.ToDecimal(txt_monto.Text.ToString()) > 0)
                                 {
-                                    if (txt_monto.Text.ToString() != "" && txt_monto != null && Convert.ToDecimal(txt_monto.Text.ToString()) > 0)
+                                    try
                                     {
-                                        if (_valor != "")
+                                        Locales.Grabar_Modificar_CartaFianza(   _cod_ent, _tip_ent, _valor,
+                                                                                Convert.ToDateTime(date_ini.Text.ToString()),
+                                                                                Convert.ToDateTime(date_fin.Text.ToString()),
+                                                                                banco_id, banco_des,
+                                                                                txt_num_doc.Text.ToString(), txt_ruc_benef.Text.ToString(), txt_benef.Text.ToString(),
+                                                                                Convert.ToDecimal(txt_monto.Text.ToString()),
+                                                                                txt_ruta.Text.ToString());
+
+                                        string cod_carta = _valor;
+                                        if(cod_carta == "")
                                         {
-                                            // Actualizar
-                                            foreach (DataRow row in datos.Rows)
-                                            {
-                                                if (_valor == row["Id"].ToString())
-                                                {
-                                                    row["Fecha_Ini"] = Convert.ToDateTime(date_ini.Text.ToString()).ToShortDateString();
-                                                    row["Fecha_Fin"] = Convert.ToDateTime(date_fin.Text.ToString()).ToShortDateString();
-                                                    row["Bco_Id"] = banco_id;
-                                                    row["Bco_Des"] = banco_des;
-                                                    row["Nro_Doc"] = txt_num_doc.Text.ToString();
-                                                    row["Benef_RUC"] = txt_ruc_benef.Text.ToString();
-                                                    row["Benef_desc"] = txt_benef.Text.ToString();
-                                                    row["Monto"] = txt_monto.Text.ToString();
-                                                    MessageBox.Show("Carta Fianza " + row["Id"].ToString() + " Actualizada.",
-                                                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-                                                    _ok = true;
-                                                    this.Close();
-                                                }
-                                            }
+                                            cod_carta = (Convert.ToInt32(_ult_carta) + 1).ToString().PadLeft(4, '0');
                                         }
-                                        else
+
+                                        string patha = Environment.CurrentDirectory;
+                                        string nombre = "Archivos";
+                                        if (!Directory.Exists(patha + "\\" + nombre))
+                                        {   //Crea el directorio
+                                            DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre);
+                                        }
+                                        string carpeta = _tip_ent + "_" + _cod_ent;
+                                        if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta))
+                                        {   //Crea el directorio
+                                            DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta);
+                                        }
+                                        string carpeta2 = "CART_FIANZA";
+                                        if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta + "\\" + carpeta2))
+                                        {   //Crea el directorio
+                                            DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta + "\\" + carpeta2);
+                                        }
+
+                                        // Copia Archivo
+                                        if (txt_ruta.Text.ToString() != "" && txt_ruta.Text != null)
                                         {
-                                            // Agregar
-                                            datos.Rows.Add((datos.Rows.Count + 1).ToString().PadLeft(3, '0'),
-                                                        Convert.ToDateTime(date_ini.Text.ToString()).ToShortDateString(),
-                                                        Convert.ToDateTime(date_fin.Text.ToString()).ToShortDateString(),
-                                                        banco_id,
-                                                        banco_des,
-                                                        txt_num_doc.Text.ToString(),
-                                                        txt_ruc_benef.Text.ToString(),
-                                                        txt_benef.Text.ToString(),
-                                                        txt_monto.Text.ToString());
-                                            MessageBox.Show("Carta Fianza " + datos.Rows.Count.ToString().PadLeft(3, '0') + " Agregada.",
-                                            "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
-                                            _ok = true;
-                                            this.Close();
+                                            string file = "CF_" + cod_carta + System.IO.Path.GetExtension(txt_ruta.Text.ToString());
+                                            // Elimina si existe
+                                            if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)))
+                                            { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)); }
+                                            // Ingresa nuevo archivo
+                                            File.Copy(txt_ruta.Text, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file));
+                                            // Actualiza datos en BD
+                                            Locales.Actualiza_RutaCarta(cod_carta, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file).ToString());
+                                        }
+
+                                        MessageBox.Show("Carta Fianza Creada Satisfactoriamente Agregada.",
+                                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        _ok = true;
+                                        this.Close();
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        MessageBox.Show("Error al grabar información de Carta Fianza. " + ex.Message,
+                                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    }
+                                    /*if (_valor != "")
+                                    {
+                                        // Actualizar
+                                        foreach (DataRow row in datos.Rows)
+                                        {
+                                            if (_valor == row["Id"].ToString())
+                                            {
+                                                row["Fecha_Ini"] = Convert.ToDateTime(date_ini.Text.ToString()).ToShortDateString();
+                                                row["Fecha_Fin"] = Convert.ToDateTime(date_fin.Text.ToString()).ToShortDateString();
+                                                row["Bco_Id"] = banco_id;
+                                                row["Bco_Des"] = banco_des;
+                                                row["Nro_Doc"] = txt_num_doc.Text.ToString();
+                                                row["Benef_RUC"] = txt_ruc_benef.Text.ToString();
+                                                row["Benef_desc"] = txt_benef.Text.ToString();
+                                                row["Monto"] = txt_monto.Text.ToString();
+                                                MessageBox.Show("Carta Fianza " + row["Id"].ToString() + " Actualizada.",
+                                                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                                                _ok = true;
+                                                this.Close();
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Los campos de Valor no puede ser vacío ni 0.",
-                                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    }
+                                        // Agregar
+                                        datos.Rows.Add((datos.Rows.Count + 1).ToString().PadLeft(3, '0'),
+                                                    Convert.ToDateTime(date_ini.Text.ToString()).ToShortDateString(),
+                                                    Convert.ToDateTime(date_fin.Text.ToString()).ToShortDateString(),
+                                                    banco_id,
+                                                    banco_des,
+                                                    txt_num_doc.Text.ToString(),
+                                                    txt_ruc_benef.Text.ToString(),
+                                                    txt_benef.Text.ToString(),
+                                                    txt_monto.Text.ToString());
+                                        MessageBox.Show("Carta Fianza " + datos.Rows.Count.ToString().PadLeft(3, '0') + " Agregada.",
+                                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Information);
+                                        _ok = true;
+                                        this.Close();
+                                    }*/
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Los campos de Beneficiario no puede ser vacío.",
+                                    MessageBox.Show("Los campos de Valor no puede ser vacío ni 0.",
                                     "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                                 }
                             }
                             else
                             {
-                                MessageBox.Show("El campo Nro de Documento no puede ser vacío.",
+                                MessageBox.Show("Los campos de Beneficiario no puede ser vacío.",
                                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Debe Seleccionar Entidad Bancaria.",
+                            MessageBox.Show("El campo Nro de Documento no puede ser vacío.",
                             "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("La Fecha de Inicio no puede ser mayor a la Fecha de Fin.",
+                        MessageBox.Show("Debe Seleccionar Entidad Bancaria.",
                         "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Los campos de Vigencia, no pueden ser vacíos.",
+                    MessageBox.Show("La Fecha de Inicio no puede ser mayor a la Fecha de Fin.",
                     "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+            else
+            {
+                MessageBox.Show("Los campos de Vigencia, no pueden ser vacíos.",
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void btn_ruta_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Title = "Seleccione la Carta Fianza a Anexar...";
+            if (dialog.ShowDialog(this) == true)
+            {
+                txt_ruta.Text = dialog.FileName;
             }
         }
 
@@ -231,8 +322,9 @@ namespace Gestion_Tiendas.Formularios
             }
             else
             {
-                MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                MessageBox.Show("No se encontró Proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                txt_benef.Text = "";
             }
         }
 
@@ -271,6 +363,8 @@ namespace Gestion_Tiendas.Formularios
                     txt_benef.Text = row["Benef_desc"].ToString();
                     txt_monto.Text = row["Monto"].ToString();
 
+                    txt_ruta.Text = row["Ruta"].ToString();
+
                     date_ini.IsEnabled = false;
                     date_fin.IsEnabled = false;
                 }
@@ -289,8 +383,64 @@ namespace Gestion_Tiendas.Formularios
             txt_benef.Text = "";
             txt_monto.Text = "0";
 
+            txt_ruta.Text = "";
+
             date_ini.IsEnabled = true;
             date_fin.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y letras sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumerosLetras(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || (ascci >= 65 && ascci <= 90) || (ascci >= 97 && ascci <= 122))
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumero(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if (ascci >= 48 && ascci <= 57)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y separadores decimales (.) sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloDecimal(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || ascci == 46)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
         }
         #endregion
 

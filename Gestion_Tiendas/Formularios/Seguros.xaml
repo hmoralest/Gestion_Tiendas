@@ -5,63 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="Seguros" Height="480" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
-    <Grid>
-        <Rectangle HorizontalAlignment="Left" Height="42" Margin="10,10,0,0" VerticalAlignment="Top" Width="422" Stroke="#FF0051FF" >
+        Title="Seguros" Height="580" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+    <Grid Margin="0,0,0,0">
+        <Rectangle HorizontalAlignment="Left" Height="42" Margin="10,10,0,0" VerticalAlignment="Top" Width="422" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="label_01" Content="Local :" HorizontalAlignment="Left" Margin="24,18,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lbl_Titulo" Content="(Tipo) - (Codigo) - (Descripcion)" HorizontalAlignment="Left" Margin="75,18,0,0" VerticalAlignment="Top"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="384" Margin="10,57,0,0" VerticalAlignment="Top" Width="422" Stroke="#FF0051FF" >
+        <Rectangle HorizontalAlignment="Left" Height="77" Margin="10,57,0,0" VerticalAlignment="Top" Width="422" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="label_02" Content="Tipo de Seguro :" HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox x:Name="cbx_tipo" HorizontalAlignment="Left" Margin="135,68,0,0" VerticalAlignment="Top" Width="275" Height="27">
-            <ComboBoxItem Content="Multi Riesgo" Uid="Multi Riesgo"/>
-            <ComboBoxItem Content="Responsabilidad Civil a Terceros" Uid="Responsabilidad Civil a Terceros"/>
-            <ComboBoxItem Content="Deshonestidad" Uid="Deshonestidad"/>
-        </ComboBox>
-        <Label x:Name="label_03" Content="Vigencia :" HorizontalAlignment="Left" Margin="24,100,0,0" VerticalAlignment="Top" Height="27" Width="275"/>
-        <Label x:Name="label_04" Content="Desde :" HorizontalAlignment="Left" Margin="26,132,0,0" VerticalAlignment="Top" Height="27"/>
-        <DatePicker x:Name="date_ini" HorizontalAlignment="Left" Margin="80,132,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
-        <Label x:Name="label_05" Content="Hasta :" HorizontalAlignment="Left" Margin="239,132,0,0" VerticalAlignment="Top" Height="27"/>
-        <DatePicker x:Name="date_fin" HorizontalAlignment="Left" Margin="290,133,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
+        <Label x:Name="label_02" Content="Tipo de Seguro :" HorizontalAlignment="Left" Margin="24,66,0,0" VerticalAlignment="Top" Height="27"/>
+        <ComboBox x:Name="cbx_tipo" HorizontalAlignment="Left" Margin="133,66,0,0" VerticalAlignment="Top" Width="275" Height="27" SelectionChanged="cbx_tipo_SelectionChanged"/>
+        <Label x:Name="label_03" Content="Vigencia :" HorizontalAlignment="Left" Margin="24,98,0,0" VerticalAlignment="Top" Height="27" Width="97"/>
+        <ComboBox x:Name="cbx_vigen" HorizontalAlignment="Left" Margin="133,98,0,0" VerticalAlignment="Top" Width="275" Height="27" SelectionChanged="cbx_vigen_SelectionChanged"/>
 
-        <Label x:Name="label_06" Content="Aseguradora :" HorizontalAlignment="Left" Margin="26,164,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox x:Name="cbx_aseg" HorizontalAlignment="Left" Margin="135,164,0,0" VerticalAlignment="Top" Width="275" Height="27"/>
-        <Label x:Name="label_07" Content="Codigo Seguro :" HorizontalAlignment="Left" Margin="26,196,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="txt_cod" HorizontalAlignment="Left" Height="27" Margin="135,196,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275"/>
-        <Label x:Name="label_08" Content="Beneficiario :" HorizontalAlignment="Left" Margin="26,228,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="27" Margin="135,228,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275"/>
-        <Label x:Name="label_09" Content="RUC. Benef. :" HorizontalAlignment="Left" Margin="26,260,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="27" Margin="135,260,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275"/>
-        <Label x:Name="label_10" Content="Cantidad :" HorizontalAlignment="Left" Margin="26,292,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="textBox_Copy1" HorizontalAlignment="Left" Height="27" Margin="135,292,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="123"/>
-        <Label x:Name="label_11" Content="Unidad :" HorizontalAlignment="Left" Margin="26,324,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox x:Name="comboBox_Copy1" HorizontalAlignment="Left" Margin="135,324,0,0" VerticalAlignment="Top" Width="123" Height="27">
+        <Rectangle HorizontalAlignment="Left" Height="402" Margin="10,139,0,0" VerticalAlignment="Top" Width="422" Stroke="Red" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFE6E6E6"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Label x:Name="label_04" Content="Desde :" HorizontalAlignment="Left" Margin="24,149,0,0" VerticalAlignment="Top" Height="27"/>
+        <DatePicker x:Name="date_ini" HorizontalAlignment="Left" Margin="78,149,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
+        <Label x:Name="label_05" Content="Hasta :" HorizontalAlignment="Left" Margin="237,149,0,0" VerticalAlignment="Top" Height="27"/>
+        <DatePicker x:Name="date_fin" HorizontalAlignment="Left" Margin="288,150,0,0" VerticalAlignment="Top" Height="27" Width="120"/>
+
+        <Label x:Name="label_06" Content="RUC Aseguradora :" HorizontalAlignment="Left" Margin="24,181,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_ruc_aseg" HorizontalAlignment="Left" Height="27" Margin="133,181,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275" PreviewTextInput="txt_ruc_aseg_PreviewTextInput"/>
+        <Label x:Name="label_07" Content="Aseguradora :" HorizontalAlignment="Left" Margin="22,213,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_raz_aseg" HorizontalAlignment="Left" Height="27" Margin="133,213,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275" PreviewTextInput="txt_raz_aseg_PreviewTextInput"/>
+        <Label x:Name="label_08" Content="Nro Documento :" HorizontalAlignment="Left" Margin="24,245,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_cod" HorizontalAlignment="Left" Height="27" Margin="133,245,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275" PreviewTextInput="txt_cod_PreviewTextInput"/>
+        <Label x:Name="label_09" Content="RUC. Beneficiario :" HorizontalAlignment="Left" Margin="24,277,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_ruc_benef" HorizontalAlignment="Left" Height="27" Margin="133,277,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275" PreviewTextInput="txt_ruc_benef_PreviewTextInput"/>
+        <Label x:Name="label_10" Content="Beneficiario :" HorizontalAlignment="Left" Margin="24,309,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_raz_benef" HorizontalAlignment="Left" Height="27" Margin="133,309,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="275" PreviewTextInput="txt_raz_benef_PreviewTextInput"/>
+        <Label x:Name="label_11" Content="Cantidad :" HorizontalAlignment="Left" Margin="22,341,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_cant" HorizontalAlignment="Left" Height="27" Margin="133,341,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="123" PreviewTextInput="txt_cant_PreviewTextInput"/>
+        <Label x:Name="label_12" Content="Unidad :" HorizontalAlignment="Left" Margin="24,373,0,0" VerticalAlignment="Top" Height="27"/>
+        <ComboBox x:Name="cbx_unid" HorizontalAlignment="Left" Margin="133,373,0,0" VerticalAlignment="Top" Width="123" Height="27">
             <ComboBoxItem Content="Pares" Uid="Pares"/>
-            <ComboBoxItem Content="Area de Local" Uid="Area de Local"/>
-            <ComboBoxItem Content="Valor Mercaderia" Uid="Valor Mercaderia"/>
+            <ComboBoxItem Content="M2" Uid="M2"/>
+            <ComboBoxItem Content="PEN" Uid="PEN"/>
         </ComboBox>
-        <Label x:Name="label_12" Content="Valor :" HorizontalAlignment="Left" Margin="26,356,0,0" VerticalAlignment="Top" Height="27"/>
-        <TextBox x:Name="textBox_Copy4" HorizontalAlignment="Left" Height="27" Margin="135,356,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="123"/>
+        <Label x:Name="label_13" Content="Valor :" HorizontalAlignment="Left" Margin="24,405,0,0" VerticalAlignment="Top" Height="27"/>
+        <TextBox x:Name="txt_val_seg" HorizontalAlignment="Left" Height="27" Margin="133,405,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="123" PreviewTextInput="txt_val_seg_PreviewTextInput"/>
 
-        <Button x:Name="btn_grabar"  Margin="0,394,154,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
+        <Label x:Name="label_14" Content="Ruta Doc :" HorizontalAlignment="Left" Margin="26,444,0,0" VerticalAlignment="Top" Height="27" RenderTransformOrigin="-0.91,-2.528"/>
+        <TextBox x:Name="txt_ruta" HorizontalAlignment="Left" Height="20" Margin="135,448,0,0" Text="TextBox" VerticalAlignment="Top" Width="242" IsReadOnly="True"/>
+        <Button x:Name="btn_ruta" Content="..." HorizontalAlignment="Left" Margin="382,448,0,0" VerticalAlignment="Top" Width="26" Height="20" Click="btn_ruta_Click"/>
+        
+        <Button x:Name="btn_grabar"  Margin="0,494,161,0" Cursor="Hand" Height="38" Width="120" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btn_grabar_Click">
             <Button.ToolTip>
                 <ToolTip>
                     <StackPanel>
-                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Agregar Entidad"/></TextBlock>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Agregar Seguro"/></TextBlock>
                     </StackPanel>
                 </ToolTip>
             </Button.ToolTip>

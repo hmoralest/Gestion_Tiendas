@@ -62,6 +62,18 @@ namespace Gestion_Tiendas.Formularios
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 167, 167));
+            SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 224, 224));
+
+            this.dg_admins.RowBackground = color1;
+            this.dg_admins.AlternatingRowBackground = color2;
+
+            this.dg_arrendatario.RowBackground = color1;
+            this.dg_arrendatario.AlternatingRowBackground = color2;
+
+            this.dg_loc_asoc.RowBackground = color1;
+            this.dg_loc_asoc.AlternatingRowBackground = color2;
+
             DataTable dat_gral = new DataTable();
             DataTable dat_rel = new DataTable();
             //DataTable dat_cont = new DataTable();
@@ -296,6 +308,56 @@ namespace Gestion_Tiendas.Formularios
             Llena_datos_Contrato(contrato_lista);
         }
 
+        private void txt_area_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_rent_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_rent_v_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_adela_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_ingreso_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_rev_proy_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_promoc_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_promoc_var_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_comun_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
+        private void txt_comun_v_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            SoloDecimal(e);
+        }
+
         private void txt_area_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) { date_ini.Focus(); }
@@ -464,7 +526,7 @@ namespace Gestion_Tiendas.Formularios
                     else { txt_area.Text = dat_cont.Rows[0]["Cont_Area"].ToString().Trim(); }
 
                     //-- LLena datos de Pagos a Terceros
-                    dt_pago_terc = Contratos.Lista_PagoTerceros(_contr_lista, ult_tipo_cont, _cod_tda, _tipo);
+                    //dt_pago_terc = Contratos.Lista_PagoTerceros(_contr_lista, ult_tipo_cont, _cod_tda, _tipo);
 
                     //Data Genérica//
                     //------------------------------------------//
@@ -565,12 +627,12 @@ namespace Gestion_Tiendas.Formularios
 
                     //Data Adicional//
                     //------------------------------------------//
-                    if (dat_cont.Rows[0]["Cont_PagoTercer"].ToString() == "") { }
+                    /*if (dat_cont.Rows[0]["Cont_PagoTercer"].ToString() == "") { }
                     else { chk_Pago_Tercero.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_PagoTercer"]); }
                     if (dat_cont.Rows[0]["Cont_CartFianza"].ToString() == "") { }
                     else { chk_obl_carta.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_CartFianza"]); }
                     if (dat_cont.Rows[0]["Cont_OblSegur"].ToString() == "") { }
-                    else { chk_obl_seg.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_OblSegur"]); }
+                    else { chk_obl_seg.IsChecked = Convert.ToBoolean(dat_cont.Rows[0]["Cont_OblSegur"]); }*/
 
                     //Data Rutas//
                     //------------------------------------------//
@@ -623,9 +685,9 @@ namespace Gestion_Tiendas.Formularios
 
                         //Data Adicional//
                         //------------------------------------------//
-                        chk_Pago_Tercero.IsChecked = false;
+                        /*chk_Pago_Tercero.IsChecked = false;
                         chk_obl_carta.IsChecked = false;
-                        chk_obl_seg.IsChecked = false;
+                        chk_obl_seg.IsChecked = false;*/
 
                         //Data Rutas//
                         //------------------------------------------//
@@ -663,6 +725,7 @@ namespace Gestion_Tiendas.Formularios
         {
             // Declara variables
             string _codigo = txt_cod.Text.ToString();
+            string _cod_int = txt_cod_int.Text.ToString();
             DateTime _fechaini = Convert.ToDateTime(date_ini.Text.ToString());
             DateTime _fechafin = Convert.ToDateTime(date_fin.Text.ToString());
             decimal _area = Convert.ToDecimal(txt_area.Text.ToString());
@@ -715,9 +778,9 @@ namespace Gestion_Tiendas.Formularios
                 _fecha_IPC = Convert.ToDateTime(date_ipc.Text.ToString());
             }
 
-            int _pag_terce = (Convert.ToBoolean(chk_Pago_Tercero.IsChecked)) ? 1 : 0;
+            /*int _pag_terce = (Convert.ToBoolean(chk_Pago_Tercero.IsChecked)) ? 1 : 0;
             int _obl_segur = (Convert.ToBoolean(chk_obl_seg.IsChecked)) ? 1 : 0;
-            int _obl_carta = (Convert.ToBoolean(chk_obl_carta.IsChecked)) ? 1 : 0;
+            int _obl_carta = (Convert.ToBoolean(chk_obl_carta.IsChecked)) ? 1 : 0;*/
 
             string _ruta_plano = txt_ruta_plano.Text.ToString();
             string _ruta_contr = txt_ruta_cont.Text.ToString();
@@ -725,21 +788,21 @@ namespace Gestion_Tiendas.Formularios
             try
             {
                 //-- Enviar a Método de Actualización
-                Contratos.Actualiza_Contrato(_codigo, _tipo, _cod_contrato, _fechaini, _fechafin, _area, _moneda,
+                Contratos.Actualiza_Contrato(_codigo, _tipo, _cod_contrato, _cod_int, _fechaini, _fechafin, _area, _moneda,
                                              _arrenda, _adminis,
                                              _rent_fij, _rent_var, _adelanto, _garantia, _der_ingr, _rev_proy, _promocio, _promoc_v, _gast_com, _gs_com_p, _gs_com_v,
                                              _Reten, _dbJulio, _dbDiciembre, _serv_public, _arbitrios,
                                              _IPC_renta, _IPC_promo, _IPC_comun, _IPC_frecu, _fecha_IPC,
-                                             _pag_terce, _obl_segur, _obl_carta,
+                                             /*_pag_terce, _obl_segur, _obl_carta,*/
                                              _ruta_plano, _ruta_contr);
 
                 Contratos.Elimina_CronogramaPagos(_cod_contrato, "C");
                 foreach (DataRow cron in dt_programa.Rows)
                 { Contratos.Graba_CronogramaPagos(_cod_contrato, "C", cron["Nro"].ToString(), Convert.ToDecimal(cron["Fijo"]), Convert.ToDecimal(cron["Variable"]), Convert.ToDateTime(cron["Fec_Ini"]), Convert.ToDateTime(cron["Fec_Fin"]), cron["Fecha"].ToString()); }
 
-                Contratos.Elimina_PagosTerceros(_cod_contrato, "C");
+                /*Contratos.Elimina_PagosTerceros(_cod_contrato, "C");
                 foreach (DataRow pag in dt_pago_terc.Rows)
-                { Contratos.Graba_PagosTerceros(_cod_contrato, "C", pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porcentaje"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }
+                { Contratos.Graba_PagosTerceros(_cod_contrato, "C", pag["id"].ToString(), pag["ruc"].ToString(), pag["raz_soc"].ToString(), Convert.ToDecimal(pag["porcentaje"]), pag["banco_id"].ToString(), pag["banco_desc"].ToString(), pag["banco_cta"].ToString()); }*/
 
                 //this.DialogResult = false;
                 this.Close();
@@ -750,7 +813,71 @@ namespace Gestion_Tiendas.Formularios
                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y letras sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumerosLetras(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || (ascci >= 65 && ascci <= 90) || (ascci >= 97 && ascci <= 122))
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumero(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if (ascci >= 48 && ascci <= 57)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y separadores decimales (.) sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloDecimal(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || ascci == 46)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+
+        }
         #endregion
 
+        private void txt_cod_int_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txt_cod_int_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }

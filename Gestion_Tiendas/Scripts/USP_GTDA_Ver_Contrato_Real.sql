@@ -56,9 +56,9 @@ BEGIN
 			@IPC_GComun		Bit,
 			@IPC_Frecue		Smallint,
 			@IPC_Fec		Smalldatetime,
-			@PagoTercer		Bit,
-			@CartFianza		Bit,
-			@OblSegur		Bit,
+		--	@PagoTercer		Bit,
+		--	@CartFianza		Bit,
+		--	@OblSegur		Bit,
 			@RutaPlano		Varchar(max),
 			@RutaCont		Varchar(max);
 

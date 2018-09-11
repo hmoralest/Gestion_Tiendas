@@ -21,8 +21,12 @@ namespace Gestion_Tiendas.Formularios
     /// </summary>
     public partial class Datos_Arrendador : Window
     {
+        #region Var Locales
         public static Boolean _activo_form = false;
         public DataTable datos = null;
+        #endregion
+        
+        #region Funciones de Interfaz e Iniciacion
         public Datos_Arrendador()
         {
             InitializeComponent();
@@ -122,5 +126,69 @@ namespace Gestion_Tiendas.Formularios
                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void txt_ruc_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+
+            SoloNumero(e);
+        }
+        #endregion
+
+        #region Funciones de Programa
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y letras sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumerosLetras(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || (ascci >= 65 && ascci <= 90) || (ascci >= 97 && ascci <= 122))
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloNumero(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if (ascci >= 48 && ascci <= 57)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// método que evalúa las teclas presionadas y permite que sólo los números y separadores decimales (.) sean escritas
+        /// </summary>
+        /// <param name="e">texto tecla presionada</param>
+        public void SoloDecimal(TextCompositionEventArgs e)
+        {
+            if (e.Text != "")
+            {
+                //se convierte a Ascci del la tecla presionada
+                int ascci = Convert.ToInt32(Convert.ToChar(e.Text));
+                //verificamos que se encuentre en ese rango que son entre el 0 y el 9
+                if ((ascci >= 48 && ascci <= 57) || ascci == 46)
+                    e.Handled = false;
+                else
+                    e.Handled = true;
+            }
+
+        }
+        #endregion
     }
 }

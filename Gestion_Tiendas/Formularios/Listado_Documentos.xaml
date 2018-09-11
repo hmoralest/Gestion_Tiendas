@@ -8,11 +8,11 @@
         Title="Listado_Documentos" Height="420" Width="620" Unloaded="Window_Unloaded" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid>
 
-        <Rectangle HorizontalAlignment="Left" Height="369" Margin="10,10,0,0" Stroke="#FF0051FF" VerticalAlignment="Top" Width="592">
+        <Rectangle HorizontalAlignment="Left" Height="369" Margin="10,10,0,0" VerticalAlignment="Top" Width="592" Stroke="Red" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="#FFC1CAFF"/>
+                    <GradientStop Color="#FFE6E6E6"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
