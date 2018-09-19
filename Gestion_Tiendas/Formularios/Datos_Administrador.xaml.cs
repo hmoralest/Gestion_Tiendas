@@ -43,20 +43,27 @@ namespace Gestion_Tiendas.Formularios
                 dt.Columns.Add("raz_soc", typeof(string));
                 //dt.Columns.Add("porc", typeof(decimal));
 
-                string razon = "";
-                razon = Contratos.Valida_Proveedor(txt_ruc.Text.ToString());
-                if (razon.Length > 0)
+                try
                 {
-                    dt.Rows.Add(txt_ruc.Text.ToString(), razon/*, Convert.ToDecimal(txt_porc.Text.ToString())*/);
-                    datos = dt;
-                    //this.DialogResult = false;
-                    this.Close();
-                }
-                else
+                    string razon = "";
+                    razon = Contratos.Valida_Proveedor(txt_ruc.Text.ToString());
+                    if (razon.Length > 0)
+                    {
+                        dt.Rows.Add(txt_ruc.Text.ToString(), razon/*, Convert.ToDecimal(txt_porc.Text.ToString())*/);
+                        datos = dt;
+                        //this.DialogResult = false;
+                        this.Close();
+                    }
+                    else
+                    {
+                        txt_razsoc.Text = "";
+                        MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }catch(Exception ex)
                 {
-                    txt_razsoc.Text = "";
-                    MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
-                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Error en Validación de RUC." + ex.Message,
+                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 dt.Rows.Add(txt_ruc.Text.ToString(), txt_razsoc.Text.ToString()/*, Convert.ToDecimal(txt_porc.Text.ToString())*/);
@@ -99,6 +106,37 @@ namespace Gestion_Tiendas.Formularios
 
             if (e.Key == Key.Enter)
             {
+                try
+                {
+                    string razon = "";
+                    razon = Contratos.Valida_Proveedor(txt_ruc.Text.ToString());
+                    if (razon.Length > 0)
+                    {
+                        txt_razsoc.Text = razon;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error en Validación de RUC." + ex.Message,
+                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                txt_razsoc.Text = "";
+            }
+        }
+
+        private void txt_ruc_LostFocus(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                txt_razsoc.Text = "";
                 string razon = "";
                 razon = Contratos.Valida_Proveedor(txt_ruc.Text.ToString());
                 if (razon.Length > 0)
@@ -111,25 +149,10 @@ namespace Gestion_Tiendas.Formularios
                     "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                txt_razsoc.Text = "";
-            }
-        }
-
-        private void txt_ruc_LostFocus(object sender, RoutedEventArgs e)
-        {
-            txt_razsoc.Text = "";
-            string razon = "";
-            razon = Contratos.Valida_Proveedor(txt_ruc.Text.ToString());
-            if (razon.Length > 0)
-            {
-                txt_razsoc.Text = razon;
-            }
-            else
-            {
-                MessageBox.Show("No se encontró proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
-                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Error en Validación de RUC." + ex.Message,
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

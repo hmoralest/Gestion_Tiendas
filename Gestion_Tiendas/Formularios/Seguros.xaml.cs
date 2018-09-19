@@ -125,26 +125,34 @@ namespace Gestion_Tiendas.Formularios
 
                 if (dato != "")
                 {
-                    DataTable datos = new DataTable();
-                    datos = Locales.Obten_Seguro(_cod_ent, _tipo_ent, sel_tipo, dato);
-                
-                    date_ini.Text = datos.Rows[0]["Fec_Ini"].ToString();
-                    date_ini.IsEnabled = false;
-                    date_fin.Text = datos.Rows[0]["Fec_Fin"].ToString();
-                    date_fin.IsEnabled = false;
-                    txt_ruc_aseg.Text = datos.Rows[0]["Aseg_RUC"].ToString();
-                    txt_raz_aseg.Text = datos.Rows[0]["Aseg_Raz"].ToString();
-                    txt_cod.Text = datos.Rows[0]["Nro_Doc"].ToString();
-                    txt_ruc_benef.Text = datos.Rows[0]["Benef_RUC"].ToString();
-                    txt_raz_benef.Text = datos.Rows[0]["Benef_Raz"].ToString();
-                    txt_cant.Text = datos.Rows[0]["Cantidad"].ToString();
-                    foreach (ComboBoxItem item in cbx_unid.Items)
+                    try
                     {
-                        if (item.Uid.ToString() == datos.Rows[0]["Unidad"].ToString())
-                        { item.IsSelected = true; }
+                        DataTable datos = new DataTable();
+                        datos = Locales.Obten_Seguro(_cod_ent, _tipo_ent, sel_tipo, dato);
+
+                        date_ini.Text = datos.Rows[0]["Fec_Ini"].ToString();
+                        date_ini.IsEnabled = false;
+                        date_fin.Text = datos.Rows[0]["Fec_Fin"].ToString();
+                        date_fin.IsEnabled = false;
+                        txt_ruc_aseg.Text = datos.Rows[0]["Aseg_RUC"].ToString();
+                        txt_raz_aseg.Text = datos.Rows[0]["Aseg_Raz"].ToString();
+                        txt_cod.Text = datos.Rows[0]["Nro_Doc"].ToString();
+                        txt_ruc_benef.Text = datos.Rows[0]["Benef_RUC"].ToString();
+                        txt_raz_benef.Text = datos.Rows[0]["Benef_Raz"].ToString();
+                        txt_cant.Text = datos.Rows[0]["Cantidad"].ToString();
+                        foreach (ComboBoxItem item in cbx_unid.Items)
+                        {
+                            if (item.Uid.ToString() == datos.Rows[0]["Unidad"].ToString())
+                            { item.IsSelected = true; }
+                        }
+                        txt_val_seg.Text = datos.Rows[0]["Valor"].ToString();
+                        txt_ruta.Text = datos.Rows[0]["Ruta"].ToString();
                     }
-                    txt_val_seg.Text = datos.Rows[0]["Valor"].ToString();
-                    txt_ruta.Text = datos.Rows[0]["Ruta"].ToString();
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error en Obtener información de Seguros. "+ ex.Message,
+                        "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
@@ -211,45 +219,53 @@ namespace Gestion_Tiendas.Formularios
             Decimal valor = Convert.ToDecimal(txt_val_seg.Text.ToString());
             string ruta = txt_ruta.Text.ToString();
 
-            Locales.Grabar_Modificar_Seguros(   _cod_ent, _tipo_ent,
-                                                tipo, vigen, fec_ini, fec_fin,
-                                                aseg_ruc, aseg_raz, nro_doc, benef_ruc, benef_raz,
-                                                cant, unid, valor, ruta);
-
-            string cod_seg = vigen;
-            if (cod_seg == "")
+            try
             {
-                cod_seg = (Convert.ToInt32(_ult_seg) + 1).ToString().PadLeft(5, '0');
-            }
+                Locales.Grabar_Modificar_Seguros(_cod_ent, _tipo_ent,
+                                                    tipo, vigen, fec_ini, fec_fin,
+                                                    aseg_ruc, aseg_raz, nro_doc, benef_ruc, benef_raz,
+                                                    cant, unid, valor, ruta);
 
-            string patha = Environment.CurrentDirectory;
-            string nombre = "Archivos";
-            if (!Directory.Exists(patha + "\\" + nombre))
-            {   //Crea el directorio
-                DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre);
-            }
-            string carpeta = _tipo_ent + "_" + _cod_ent;
-            if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta))
-            {   //Crea el directorio
-                DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta);
-            }
-            string carpeta2 = "SEGUROS";
-            if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta + "\\" + carpeta2))
-            {   //Crea el directorio
-                DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta + "\\" + carpeta2);
-            }
+                string cod_seg = vigen;
+                if (cod_seg == "")
+                {
+                    cod_seg = (Convert.ToInt32(_ult_seg) + 1).ToString().PadLeft(5, '0');
+                }
 
-            // Copia Archivo
-            if (txt_ruta.Text.ToString() != "" && txt_ruta.Text != null)
+                string patha = Environment.CurrentDirectory;
+                string nombre = "Archivos";
+                if (!Directory.Exists(patha + "\\" + nombre))
+                {   //Crea el directorio
+                    DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre);
+                }
+                string carpeta = _tipo_ent + "_" + _cod_ent;
+                if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta))
+                {   //Crea el directorio
+                    DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta);
+                }
+                string carpeta2 = "SEGUROS";
+                if (!Directory.Exists(patha + "\\" + nombre + "\\" + carpeta + "\\" + carpeta2))
+                {   //Crea el directorio
+                    DirectoryInfo di = Directory.CreateDirectory(patha + "\\" + nombre + "\\" + carpeta + "\\" + carpeta2);
+                }
+
+                // Copia Archivo
+                if (txt_ruta.Text.ToString() != "" && txt_ruta.Text != null)
+                {
+                    string file = "SG_" + tipo.PadLeft(2, '0') + "_" + cod_seg + System.IO.Path.GetExtension(txt_ruta.Text.ToString());
+                    // Elimina si existe
+                    //if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)))
+                    //{ File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)); }
+                    // Ingresa nuevo archivo
+                    File.Copy(txt_ruta.Text, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file), true);
+                    // Actualiza datos en BD
+                    Locales.Actualiza_RutaSeg(cod_seg, tipo, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file).ToString());
+                }
+            }
+            catch (Exception ex)
             {
-                string file = "SG_" + tipo.PadLeft(2, '0') + "_" + cod_seg + System.IO.Path.GetExtension(txt_ruta.Text.ToString());
-                // Elimina si existe
-                if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)))
-                { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)); }
-                // Ingresa nuevo archivo
-                File.Copy(txt_ruta.Text, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file));
-                // Actualiza datos en BD
-                Locales.Actualiza_RutaSeg(cod_seg, tipo, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file).ToString());
+                MessageBox.Show("Error en Guardar Información de Seguros. " + ex.Message,
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -267,15 +283,24 @@ namespace Gestion_Tiendas.Formularios
             item1.IsSelected = true;
             cbx_vigen.Items.Add(item1);
             DataTable lista_vigen = new DataTable();
-            lista_vigen = Locales.Lista_Seguros(_cod_ent, _tipo_ent, sel_tipo);
-            foreach (DataRow row in lista_vigen.Rows)
+            try
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Uid = row["Id"].ToString();
-                item.Content = " de :" + row["Fec_Ini"].ToString() + " hasta : " + row["Fec_Fin"].ToString();
-                cbx_vigen.Items.Add(item);
-                _ult_seg = row["Id"].ToString();
+                lista_vigen = Locales.Lista_Seguros(_cod_ent, _tipo_ent, sel_tipo);
+                foreach (DataRow row in lista_vigen.Rows)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Uid = row["Id"].ToString();
+                    item.Content = " de :" + row["Fec_Ini"].ToString() + " hasta : " + row["Fec_Fin"].ToString();
+                    cbx_vigen.Items.Add(item);
+                    _ult_seg = row["Id"].ToString();
+                }
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error en Obtener Información de Seguros. " + ex.Message,
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         private void Limpiar_Campos()

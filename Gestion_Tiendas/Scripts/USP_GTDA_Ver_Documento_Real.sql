@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 08/08/2018
 -- Asunto			: Obtiene el Documento Real
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se mopdificó para que no considere campos de gestión de usuarios
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Ver_Documento_Real '0000000006','CONT','09993','ALM'
 */
@@ -66,7 +70,12 @@ BEGIN
 		Select @cod_cont= dbo.USP_GTDA_Obten_Contrato(@cod_tda, @tipo, GETDATE())
 
 	--// Obtenemos los datos del contrato con mayor vigencia
-	Select *
+	Select	Cont_Id, Cont_TipoCont, Cont_PadreID, Cont_EntidId, Cont_TipEnt, Cont_CodInt, Cont_Area,
+			Cont_FecIni, Cont_FecFin, Cont_Moneda, Cont_Arrenda, Cont_Adminis, 
+			Cont_RentFija, Cont_RentVar, Cont_Adela, Cont_Garantia, Cont_Ingreso, Cont_RevProy, Cont_FondProm, Cont_FondPromVar, Cont_GComunFijo, Cont_GComunFijo_P, Cont_GComunVar, Cont_Reten, 
+			Cont_DbJul, Cont_DbDic, Cont_ServPub, Cont_ArbMunic, 
+			Cont_IPC_RentFija, Cont_IPC_FondProm, Cont_IPC_GComun, Cont_IPC_Frecue, Cont_IPC_Fec, 
+			Cont_RutaPlano, Cont_RutaCont
 	Into #temp_Contrato
 	From GTDA_Contratos
 	Where Cont_EntidId = @cod_tda

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Npgsql; //Npgsql .NET Data Provider for PostgreSQL
+//using Npgsql; //Npgsql .NET Data Provider for PostgreSQL
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;

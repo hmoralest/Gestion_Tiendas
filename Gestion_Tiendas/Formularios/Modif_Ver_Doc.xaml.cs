@@ -47,6 +47,9 @@ namespace Gestion_Tiendas.Formularios
         public static string val_ren_fija = "";
         public static string val_ren_var = "";
 
+        public static string _ruta_plan_ini = "";
+        public static string _ruta_cont_ini = "";
+
         public static DataTable dt_pago_terc = null;
 
         // Carta Fianza
@@ -194,7 +197,17 @@ namespace Gestion_Tiendas.Formularios
 
         private void btn_programa_Click(object sender, RoutedEventArgs e)
         {
-            if (dt_programa == null) { dt_programa = Contratos.Lista_CronogramaPagos(_cod_contrato, _tipo_contrato); }
+            if (dt_programa == null) {
+                try
+                {
+                    dt_programa = Contratos.Lista_CronogramaPagos(_cod_contrato, _tipo_contrato);
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Error Obtener Información. " + ex.Message + ".",
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
             if (dt_programa.Rows.Count > 0 || _accion == "A")
             {
                 // Se debe capturar el código
@@ -793,13 +806,17 @@ namespace Gestion_Tiendas.Formularios
                         chk_ver_plano.IsChecked = false;                    }
                     else {
                         txt_ruta_plano.Text = dat_cont.Rows[0]["Cont_RutaPlano"].ToString().Trim();
-                        chk_ver_plano.IsChecked = true;                    }
+                        chk_ver_plano.IsChecked = true;
+                        _ruta_plan_ini = dat_cont.Rows[0]["Cont_RutaPlano"].ToString().Trim();
+                    }
                     if (dat_cont.Rows[0]["Cont_RutaCont"].ToString() == "") {
                         txt_ruta_cont.Text = "";
                         chk_ver_cont.IsChecked = false;                    }
                     else {
                         txt_ruta_cont.Text = dat_cont.Rows[0]["Cont_RutaCont"].ToString().Trim();
-                        chk_ver_cont.IsChecked = true;                    }
+                        chk_ver_cont.IsChecked = true;
+                        _ruta_cont_ini = dat_cont.Rows[0]["Cont_RutaCont"].ToString().Trim();
+                    }
 
                     valida_btn_guardar();
                 }
@@ -980,27 +997,27 @@ namespace Gestion_Tiendas.Formularios
                 }
 
                 // Copia Plano
-                if (txt_ruta_plano.Text.ToString() != "" && txt_ruta_plano.Text != null)
+                if (txt_ruta_plano.Text.ToString() != "" && txt_ruta_plano.Text != null && _ruta_plan_ini != txt_ruta_plano.Text.ToString())
                 {
                     string file = "PLAN_" + _cod_contrato + System.IO.Path.GetExtension(txt_ruta_plano.Text.ToString());
                     // Elimina si existe
-                    if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, file)))
-                    { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, file)); }
+                    //if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, file)))
+                    //{ File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, file)); }
                     // Ingresa nuevo archivo
-                    File.Copy(txt_ruta_plano.Text, System.IO.Path.Combine(patha, nombre, carpeta, file));
+                    File.Copy(txt_ruta_plano.Text, System.IO.Path.Combine(patha, nombre, carpeta, file), true);
                     // Actualiza datos en BD
                     Contratos.Actualiza_RutaPlano(_cod_contrato, ult_tipo_cont, System.IO.Path.Combine(patha, nombre, carpeta, file).ToString());
                 }
 
                 // Copia Contrato
-                if (txt_ruta_cont.Text.ToString() != "" && txt_ruta_cont.Text != null)
+                if (txt_ruta_cont.Text.ToString() != "" && txt_ruta_cont.Text != null && _ruta_cont_ini != txt_ruta_cont.Text.ToString())
                 {
                     string file = "CONT_" + _cod_contrato + System.IO.Path.GetExtension(txt_ruta_cont.Text.ToString());
                     // Elimina si existe
-                    if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, file)))
-                    { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, file));  }
+                    //if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, file)))
+                    //{ File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, file));  }
                     // Ingresa nuevo archivo
-                    File.Copy(txt_ruta_cont.Text, System.IO.Path.Combine(patha, nombre, carpeta, file));
+                    File.Copy(txt_ruta_cont.Text, System.IO.Path.Combine(patha, nombre, carpeta, file), true);
                     // Actualiza datos en BD
                     Contratos.Actualiza_RutaContrato(_cod_contrato, ult_tipo_cont, System.IO.Path.Combine(patha, nombre, carpeta, file).ToString());
                 }

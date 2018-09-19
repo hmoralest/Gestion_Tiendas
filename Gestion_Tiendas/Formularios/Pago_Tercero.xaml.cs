@@ -73,20 +73,28 @@ namespace Gestion_Tiendas.Formularios
             /******************************************/
             /*-------Listamos Bancos en Combo-------*/
             /******************************************/
-            DataTable lista_banc = new DataTable();
-            //int contar = 0;
-            lista_banc = Contratos.ListaBancos();
-            foreach (DataRow row in lista_banc.Rows)
+            try
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Uid = row["id"].ToString();
-                item.Content = row["razon_soc"].ToString();
-                /*contar = contar + 1;
-                if (contar == 1)
+                DataTable lista_banc = new DataTable();
+                //int contar = 0;
+                lista_banc = Contratos.ListaBancos();
+                foreach (DataRow row in lista_banc.Rows)
                 {
-                    item.IsSelected = true;
-                }*/
-                cbx_banco.Items.Add(item);
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Uid = row["id"].ToString();
+                    item.Content = row["razon_soc"].ToString();
+                    /*contar = contar + 1;
+                    if (contar == 1)
+                    {
+                        item.IsSelected = true;
+                    }*/
+                    cbx_banco.Items.Add(item);
+                   }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener información de Bancos. " + ex.Message,
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             // Limpiando campos
@@ -111,9 +119,16 @@ namespace Gestion_Tiendas.Formularios
 
             //datos = Contratos.Lista_PagoTerceros(_cod_contrato, _tipo_contrato);
             //datos = datos_ini;
-            datos = Locales.Lista_PagoTerceros(_cod_entidad, _tip_entidad);
-            dg_pagos.ItemsSource = datos.AsDataView();
-
+            try
+            {
+                datos = Locales.Lista_PagoTerceros(_cod_entidad, _tip_entidad);
+                dg_pagos.ItemsSource = datos.AsDataView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener información de Pago a Terceros. " + ex.Message,
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             
         }
 

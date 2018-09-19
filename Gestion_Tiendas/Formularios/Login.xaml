@@ -1,0 +1,26 @@
+﻿<Window x:Class="Gestion_Tiendas.Formularios.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gestion_Tiendas.Formularios"
+        mc:Ignorable="d"
+        Title="Login..." Height="200" Width="400" Loaded="Window_Loaded">
+    <Grid>
+        <Rectangle HorizontalAlignment="Left" Height="149" Margin="10,10,0,0" VerticalAlignment="Top" Width="372" Stroke="Red" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFE6E6E6"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Label x:Name="label_01" Content="Usuario" HorizontalAlignment="Left" Margin="60,35,0,0" VerticalAlignment="Top" Width="70"/>
+        <TextBox x:Name="txt_user" HorizontalAlignment="Left" Height="23" Margin="135,35,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200"/>
+        <Label x:Name="label_02" Content="Contraseña" HorizontalAlignment="Left" Margin="60,66,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txt_pwd" HorizontalAlignment="Left" Height="23" Margin="135,66,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="200"/>
+
+        <Button x:Name="button" Content="Ingresar" HorizontalAlignment="Left" Margin="150,120,0,0" VerticalAlignment="Top" Width="100"/>
+    </Grid>
+</Window>

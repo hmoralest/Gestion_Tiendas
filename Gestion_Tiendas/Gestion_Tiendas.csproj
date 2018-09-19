@@ -64,10 +64,6 @@
     <Reference Include="DevExpress.Xpf.Grid.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Xpf.Grid.v15.1.Core, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Xpf.LayoutControl.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="Npgsql, Version=4.0.2.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Npgsql.4.0.2\lib\net45\Npgsql.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="ReuxablesLegacy">
       <HintPath>Imagenes\ReuxablesLegacy.dll</HintPath>
     </Reference>
@@ -116,6 +112,9 @@
     <Compile Include="Formularios\Listado_Documentos.xaml.cs">
       <DependentUpon>Listado_Documentos.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Modif_Ver_Doc.xaml.cs">
       <DependentUpon>Modif_Ver_Doc.xaml</DependentUpon>
     </Compile>
@@ -160,6 +159,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Formularios\Listado_Documentos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -259,9 +262,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Imagenes\fianza.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Imagenes\calendario.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -274,16 +274,10 @@
     <Resource Include="Imagenes\resta.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Imagenes\pag_terc.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icono.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\contrato.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Imagenes\seguro.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\lock.png" />
@@ -293,6 +287,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Imagenes\bill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\building.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\process.png" />
+    <Resource Include="Imagenes\report.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\dollar_hand.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 04/09/2018
 -- Asunto			: Se creó para Grabar y Modificar CartaFianza
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos de Control de Cambios
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Grabar_Modificar_CartaFianza '09993','ALM','','20180101','20181231','0012','Banco de la Nacion','123123123','1110','D:\Conglomerado de SP\QuitaEsp.txt' 
 */
@@ -42,10 +46,12 @@ BEGIN
 		BEGIN
 			Select @id = Right('0000' + Cast((IsNull(MAX(CarF_Id),0) + 1) As varchar),4) From GTDA_Carta_Fianza
 
-			Insert Into GTDA_Carta_Fianza (	CarF_EntCod, CarF_EntTip, CarF_Id, CarF_FecIni, CarF_FecFin, CarF_BanId, CarF_BanDes, CarF_NroDoc, CarF_BenefRUC, CarF_BenefDesc, CarF_Monto, CarF_RutaDoc)
+			Insert Into GTDA_Carta_Fianza (	CarF_EntCod, CarF_EntTip, CarF_Id, CarF_FecIni, CarF_FecFin, CarF_BanId, CarF_BanDes, CarF_NroDoc, CarF_BenefRUC, CarF_BenefDesc, CarF_Monto, CarF_RutaDoc,
+											CarF_UsuCre, CarF_FecCre, CarF_UsuMod, CarF_FecMod)
 			Values (@ent_cod, @ent_tip, @id, @fec_ini, @fec_fin,
 					@ban_id, @ban_des, @nro_doc,
-					@ruc, @raz_soc, @monto, @ruta)
+					@ruc, @raz_soc, @monto, @ruta,
+					'usu', getdate(), 'usu', getdate())
 		END
 		ELSE
 		BEGIN
@@ -58,7 +64,9 @@ BEGIN
 				CarF_BenefRUC = @ruc,
 				CarF_BenefDesc = @raz_soc,
 				CarF_Monto = @monto,
-				CarF_RutaDoc = @ruta
+				CarF_RutaDoc = @ruta,
+				CarF_UsuMod = 'usu',
+				CarF_FecMod = getdate()
 			Where 
 				CarF_EntCod	=	@ent_cod
 			AND CarF_EntTip	=	@ent_tip

@@ -12,8 +12,8 @@ GO
 */
 
 CREATE PROCEDURE [dbo].[USP_GTDA_Elimina_CartaFianza](
-	@cod_cont			Varchar(10),	-- Cod. Contrato
-	@tip_cont			Varchar(1)
+	@cod_ent			Varchar(10),	-- Cod. Contrato
+	@tip_ent			Varchar(1)
 )
    
 AS    
@@ -22,7 +22,7 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRAN Elimina_CartaFianza
 	
-			Delete From GTDA_Carta_Fianza Where CarF_ContId = @cod_cont And CarF_ContTipo = @tip_cont
+			Delete From GTDA_Carta_Fianza Where CarF_EntCod = @cod_ent And CarF_EntTip = @tip_ent
 
 		COMMIT TRAN Elimina_CartaFianza
 	END TRY

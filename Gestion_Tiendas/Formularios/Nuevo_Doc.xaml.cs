@@ -1016,7 +1016,7 @@ namespace Gestion_Tiendas.Formularios
                     if(txt_ruta_plano.Text.ToString() != "" && txt_ruta_plano.Text != null)
                     {
                         string file = "PLAN_"+ cod+ System.IO.Path.GetExtension(txt_ruta_plano.Text.ToString());
-                        File.Copy(txt_ruta_plano.Text, System.IO.Path.Combine(patha, nombre, carpeta, file));
+                        File.Copy(txt_ruta_plano.Text, System.IO.Path.Combine(patha, nombre, carpeta, file), true);
                         Contratos.Actualiza_RutaPlano(cod, _tipo_doc, System.IO.Path.Combine(patha, nombre, carpeta, file).ToString());
                     }
 
@@ -1024,7 +1024,7 @@ namespace Gestion_Tiendas.Formularios
                     if (txt_ruta_cont.Text.ToString() != "" && txt_ruta_cont.Text != null)
                     {
                         string file = "CONT_" + cod + System.IO.Path.GetExtension(txt_ruta_cont.Text.ToString());
-                        File.Copy(txt_ruta_cont.Text, System.IO.Path.Combine(patha, nombre, carpeta, file));
+                        File.Copy(txt_ruta_cont.Text, System.IO.Path.Combine(patha, nombre, carpeta, file), true);
                         Contratos.Actualiza_RutaContrato(cod, _tipo_doc, System.IO.Path.Combine(patha, nombre, carpeta, file).ToString());
                     }
 

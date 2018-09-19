@@ -19,6 +19,10 @@ GO
 -- Asunto			: Se comentó los flag de obligatorio Carta Fianza, seguro y Pago a Terceros
 --					  Se traslado a dependencia directa a locales
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos para gestión de Cambios
+-- ====================================================================================================
 
 /****** Object:  Table [dbo].[GTDA_Contratos]    Script Date: 08/08/2018 14:07:07 ******/
 SET ANSI_NULLS ON
@@ -65,6 +69,10 @@ CREATE TABLE [dbo].[GTDA_Contratos](
 	--[Cont_CartFianza] [bit] NULL,
 	--[Cont_OblSegur] [bit] NULL,
 	[Cont_RutaPlano] [varchar](max) NULL,
-	[Cont_RutaCont] [varchar](max) NULL
+	[Cont_RutaCont] [varchar](max) NULL,
+	[Cont_UsuCre] [varchar](max) NULL,
+	[Cont_FecCre] [smalldatetime] NULL,
+	[Cont_UsuMod] [varchar](max) NULL,
+	[Cont_FecMod] [smalldatetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO

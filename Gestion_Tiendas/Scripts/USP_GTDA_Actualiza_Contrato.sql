@@ -9,7 +9,11 @@ GO
 -- ====================================================================================================
 -- Modificado por	: Henry Morales
 -- Fch. Modifica	: 03/09/2018
--- Asunto			: Se agergó campo Reten, para retenciones de 1ra
+-- Asunto			: Se agregó campo Reten, para retenciones de 1ra
+-- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregó campos de gestión de Usuarios
 -- ====================================================================================================
 /*
 	Exec USP_GTDA_Actualiza_Contrato 
@@ -21,6 +25,7 @@ CREATE PROCEDURE [dbo].[USP_GTDA_Actualiza_Contrato](
 	@Id				Varchar(10),
 	@fechaini		SmallDatetime,	-- Contrato
 	@fechafin		SmallDatetime,	-- Contrato
+	@cod_int		Varchar(max),
 	@area			Decimal(18,2),
 	@moneda			Varchar(3),		-- Contrato
 	
@@ -76,6 +81,7 @@ BEGIN
 	
 			Update GTDA_Contratos Set
 				Cont_Area	=  @area,
+				Cont_CodInt	=  @cod_int,
 				Cont_FecIni	=  @fechaini,
 				Cont_FecFin	=  @fechafin,
 				Cont_Moneda	=  @moneda,
@@ -106,7 +112,10 @@ BEGIN
 				--Cont_CartFianza	=  @obl_carta,
 				--Cont_OblSegur	=  @obl_segur,
 				Cont_RutaPlano	=  @ruta_plano,
-				Cont_RutaCont	=  @ruta_contr
+				Cont_RutaCont	=  @ruta_contr,
+				-- Usuarios --
+				Cont_UsuMod	=  'usu',
+				Cont_FecMod	=  getdate()
 			Where 
 				Cont_Id	=  @Id
 			AND Cont_TipoCont = 'C'

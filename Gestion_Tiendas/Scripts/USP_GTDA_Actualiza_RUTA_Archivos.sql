@@ -9,6 +9,10 @@ GO
 -- Tipos			: PLAN = Plano de Contrato
 --					  CONT = Contrato
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos para gestión de Usuarios
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Actualiza_RUTA_Archivos
 */
@@ -31,27 +35,35 @@ BEGIN
 	
 			IF @tip_ruta = 'PLAN'
 				Update GTDA_Contratos Set
-					Cont_RutaPlano = @new_ruta
+					Cont_RutaPlano = @new_ruta,
+					Cont_UsuMod = 'usu',
+					Cont_FecMod = getdate()
 				Where 
 					Cont_Id	=  @cod_doc
 				AND Cont_TipoCont = @tip_doc
 				
 			IF @tip_ruta = 'CONT'
 				Update GTDA_Contratos Set
-					Cont_RutaCont = @new_ruta
+					Cont_RutaCont = @new_ruta,
+					Cont_UsuMod = 'usu',
+					Cont_FecMod = getdate()
 				Where 
 					Cont_Id	=  @cod_doc
 				AND Cont_TipoCont = @tip_doc
 				
 			IF @tip_ruta = 'CART'
 				Update GTDA_Carta_Fianza Set
-					CarF_RutaDoc = @new_ruta
+					CarF_RutaDoc = @new_ruta,
+					CarF_UsuMod = 'usu',
+					CarF_FecMod = getdate()
 				Where 
 					CarF_Id	=  @cod_doc
 				
 			IF @tip_ruta = 'SEGU'
 				Update GTDA_Seguros Set
-					Seg_RutaDoc = @new_ruta
+					Seg_RutaDoc = @new_ruta,
+					Seg_UsuMod = 'usu',
+					Seg_FecMod = getdate()
 				Where 
 					Seg_Id	=  @cod_doc
 				AND Seg_Tipo = @tip_doc

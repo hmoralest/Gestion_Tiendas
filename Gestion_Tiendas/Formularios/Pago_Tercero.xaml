@@ -58,7 +58,7 @@
                         <DataTemplate>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Button Name="btn_resta" Cursor="Hand" Click="btn_resta_Click" >
-                                    <Image Source="..\Imagenes\resta.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
+                                    <Image Source="/Gestion_Tiendas;component/Imagenes/resta.jpg" Height="16" Width="16" VerticalAlignment="Bottom">
                                     </Image>
                                     <Button.ToolTip>
                                         <ToolTip>

@@ -46,11 +46,12 @@ BEGIN
 
 			Insert Into GTDA_Seguros (	Seg_EntId, Seg_EntTip, Seg_Id, Seg_Tipo, Seg_FecIni, Seg_FecFin, 
 										Seg_AsegRUC, Seg_AsegRazSoc, Seg_NroDoc, Seg_BenefRUC, Seg_BenefRazSoc, 
-										Seg_Cant, Seg_Unidad, Seg_Valor, Seg_RutaDoc)
+										Seg_Cant, Seg_Unidad, Seg_Valor, Seg_RutaDoc,
+										Seg_UsuCre, Seg_FecCre, Seg_UsuMod, Seg_FecMod)
 			Values (@ent_cod, @ent_tip, @seg_cod, @seg_tip, @fec_ini, @fec_fin,
 					@asg_ruc, @asg_raz, @nro_doc, @ben_ruc, @ben_raz,
-					@cantid, @unidad, @valor,
-					@ruta)
+					@cantid, @unidad, @valor, @ruta,
+					'usu', getdate(), 'usu', getdate())
 		END
 		ELSE
 		BEGIN
@@ -65,7 +66,9 @@ BEGIN
 				Seg_Cant		= @cantid,
 				Seg_Unidad		= @unidad,
 				Seg_Valor		= @valor,
-				Seg_RutaDoc		= @ruta
+				Seg_RutaDoc		= @ruta,
+				Seg_UsuMod		= 'usu',
+				Seg_FecMod		= getdate()
 			Where 
 				Seg_EntId	=	@ent_cod
 			AND Seg_EntTip	=	@ent_tip

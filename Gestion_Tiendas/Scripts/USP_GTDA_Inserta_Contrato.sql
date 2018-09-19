@@ -11,6 +11,10 @@ GO
 -- Fch. Modifica	: 03/09/2018
 -- Asunto			: Se agregó campo de Retencion de 1ra Categ
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregó campos de Gestión de usuarios
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Inserta_Contrato 
 */
@@ -204,14 +208,16 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRAN Grabar_Contratos
 	
-			Insert into GTDA_Contratos (Cont_Id, Cont_TipoCont, Cont_PadreID, Cont_EntidId, Cont_TipEnt, Cont_CodInt, Cont_Area ,Cont_FecIni ,Cont_FecFin ,Cont_Moneda ,Cont_Arrenda ,Cont_Adminis ,Cont_RentFija ,Cont_RentVar ,Cont_Adela ,Cont_Garantia ,Cont_Ingreso ,Cont_RevProy ,Cont_FondProm ,Cont_FondPromVar ,Cont_GComunFijo, Cont_GComunFijo_P, Cont_GComunVar, Cont_Reten, Cont_DbJul, Cont_DbDic, Cont_ServPub, Cont_ArbMunic ,Cont_IPC_RentFija, Cont_IPC_FondProm, Cont_IPC_GComun, Cont_IPC_Frecue, Cont_IPC_Fec, /*Cont_PagoTercer, Cont_CartFianza, Cont_OblSegur,*/ Cont_RutaPlano, Cont_RutaCont)
+			Insert into GTDA_Contratos (Cont_Id, Cont_TipoCont, Cont_PadreID, Cont_EntidId, Cont_TipEnt, Cont_CodInt, Cont_Area ,Cont_FecIni ,Cont_FecFin ,Cont_Moneda ,Cont_Arrenda ,Cont_Adminis ,Cont_RentFija ,Cont_RentVar ,Cont_Adela ,Cont_Garantia ,Cont_Ingreso ,Cont_RevProy ,Cont_FondProm ,Cont_FondPromVar ,Cont_GComunFijo, Cont_GComunFijo_P, Cont_GComunVar, Cont_Reten, Cont_DbJul, Cont_DbDic, Cont_ServPub, Cont_ArbMunic ,Cont_IPC_RentFija, Cont_IPC_FondProm, Cont_IPC_GComun, Cont_IPC_Frecue, Cont_IPC_Fec, /*Cont_PagoTercer, Cont_CartFianza, Cont_OblSegur,*/ Cont_RutaPlano, Cont_RutaCont,
+										Cont_UsuCre, Cont_FecCre, Cont_UsuMod, Cont_FecMod)
 			values (@codigo_cont, @tipo_doc, @cont_pad, @codigo, @tipo, @cod_int, @area, @fechaini, @fechafin, @moneda,	--// Valores grales de contrato
 					@arrendador, @administra,		--// relacion
 					@rent_fij, @rent_var, @adelanto, @garantia, @der_ingr, @rev_proy, @promocio, @promoc_v,  @gast_com, @gs_com_p, @gs_com_v,	--// Valores monetarios y porcentajes
 					@Reten, @dbJulio, @dbDiciembre, @serv_public, @arbitrios,	--// Flags de comportamiento
 					@IPC_renta, @IPC_promo,  @IPC_comun, @IPC_frecu, @fecha_IPC,	--// Comportamiento IPC
 					/*@pag_terce, @obl_segur, @obl_carta,*/		--// Flags de Documentos Adicionales
-					@ruta_plano,  @ruta_contr)			--// Rutas de documentos
+					@ruta_plano,  @ruta_contr,		--// Rutas de documentos
+					'usu', getdate(), 'usu', getdate())		--// Gestion de Usuarios
 
 			Select @codigo_cont As codigo
 		COMMIT TRAN Grabar_Contratos

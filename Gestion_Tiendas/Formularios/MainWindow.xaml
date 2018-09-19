@@ -5,8 +5,124 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestion_Tiendas"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Principal" Height="400" Width="600" Loaded="Window_Loaded" ResizeMode="CanMinimize">
     <Grid>
-        
+        <Rectangle HorizontalAlignment="Left" Height="349" Margin="10,10,0,0" VerticalAlignment="Top" Width="572" Stroke="Red" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFE6E6E6"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Button x:Name="btn1" Width="120" Height="100" Cursor="Hand" Margin="34,0,438,224"  VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Generar Nota de credito"/></TextBlock>
+                        <TextBlock><Run Text="Devolucion de Productos o Anulacion de documentos."/></TextBlock>
+                        <TextBlock><Run Text="No lo presione hasta estar seguro de ingresar a la ventana."/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="110">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Source="/Gestion_Tiendas;component/Imagenes/process.png"/>
+            </Grid>
+        </Button>
+        <Label x:Name="lbl1" Content="Procesamiento" HorizontalAlignment="Left" Margin="49,150,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn2" Width="120" Height="100" Cursor="Hand" Margin="34,0,438,67"  VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Generar Nota de credito"/></TextBlock>
+                        <TextBlock><Run Text="Devolucion de Productos o Anulacion de documentos."/></TextBlock>
+                        <TextBlock><Run Text="No lo presione hasta estar seguro de ingresar a la ventana."/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="110">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Source="/Gestion_Tiendas;component/Imagenes/lock.png"/>
+            </Grid>
+        </Button>
+        <Label x:Name="lbl2" Content="Ingresa Documentos" HorizontalAlignment="Left" Margin="34,307,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn3" Width="120" Height="100" Cursor="Hand" Margin="234,0,238,224"  VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Generar Nota de credito"/></TextBlock>
+                        <TextBlock><Run Text="Devolucion de Productos o Anulacion de documentos."/></TextBlock>
+                        <TextBlock><Run Text="No lo presione hasta estar seguro de ingresar a la ventana."/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="110">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Source="/Gestion_Tiendas;component/Imagenes/bill.png"/>
+            </Grid>
+        </Button>
+        <Label x:Name="lbl3" Content="Ingresa Documentos" HorizontalAlignment="Left" Margin="234,150,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn4" Width="120" Height="100" Cursor="Hand" Margin="234,0,238,67"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="btn4_Click">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Gestión de Documentos de Locales"/></TextBlock>
+                        <TextBlock><Run Text="Se Ingresan y Modifican los Documentos relacionados a Locales (TDA / ALM)."/></TextBlock>
+                        <TextBlock><Run Text="Contratos / Seguros / Cartas Fianza / Pago a Terceros."/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="110">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Source="/Gestion_Tiendas;component/Imagenes/building.png"/>
+            </Grid>
+        </Button>
+        <Label x:Name="lbl4" Content="Docs. de Locales" HorizontalAlignment="Left" Margin="248,307,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn5" Width="120" Height="100" Cursor="Hand" Margin="422,0,50,224"  VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Generar Nota de credito"/></TextBlock>
+                        <TextBlock><Run Text="Devolucion de Productos o Anulacion de documentos."/></TextBlock>
+                        <TextBlock><Run Text="No lo presione hasta estar seguro de ingresar a la ventana."/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="110">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Source="/Gestion_Tiendas;component/Imagenes/report.png"/>
+            </Grid>
+        </Button>
+        <Label x:Name="lbl5" Content="Reportes" HorizontalAlignment="Left" Margin="454,150,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn6" Width="120" Height="100" Cursor="Hand" Margin="422,0,50,67"  VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock FontWeight="Bold" TextAlignment="Left" ><Run Text="Generar Nota de credito"/></TextBlock>
+                        <TextBlock><Run Text="Devolucion de Productos o Anulacion de documentos."/></TextBlock>
+                        <TextBlock><Run Text="No lo presione hasta estar seguro de ingresar a la ventana."/></TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+            <Grid Width="110">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Source="/Gestion_Tiendas;component/Imagenes/lock.png"/>
+            </Grid>
+        </Button>
+        <Label x:Name="lbl6" Content="Ingresa Documentos" HorizontalAlignment="Left" Margin="422,307,0,0" VerticalAlignment="Top"/>
+
     </Grid>
 </Window>

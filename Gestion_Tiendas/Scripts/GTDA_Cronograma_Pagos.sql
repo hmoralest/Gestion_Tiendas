@@ -9,6 +9,10 @@ GO
 -- Create date		: 07/08/2018
 -- Description		: Almacena las cuotas grabadas en detalle 
 -- =====================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos para gestión de Cambios
+-- ====================================================================================================
 
 /****** Object:  Table [dbo].[GTDA_Cronograma_Pagos]    Script Date: 20/08/2018 17:20:04 ******/
 SET ANSI_NULLS ON
@@ -25,7 +29,11 @@ CREATE TABLE [dbo].[GTDA_Cronograma_Pagos](
 	[Cron_RenVar] [decimal](18, 2) NOT NULL,
 	[Cron_FecIni] [smalldatetime] NULL,
 	[Cron_FecFin] [smalldatetime] NULL,
-	[Cron_DesVigencia] [varchar](max) NOT NULL
+	[Cron_DesVigencia] [varchar](max) NOT NULL,
+	[Cron_UsuCre] [varchar](max) NULL,
+	[Cron_FecCre] [smalldatetime] NULL,
+	[Cron_UsuMod] [varchar](max) NULL,
+	[Cron_FecMod] [smalldatetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 

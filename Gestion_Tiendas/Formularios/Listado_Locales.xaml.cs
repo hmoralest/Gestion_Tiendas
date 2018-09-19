@@ -25,6 +25,7 @@ namespace Gestion_Tiendas.Formularios
 
         #region Var Locales
         private DataTable dt_grid = new DataTable();
+        public static bool _activo_form = false;
         #endregion
 
         #region Funciones de Interfaz e Iniciacion
@@ -35,15 +36,30 @@ namespace Gestion_Tiendas.Formularios
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            dt_grid = Locales.Listar_Locales();
-            dtg_locales.ItemsSource = dt_grid.DefaultView;
-            Application.Current.ApplyTheme("ExpressionLight");
+            try
+            {
+                _activo_form = true;
 
-            SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 167, 167));
-            SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 224, 224));
+                dt_grid = Locales.Listar_Locales();
+                dtg_locales.ItemsSource = dt_grid.DefaultView;
+                Application.Current.ApplyTheme("ExpressionLight");
+
+                SolidColorBrush color1 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 167, 167));
+                SolidColorBrush color2 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 255, 224, 224));
             
-            this.dtg_locales.RowBackground  = color1;
-            this.dtg_locales.AlternatingRowBackground = color2;
+                this.dtg_locales.RowBackground  = color1;
+                this.dtg_locales.AlternatingRowBackground = color2;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error en Consultar Locales." + ex.Message,
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _activo_form = false;
         }
 
         private void txt_nombre_KeyDown(object sender, KeyEventArgs e)
@@ -354,9 +370,16 @@ namespace Gestion_Tiendas.Formularios
             string _ubic = txt_distrit.Text.ToString().Trim();
             string _direc = ""; // txt_codigo.Text.ToString().Trim();
             string _estado = (escoger_estado != null) ? escoger_estado.Uid.ToString().Trim() : "";
-
-            dt_grid = Locales.Buscar_Locales(_id, _cod_int, _des, _tipo, _super, _arren, _ubic, _direc, _estado);
-            dtg_locales.ItemsSource = dt_grid.DefaultView;
+            try
+            {
+                dt_grid = Locales.Buscar_Locales(_id, _cod_int, _des, _tipo, _super, _arren, _ubic, _direc, _estado);
+                dtg_locales.ItemsSource = dt_grid.DefaultView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error en Obtener Información de Locales." + ex.Message,
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

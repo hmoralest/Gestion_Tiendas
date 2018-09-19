@@ -5,15 +5,19 @@ If Exists(Select * from sysobjects Where name = 'GTDA_Pago_Terceros' And type = 
 	Drop Table GTDA_Pago_Terceros
 GO
 
--- =========================================================================================
+-- ====================================================================================================
 -- Author			: Henry Morales
 -- Create date		: 22/08/2018
 -- Description		: Almacena el detalle de Pago a Terceros (de existir)
--- =========================================================================================
+-- ====================================================================================================
 -- Author			: Henry Morales
 -- Create date		: 05/09/2018
 -- Description		: Se modifica para relacionar directamente el Pago a 3eros al Local
--- =========================================================================================
+-- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos para gestión de Cambios
+-- ====================================================================================================
 
 /****** Object:  Table [dbo].[GTDA_Pago_Terceros]    Script Date: 22/08/2018 09:37:32 ******/
 SET ANSI_NULLS ON
@@ -33,7 +37,11 @@ CREATE TABLE [dbo].[GTDA_Pago_Terceros](
 	[Pag_Porc] [decimal](18, 2) NULL,
 	[Pag_BanId] [varchar](3) NULL,
 	[Pag_BanDes] [varchar](max) NULL,
-	[Pag_BanCta] [varchar](max) NOT NULL
+	[Pag_BanCta] [varchar](max) NOT NULL,
+	[Pag_UsuCre] [varchar](max) NULL,
+	[Pag_FecCre] [smalldatetime] NULL,
+	[Pag_UsuMod] [varchar](max) NULL,
+	[Pag_FecMod] [smalldatetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 

@@ -83,7 +83,7 @@
                     <ColumnDefinition Width="54*" />
                     <ColumnDefinition Width="80*" />
                 </Grid.ColumnDefinitions>
-                <Image Margin="5,0,0,0" Source="..\Imagenes\guadar.png" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                <Image Margin="5,0,0,0" Source="/Gestion_Tiendas;component/Imagenes/guadar.png" Width="32" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
                 <TextBlock Text="Guardar" VerticalAlignment="Center" Margin="44,8,46,8" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
         </Button>

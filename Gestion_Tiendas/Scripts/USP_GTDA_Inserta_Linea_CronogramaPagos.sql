@@ -7,6 +7,10 @@ GO
 -- Fch. Modifica	: 21/08/2018
 -- Asunto			: Ingresa Cronograma de Pagos (Linea x Linea)
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos para gestión de Cambios
+-- ====================================================================================================
 /*
 	Exec USP_GTDA_Inserta_Linea_CronogramaPagos 
 */
@@ -30,10 +34,12 @@ BEGIN
 	BEGIN TRY
 		BEGIN TRAN Grabar_Cronograma
 	
-			Insert into GTDA_Cronograma_Pagos
+			Insert into GTDA_Cronograma_Pagos (	Cron_ContId, Cron_ContTipo, Cron_Nro, Cron_RenFija, Cron_RenVar, Cron_FecIni, Cron_FecFin, Cron_DesVigencia, 
+												Cron_UsuCre, Cron_FecCre, Cron_UsuMod, Cron_FecMod)
 			values (@cod_cont, @tip_cont,			--// Identifica Contrato
 					@nro, @fijo, @variable,		--// Datos Cronograma
-					@fec_ini, @fec_fin, @vigencia)		--// Fechas Cronograma
+					@fec_ini, @fec_fin, @vigencia,		--// Fechas Cronograma
+					'usu', getdate(), 'usu', getdate())	--// datos de usuario
 
 		COMMIT TRAN Grabar_Cronograma
 	END TRY

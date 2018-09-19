@@ -10,6 +10,10 @@ GO
 -- Fch. Modifica	: 04/09/2018
 -- Asunto			: Se creó tabla para Almacenar los Seguros
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos para gestión de Cambios
+-- ====================================================================================================
 /****** Object:  Table [dbo].[GTDA_Seguros]    Script Date: 4/09/2018 10:19:51 ******/
 SET ANSI_NULLS ON
 GO
@@ -32,7 +36,11 @@ CREATE TABLE [dbo].[GTDA_Seguros](
 	[Seg_Cant] [decimal](18, 2) NOT NULL,
 	[Seg_Unidad] [varchar](30) NOT NULL,
 	[Seg_Valor] [decimal](18, 2) NOT NULL,
-	[Seg_RutaDoc] [varchar](max) NOT NULL
+	[Seg_RutaDoc] [varchar](max) NOT NULL,
+	[Seg_UsuCre] [varchar](max) NULL,
+	[Seg_FecCre] [smalldatetime] NULL,
+	[Seg_UsuMod] [varchar](max) NULL,
+	[Seg_FecMod] [smalldatetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 

@@ -62,49 +62,57 @@ namespace Gestion_Tiendas.Formularios
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _ok = false;
-            /******************************************/
-            /*--------Listamos Bancos en Combo--------*/
-            /******************************************/
-            DataTable lista_banc = new DataTable();
-            //int contar = 0;
-            lista_banc = Contratos.ListaBancos();
-            foreach (DataRow row in lista_banc.Rows)
+            try
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Uid = row["id"].ToString();
-                item.Content = row["razon_soc"].ToString();
-                cbx_banco.Items.Add(item);
-            }
+                _ok = false;
+                /******************************************/
+                /*--------Listamos Bancos en Combo--------*/
+                /******************************************/
+                DataTable lista_banc = new DataTable();
+                //int contar = 0;
+                lista_banc = Contratos.ListaBancos();
+                foreach (DataRow row in lista_banc.Rows)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Uid = row["id"].ToString();
+                    item.Content = row["razon_soc"].ToString();
+                    cbx_banco.Items.Add(item);
+                }
 
-            /* Combo Cartas */
-            datos = Locales.Lista_CartaFianza(_cod_ent, _tip_ent); ;
-            ComboBoxItem item1 = new ComboBoxItem();
-            item1.Uid = "";
-            item1.Content = "[NUEVA CARTA FIANZA]";
-            item1.IsSelected = true;
-            cbx_Carta.Items.Add(item1);
-            foreach (DataRow row in datos.Rows)
+                /* Combo Cartas */
+                datos = Locales.Lista_CartaFianza(_cod_ent, _tip_ent); ;
+                ComboBoxItem item1 = new ComboBoxItem();
+                item1.Uid = "";
+                item1.Content = "[NUEVA CARTA FIANZA]";
+                item1.IsSelected = true;
+                cbx_Carta.Items.Add(item1);
+                foreach (DataRow row in datos.Rows)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Uid = row["Id"].ToString();
+                    item.Content = " de :" + row["Fecha_Ini"].ToString() + " hasta : "+ row["Fecha_Fin"].ToString();
+                    cbx_Carta.Items.Add(item);
+                    _ult_carta = row["Id"].ToString();
+                }
+
+                // Limpiando campos
+                Limpiar_Campos();
+
+                /*datos = new DataTable();
+                // Declara Tablas usadas en los grid
+                datos.TableName = "Carta_Fianza";
+                datos.Columns.Add("Fecha_Ini", typeof(string));
+                datos.Columns.Add("Fecha_Fin", typeof(string));
+                datos.Columns.Add("Nro_Doc", typeof(string));
+                datos.Columns.Add("Benef_RUC", typeof(string));
+                datos.Columns.Add("Benef_desc", typeof(string));
+                datos.Columns.Add("Monto", typeof(string));*/
+            }
+            catch(Exception ex)
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Uid = row["Id"].ToString();
-                item.Content = " de :" + row["Fecha_Ini"].ToString() + " hasta : "+ row["Fecha_Fin"].ToString();
-                cbx_Carta.Items.Add(item);
-                _ult_carta = row["Id"].ToString();
+                MessageBox.Show("Error en Obtener Información de Carta Fianza." + ex.Message,
+                "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            // Limpiando campos
-            Limpiar_Campos();
-
-            /*datos = new DataTable();
-            // Declara Tablas usadas en los grid
-            datos.TableName = "Carta_Fianza";
-            datos.Columns.Add("Fecha_Ini", typeof(string));
-            datos.Columns.Add("Fecha_Fin", typeof(string));
-            datos.Columns.Add("Nro_Doc", typeof(string));
-            datos.Columns.Add("Benef_RUC", typeof(string));
-            datos.Columns.Add("Benef_desc", typeof(string));
-            datos.Columns.Add("Monto", typeof(string));*/
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
@@ -191,10 +199,10 @@ namespace Gestion_Tiendas.Formularios
                                         {
                                             string file = "CF_" + cod_carta + System.IO.Path.GetExtension(txt_ruta.Text.ToString());
                                             // Elimina si existe
-                                            if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)))
-                                            { File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)); }
+                                            //if (File.Exists(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)))
+                                            //{ File.Delete(System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file)); }
                                             // Ingresa nuevo archivo
-                                            File.Copy(txt_ruta.Text, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file));
+                                            File.Copy(txt_ruta.Text, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file), true);
                                             // Actualiza datos en BD
                                             Locales.Actualiza_RutaCarta(cod_carta, System.IO.Path.Combine(patha, nombre, carpeta, carpeta2, file).ToString());
                                         }
@@ -314,15 +322,26 @@ namespace Gestion_Tiendas.Formularios
 
         private void txt_ruc_benef_LostFocus(object sender, RoutedEventArgs e)
         {
-            string razon = "";
-            razon = Contratos.Valida_Proveedor(txt_benef.Text.ToString());
-            if (razon.Length > 0)
+            try
             {
-                txt_benef.Text = razon;
+                string razon = "";
+                razon = Contratos.Valida_Proveedor(txt_ruc_benef.Text.ToString());
+                if (razon.Length > 0)
+                {
+                    txt_benef.Text = razon;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontró Proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                    "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
+                    txt_benef.Text = "";
+                    //txt_ruc_benef.Focus();
+                    txt_ruc_benef.SelectAll();
+                }
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("No se encontró Proveedor. Es necesario registrar el RUC en Intranet como Proveedor.",
+                MessageBox.Show("Error en Validación de RUC." + ex.Message,
                 "Bata - Mensaje De Advertencia", MessageBoxButton.OK, MessageBoxImage.Error);
                 txt_benef.Text = "";
             }

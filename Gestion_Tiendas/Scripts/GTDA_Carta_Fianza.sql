@@ -10,6 +10,10 @@ GO
 -- Fch. Modifica	: 28/08/2018
 -- Asunto			: Se creó tabla para Carta Fianza
 -- ====================================================================================================
+-- Modificado por	: Henry Morales
+-- Fch. Modifica	: 12/09/2018
+-- Asunto			: Se agregaron campos de Monitoreo por Usuarios
+-- ====================================================================================================
 
 /****** Object:  Table [dbo].[GTDA_Carta_Fianza]    Script Date: 28/08/2018 12:15:01 ******/
 SET ANSI_NULLS ON
@@ -30,7 +34,12 @@ CREATE TABLE [dbo].[GTDA_Carta_Fianza](
 	[CarF_BenefRUC] [varchar](15) NULL,
 	[CarF_BenefDesc] [varchar](max) NULL,
 	[CarF_Monto] [decimal](18, 2) NULL,
-	[CarF_RutaDoc] [varchar](max) NULL
+	[CarF_RutaDoc] [varchar](max) NULL,
+	/*Se agregó control de Usuario*/
+	[CarF_UsuCre] [varchar](max) NULL,
+	[CarF_FecCre] [smalldatetime] NULL,
+	[CarF_UsuMod] [varchar](max) NULL,
+	[CarF_FecMod] [smalldatetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
