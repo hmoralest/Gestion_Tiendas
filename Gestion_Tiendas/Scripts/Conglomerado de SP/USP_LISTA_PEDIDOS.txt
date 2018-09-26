@@ -1,0 +1,92 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `USP_LISTA_PEDIDOS` $$
+CREATE DEFINER=`batauserec`@`%` PROCEDURE `USP_LISTA_PEDIDOS`(estado int)
+BEGIN
+
+	Select	Cast(ped.id_order as char)				as ped_id,
+		Cast(ped.reference as char)				as ped_ref,
+		Cast(ped.date_add as char)				as ped_fecha,
+		RIGHT(CONCAT('000000',Cast(dir_ped.id_state as char)),6)	as ped_ubigeo_ent,
+		Cast(QuitaEsp(dir_ped.address1) as char)				as ped_dir_ent,
+		Cast(QuitaEsp(dir_ped.other) as char)				as ped_ref_ent,
+		Cast(CONCAT(TRIM(QuitaEsp(dir_ped.firstname)),' ',TRIM(QuitaEsp(dir_ped.lastname))) as char)				as ped_nom_ent,
+		Cast(CONCAT(TRIM(QuitaEsp(dir_ped.phone)),' / ',TRIM(QuitaEsp(dir_ped.phone_mobile))) as char)				as ped_tel_ent,
+		ROUND((ped.total_paid_tax_excl+
+    CASE  WHEN IFNULL(cup.value,0)>(ped.total_discounts+IFNULL(perc.dcto,0))
+          THEN (ped.total_discounts+IFNULL(perc.dcto,0))
+          ELSE IFNULL(cup.value,0) END )/1.18,2)          as ped_total_sigv,
+		ped.total_paid+
+    CASE  WHEN IFNULL(cup.value,0)>(ped.total_discounts+IFNULL(perc.dcto,0))
+          THEN (ped.total_discounts+IFNULL(perc.dcto,0))
+          ELSE IFNULL(cup.value,0) END						as ped_total_cigv,
+		ROUND(((ped.total_discounts+IFNULL(perc.dcto,0))-
+    CASE  WHEN IFNULL(cup.value,0)>(ped.total_discounts+IFNULL(perc.dcto,0))
+          THEN (ped.total_discounts+IFNULL(perc.dcto,0))
+          ELSE IFNULL(cup.value,0) END)/1.18,2)        as ped_dcto_sigv,
+		(ped.total_discounts+IFNULL(perc.dcto,0))-
+    CASE  WHEN IFNULL(cup.value,0)>(ped.total_discounts+IFNULL(perc.dcto,0))
+          THEN (ped.total_discounts+IFNULL(perc.dcto,0))
+          ELSE IFNULL(cup.value,0) END					as ped_dcto_cigv,
+		ROUND(ped.total_shipping_tax_excl/1.18,2)	as ped_ship_sigv,
+		ped.total_shipping					as ped_ship_cigv,
+		Cast(ped.id_customer as char)				as cli_id,
+		Cast(QuitaEsp(dir_cli.firstname) as char)				as cli_nombres,
+		Cast(QuitaEsp(dir_cli.lastname) as char)				as cli_apellidos,
+		Cast(cli.birthday as char)				as cli_fec_nac,
+		Cast(cli.email as char)					as cli_email,
+		RIGHT(CONCAT('000000',Cast(dir_cli.id_state as char)),6)	as cli_ubigeo,
+		Cast(QuitaEsp(dir_cli.address1) as char)				as cli_direc,
+		Cast(QuitaEsp(dir_cli.other) as char)				as cli_dir_ref,
+		Cast(dir_cli.phone as char)				as cli_telf,
+		Cast(dir_cli.phone_mobile as char)			as cli_telf_mov,
+		CASE WHEN LENGTH(dir_cli.dni)>= 11 THEN RIGHT(TRIM(Cast(dir_cli.dni as char)),11)
+         ELSE RIGHT(TRIM(Cast(dir_cli.dni as char)),8)
+         END  				as cli_dni,
+		Cast(det_ped.product_id as char)			as det_artic,
+    CASE WHEN det_ped.product_attribute_id <> '0' THEN Cast(replace(det_ped.product_reference,'_','-') as char)
+    ELSE	Concat(Cast(replace(det_ped.product_reference,'_','-') as char),'-00') END			as det_artic_ref,
+		Cast(det_ped.product_name as char)			as det_desc_artic,
+		det_ped.product_quantity				as det_cant,
+		det_ped.product_weight					as det_peso,
+		ROUND(det_ped.product_price/1.18,2)			as det_prec_sigv,
+		ROUND((CASE WHEN det_ped.reduction_percent>0 AND det_ped.reduction_amount = 0
+          THEN  (det_ped.product_price * det_ped.reduction_percent / 100)
+          ELSE det_ped.reduction_amount END) /1.18,2)   as det_dcto_sigv,
+		/*Cast(IFnull(pag.payment_method,'') as char)			as pag_metodo,
+		Cast(IFnull(pag.transaction_id,'') as char)			as pag_nro_trans,
+		Cast(IFnull(pag.card_number,'') as char)				as pag_nro_tarj,
+		Cast(IFnull(pag.date_add,'') as char)				as pag_fecha,
+		IFnull(pag.amount+
+    CASE  WHEN IFNULL(cup.value,0)>ped.total_discounts
+          THEN ped.total_discounts
+          ELSE IFNULL(cup.value,0) END,0)						as pag_monto,*/
+    IFNULL(cup.code,'')  as codigo_vale
+	From ps_orders ped
+		Inner Join ps_address dir_ped
+			On ped.id_address_delivery = dir_ped.id_address
+		Inner Join ps_customer cli
+			On ped.id_customer = cli.id_customer
+		Inner Join ps_address dir_cli
+			On ped.id_address_invoice= dir_cli.id_address
+		Inner Join ps_order_detail det_ped
+			On ped.id_order = det_ped.id_order
+		/*Left Join ps_order_payment pag
+			On ped.reference = pag.order_reference*/
+    Left Join(  Select a.id_cart_rule, b.id_order, b.value, a.code, a.date_upd
+                From ps_cart_rule a
+                Inner Join ps_order_cart_rule b
+                  On a.id_cart_rule = b.id_cart_rule And substring(a.code,1,2)='NC') cup
+      On ped.id_order = cup.id_order
+    Left Join ( Select id_order, sum(det.product_price * det.reduction_percent*det.product_quantity / 100) as dcto
+                From ps_order_detail det
+                Where det.reduction_percent>0 AND det.reduction_amount = 0
+                Group By id_order) perc
+      On ped.id_order = perc.id_order
+	Where ped.current_state = estado
+/*se agrego filtro por pedidos con dcto a los cuales no referencian un vale (error PS) 14/09/2018*/
+	  And (ped.total_paid > 15 Or IFNULL(cup.code,'') <> '');
+
+END $$
+
+DELIMITER ;

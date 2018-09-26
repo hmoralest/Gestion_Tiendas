@@ -1,0 +1,54 @@
+DROP FUNCTION IF EXISTS QuitaEsp;
+
+DELIMITER //
+
+CREATE FUNCTION QuitaEsp(cadena VarChar(255)) RETURNS VarCHAR(255)
+BEGIN
+
+	SET cadena = Replace(cadena,'"','');
+	SET cadena = Replace(cadena,'\n',' ');
+	SET cadena = Replace(cadena,'\r','');
+	SET cadena = Replace(cadena,'\t',' ');
+	SET cadena = Replace(cadena,char(39),'');
+	SET cadena = Replace(cadena,'>','');
+	SET cadena = Replace(cadena,'<','');
+	SET cadena = Replace(cadena,'/','');
+	SET cadena = Replace(cadena,replace('\ ',' ',''),'');
+	SET cadena = Replace(cadena,'*','');
+	SET cadena = Replace(cadena,'%','');
+	SET cadena = Replace(cadena,'|','');
+	SET cadena = Replace(cadena,'°','');
+	SET cadena = Replace(cadena,'ª','');
+	SET cadena = Replace(cadena,'&','');
+	SET cadena = Replace(cadena,'#','');
+	SET cadena = Replace(cadena,'$','');
+	SET cadena = Replace(cadena,'?','');
+	SET cadena = Replace(cadena,'¿','');
+	SET cadena = Replace(cadena,'!','');
+	SET cadena = Replace(cadena,'¡','');
+	SET cadena = Replace(cadena,'@','');
+	SET cadena = Replace(cadena,'[','');
+	SET cadena = Replace(cadena,']','');
+	SET cadena = Replace(cadena,'´','');
+	SET cadena = Replace(cadena,'{','');
+	SET cadena = Replace(cadena,'}','');
+	SET cadena = Replace(cadena,'=','');
+	SET cadena = Replace(cadena,'+','');
+	SET cadena = Replace(cadena,'¬','');
+	SET cadena = Replace(cadena,'ñ','n');
+	SET cadena = Replace(cadena,'Ñ','n');
+	SET cadena = Replace(cadena,':',' ');
+	SET cadena = Replace(cadena,';',' ');
+	SET cadena = Replace(cadena,',',' ');
+	SET cadena = Replace(cadena,'.',' ');
+	SET cadena = Replace(cadena,'á','a');
+	SET cadena = Replace(cadena,'é','e');
+	SET cadena = Replace(cadena,'í','i');
+	SET cadena = Replace(cadena,'ó','o');
+	SET cadena = Replace(cadena,'ú','u');
+
+	Return cadena;
+
+END//
+
+DELIMITER ;

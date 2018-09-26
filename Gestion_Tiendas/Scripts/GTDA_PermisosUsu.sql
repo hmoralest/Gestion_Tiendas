@@ -23,7 +23,11 @@ GO
 CREATE TABLE [dbo].[GTDA_PermisosUsu](
 	[Perm_UsuId] [varchar](3) NOT NULL,
 	[Perm_OpcId] [varchar](4) NOT NULL,
-	[Perm_Tipo] [varchar](1) NOT NULL
+	[Perm_Tipo] [varchar](1) NOT NULL,
+	[Perm_UsuCre] [varchar](MAX) NOT NULL,
+	[Perm_FecCre] [SmallDatetime] NOT NULL,
+	[Perm_UsuMod] [varchar](MAX) NOT NULL,
+	[Perm_FecMod] [SmallDatetime] NOT NULL
 ) ON [PRIMARY]
 GO
 

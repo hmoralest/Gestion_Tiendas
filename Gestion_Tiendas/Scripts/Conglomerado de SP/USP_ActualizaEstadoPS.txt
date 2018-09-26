@@ -1,0 +1,56 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `USP_ActualizaEstadoPS` $$
+CREATE DEFINER=`batauserec`@`%` PROCEDURE `USP_ActualizaEstadoPS`(ref_order varchar(9), estado int)
+BEGIN
+	DECLARE ierr   INT DEFAULT 0;
+	DECLARE orden  INT;
+	DECLARE final  INT DEFAULT 0;
+
+	DECLARE CONTINUE HANDLER FOR SQLEXCEPTION  SET ierr = 1;
+	DECLARE CONTINUE HANDLER FOR SQLWARNING  SET ierr = 1;
+
+	START TRANSACTION;
+
+		  Select id_order
+  		From ps_orders
+  		Where reference = ref_order
+  		Into orden;
+
+    IF EXISTS (Select 1 From ps_orders Where id_order = orden And current_state = estado)
+    THEN
+
+		  Select id_order
+  		From ps_orders
+  		Where reference = ref_order
+  		Into orden;
+
+    ELSE
+
+  		Update ps_orders
+  		Set current_state = estado
+  		Where id_order = orden;
+
+  		Insert Into ps_order_history
+      Values (0, 0, orden, estado, now());
+
+    END IF;
+
+		Select count(o.id_order)
+		From ps_orders o
+			Inner Join ps_order_history oc
+				On o.id_order = oc.id_order And o.id_order = orden
+		Where o.current_state = estado And oc.id_order_state = estado
+		Into final;
+
+	IF  ierr=0 And final >= 1 THEN
+		COMMIT;
+		SELECT 1 as error;
+	ELSE
+		ROLLBACK;
+		SELECT 0 as error;
+	END IF;
+
+END $$
+
+DELIMITER ;

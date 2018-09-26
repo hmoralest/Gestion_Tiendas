@@ -129,6 +129,7 @@
     </Compile>
     <Compile Include="Funciones\Conexion.cs" />
     <Compile Include="Funciones\Contratos.cs" />
+    <Compile Include="Funciones\Usuarios.cs" />
     <Compile Include="Funciones\Locales.cs" />
     <Compile Include="Formularios\Carta_Fianza.xaml.cs">
       <DependentUpon>Carta_Fianza.xaml</DependentUpon>

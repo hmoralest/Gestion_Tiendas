@@ -1,0 +1,15 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `USP_EXISTE_PROD` $$
+CREATE DEFINER=`batauserec`@`%` PROCEDURE `USP_EXISTE_PROD`()
+BEGIN
+
+  Select Distinct replace(replace(IFNULL(at.reference,Concat(p.reference,'00')),'-',''),'_','') as reference
+  From ps_product p
+    Left Join ps_product_attribute at
+      ON at.id_product = p.id_product
+  Order by 1;
+
+END $$
+
+DELIMITER ;

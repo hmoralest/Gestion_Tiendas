@@ -1,0 +1,52 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `USP_LISTA_PEDIDOS_PAGOS` $$
+CREATE DEFINER=`batauserec`@`%` PROCEDURE `USP_LISTA_PEDIDOS_PAGOS`(estado int)
+BEGIN
+
+	Select	Cast(ped.id_order as char)				as ped_id,
+		Cast(ped.reference as char)				as ped_ref,
+    99                                          as code,
+		Cast(IFnull(pag.payment_method,'') as char)			as pag_metodo,
+		Cast(IFnull(pag.transaction_id,'') as char)			as pag_nro_trans,
+		Cast(IFnull(pag.card_number,'') as char)				as pag_nro_tarj,
+		Cast(IFnull(pag.date_add,'') as char)				as pag_fecha,
+		IFnull(pag.amount,0)						as pag_monto
+  From ps_orders ped
+		Inner Join ps_order_payment pag
+			On ped.reference = pag.order_reference
+  /*se agrego para filtrar Pedidos 14/09/2018*/
+    Left Join(  Select a.id_cart_rule, b.id_order, b.value, a.code, a.date_upd
+                From ps_cart_rule a
+                Inner Join ps_order_cart_rule b
+                  On a.id_cart_rule = b.id_cart_rule And substring(a.code,1,2)='NC') cup
+      On ped.id_order = cup.id_order
+	Where ped.current_state = estado
+/*se agrego filtro por pedidos con dcto a los cuales no referencian un vale (error PS) 14/09/2018*/
+	  And (ped.total_paid > 15 Or IFNULL(cup.code,'') <> '')
+  UNION
+	Select	Cast(ped.id_order as char)				as ped_id,
+		Cast(ped.reference as char)				as ped_ref,
+    98                                             as code,
+		'NOTA CREDITO'                                   as pag_metodo,
+		IFNULL(cup.code,'')                      			as pag_nro_trans,
+		''                                            as pag_nro_tarj,
+		Cast(IFnull(cup.date_upd,'') as char)				as pag_fecha,
+		IFnull(
+    CASE  WHEN IFNULL(cup.value,0)>ped.total_discounts
+          THEN ped.total_discounts
+          ELSE IFNULL(cup.value,0) END,0)						as pag_monto
+  From ps_orders ped
+    Inner Join(  Select a.id_cart_rule, b.id_order, b.value, a.code, a.date_upd
+                From ps_cart_rule a
+                Inner Join ps_order_cart_rule b
+                  On a.id_cart_rule = b.id_cart_rule And substring(a.code,1,2)='NC') cup
+      On ped.id_order = cup.id_order
+	Where ped.current_state = estado
+/*se agrego filtro por pedidos con dcto a los cuales no referencian un vale (error PS) 14/09/2018*/
+	  And (ped.total_paid > 15 Or IFNULL(cup.code,'') <> '');
+
+
+END $$
+
+DELIMITER ;
